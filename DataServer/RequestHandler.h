@@ -3,18 +3,18 @@
 
 #include "LoginHandler.h"
 
-#include "MedHandler.h"
+#include "MedRequest.h"
 
 class RequestHandler
 {
 public:
-	RequestHandler(LoginHandler * newLoginHandler, MedHandler * newMedHandler);
+	RequestHandler(LoginHandler * newLoginHandler, MedRequest * newMedRequest);
 	
 	bool handleRequest(Client * client);
 private:
 
 	LoginHandler * loginHandler;
-	MedHandler * medHandler;
+	MedRequest * medRequest;
 };
 
 #endif // _REQUEST_HANDLER_H_

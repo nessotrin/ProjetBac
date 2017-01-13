@@ -7,6 +7,8 @@ public:
 	
 Med(char * newName);
 
+char * getName();
+
 int getBaseWeigth();
 void setBaseWeigth(int newBaseWeigth);
 

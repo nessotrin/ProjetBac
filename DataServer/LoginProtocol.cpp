@@ -23,7 +23,7 @@ bool LoginProtocol::doLogin(Client * client)
 		printf("\"");
 		for(int i = 0 ; i < 8 ; i++)
 		{
-			printf("%c");
+			printf("%c",buffer[i]);
 		}
 		printf("\"\n");
 		return true;

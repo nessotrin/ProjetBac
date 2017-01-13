@@ -4,10 +4,10 @@
 
 #include <stdio.h>
 
-RequestHandler::RequestHandler(LoginHandler * newLoginHandler, MedHandler * newMedHandler)
+RequestHandler::RequestHandler(LoginHandler * newLoginHandler, MedRequest * newMedRequest)
 {
 	loginHandler = newLoginHandler;
-	medHandler = newMedHandler;
+	medRequest = newMedRequest;
 }
 
 
@@ -22,7 +22,7 @@ bool RequestHandler::handleRequest(Client * client)
 	
 	if(strlen(request) >= 16 && memcmp(request, "ListerMedicaments", 17) == 0)
 	{
-		printf("Liste des médicaments demandée\n");
+		medRequest->sendMedList(client);
 	}
 	
 	

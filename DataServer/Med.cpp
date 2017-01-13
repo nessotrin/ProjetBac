@@ -7,6 +7,11 @@ Med::Med(char * newName)
 	name = strdup(newName);
 }
 
+char * Med::getName()
+{
+	return name;
+}
+
 int Med::getBaseWeigth()
 {
 	return baseWeigth;

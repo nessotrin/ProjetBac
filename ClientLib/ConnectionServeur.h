@@ -20,8 +20,8 @@ enum
 struct Medicament
 {
 	char * nom;
-	int pointDeBase;
-	int pointUnite;
+	int poidDeBase;
+	int poidUnite;
 	int compte;
 	int maximum;
 	int position;

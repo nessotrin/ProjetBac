@@ -1,6 +1,5 @@
 #include "Server.h"
 #include "RequestHandler.h"
-#include "RequestMaker.h"
 
 
 #include <stdio.h>
@@ -17,12 +16,14 @@ int main(int argc, char **argv)
 	
 	printf("Initializing med handler ...\n");
 	MedHandler medHandler; 
-	
 	LoginHandler loginHandler;
-	
-	RequestHandler requestHandler(&loginHandler,&medHandler);
+
+	MedRequest medRequest(&medHandler);
+
+	RequestHandler requestHandler(&loginHandler,&medRequest);
+
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
-	RequestMaker requestMaker(&loginHandler);
+
 	
 
 	printf("Setuping database ...\n");

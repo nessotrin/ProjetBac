@@ -13,8 +13,6 @@
     <File Name="Server.cpp"/>
     <File Name="RequestHandler.h"/>
     <File Name="RequestHandler.cpp"/>
-    <File Name="RequestMaker.h"/>
-    <File Name="RequestMaker.cpp"/>
     <File Name="LoginHandler.h"/>
     <File Name="LoginHandler.cpp"/>
     <File Name="Client.h"/>
@@ -29,6 +27,8 @@
     <File Name="Med.cpp"/>
     <File Name="IOHelper.cpp"/>
     <File Name="IOHelper.h"/>
+    <File Name="MedRequest.h"/>
+    <File Name="MedRequest.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
