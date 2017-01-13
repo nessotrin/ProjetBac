@@ -11,8 +11,6 @@
 
 #define SERVER_PORT 65534
 
-#define MAX_CLIENTS 20
-
 int main(int argc, char **argv)
 {
 	printf("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
@@ -20,7 +18,7 @@ int main(int argc, char **argv)
 	LoginHandler loginHandler;
 	
 	RequestHandler requestHandler(&loginHandler);
-	Server server(MAX_CLIENTS, SERVER_PORT, &loginHandler, &requestHandler);
+	Server server(SERVER_PORT, &loginHandler, &requestHandler);
 	RequestMaker requestMaker(&loginHandler);
 	
 

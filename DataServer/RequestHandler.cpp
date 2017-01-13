@@ -8,8 +8,26 @@ RequestHandler::RequestHandler(LoginHandler * newLoginHandler)
 }
 
 
-void RequestHandler::handleRequest(unsigned char * buffer, int length)
+int RequestHandler::handleRequest(Client * client)
 {
-	buffer[length] = 0;
-	printf("Received \"%s\"\n",buffer);
+//	printf("Received \"%s\"\n",buffer);
+	unsigned char buffer[1024];
+	
+	int length = client->receiveData(buffer,1024);
+	if(length > 0)
+	{
+		if(length < 16)
+		{
+			printf("BROKEN REQUEST !\n");
+			return length;
+		}
+		if(memcmp("GETMEDLISTCOMPLE",buffer,16) == 0)
+		{
+			
+		}
+	}
+	
+	
+	
+	return length;
 }

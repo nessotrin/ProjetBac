@@ -14,6 +14,7 @@ public:
 	LoginHandler();
 
 	int iterateOnSockets(int * socketToUse);
+	int iterateOnClients(Client ** clientToUse);
 	bool addNewClient(int socket);
 	void disconnect(int socket);
 	

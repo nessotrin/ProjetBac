@@ -9,9 +9,8 @@
 
 
 
-Server::Server(int newMaxClients, int newPort, LoginHandler * newLoginHandler, RequestHandler * newRequestHandler)
+Server::Server(int newPort, LoginHandler * newLoginHandler, RequestHandler * newRequestHandler)
 {
-	maxClients = newMaxClients;
 	port = newPort;
 	requestHandler = newRequestHandler;
 	loginHandler = newLoginHandler;
@@ -64,33 +63,18 @@ void Server::acceptClient()
 	printf("Client fully connected !\n");
 }
 
-int Server::answerToClient(int clientSocket)
-{
-	unsigned char buffer[1024];
-	int bufferLength = read(clientSocket , buffer, 1024);
-	printf("read %dB\n",bufferLength);
-	
-	if(bufferLength > 0)
-	{
-		requestHandler->handleRequest(buffer,bufferLength);
-	}
-	
-	
-	return bufferLength;
-}
-
 void Server::handleClients()
 {
 	printf("Handling clients ...\n");
-	int socket;
-	while (loginHandler->iterateOnSockets(&socket)) 
+	Client * client;
+	while (loginHandler->iterateOnClients(&client)) 
 	{
 		printf("Checking socket ...\n");
-		if(FD_ISSET(socket, &selector)) 
+		if(FD_ISSET(client->getSocket(), &selector)) 
 		{
-			if(answerToClient(socket) == 0)
-			{ // disconnected
-				loginHandler->disconnect(socket);
+			if(requestHandler->handleRequest(client) == 0)
+			{
+				loginHandler->disconnect(client->getSocket());
 			}
 		}
 		printf("Socket checked ...\n");

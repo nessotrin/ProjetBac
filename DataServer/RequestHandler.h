@@ -8,7 +8,7 @@ class RequestHandler
 public:
 	RequestHandler(LoginHandler * newLoginHandler);
 	
-	void handleRequest(unsigned char * buffer, int length);
+	int handleRequest(Client * client);
 private:
 
 	LoginHandler * loginHandler;

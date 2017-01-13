@@ -9,7 +9,7 @@
 class Server
 {
 public:
-	Server(int newMaxClients, int newPort, LoginHandler * newLoginHandler, RequestHandler * newRequestHandler);
+	Server(int newPort, LoginHandler * newLoginHandler, RequestHandler * newRequestHandler);
 
 	bool setup();
 	void work();
@@ -18,7 +18,6 @@ private:
 	LoginHandler * loginHandler;
 	RequestHandler * requestHandler;
 	int port;
-	int maxClients;
 	int serverSocket;
 	fd_set selector;
 	
@@ -29,7 +28,6 @@ private:
 
 	void acceptClient();
 	void handleClients();
-	int answerToClient(int clientSocket);
 };
 
 #endif // _SERVER_H_

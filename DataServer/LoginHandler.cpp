@@ -61,6 +61,20 @@ int LoginHandler::iterateOnSockets(int * socketToUse)
 	}
 }
 
+int LoginHandler::iterateOnClients(Client ** clientToUse)
+{
+	if(iteratorCounter >= clientCount)
+	{
+		iteratorCounter = 0;
+		return 0;
+	}
+	else
+	{
+		*clientToUse = clientList[iteratorCounter];
+		iteratorCounter++;
+		return 1;
+	}
+}
 
 
 void LoginHandler::removeFromList(int id)
@@ -70,6 +84,7 @@ void LoginHandler::removeFromList(int id)
 		iteratorCounter--;
 	}
 	
+	delete(clientList[id]);
+	
 	memmove(clientList+id,clientList+id+1,clientCount-id-1); //CHECK ARGS ORDER
-
 }
