@@ -1,15 +1,16 @@
 #ifndef _REQUEST_MAKER_H_
 #define _REQUEST_MAKER_H_
 
-#include "Server.h"
+#include "LoginHandler.h"
 
 class RequestMaker
 {
 public:
-	RequestMaker(Server * newServer);
+	RequestMaker(LoginHandler * newLoginHandler);
 
 private:
-	Server * server;
+	
+	LoginHandler * loginHandler;
 
 };
 

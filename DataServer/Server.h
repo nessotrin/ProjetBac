@@ -2,23 +2,24 @@
 #define _SERVER_H_
 
 #include "RequestHandler.h"
+#include "LoginHandler.h"
  
 #include <fcntl.h>
 
 class Server
 {
 public:
-	Server(int newMaxClients, int newPort, RequestHandler * newRequestHandler);
+	Server(int newMaxClients, int newPort, LoginHandler * newLoginHandler, RequestHandler * newRequestHandler);
 
 	bool setup();
 	void work();
 	
 private:
+	LoginHandler * loginHandler;
 	RequestHandler * requestHandler;
 	int port;
 	int maxClients;
 	int serverSocket;
-	int * clientSockets;
 	fd_set selector;
 	
 	int addToClientList(int socket);

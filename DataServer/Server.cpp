@@ -9,44 +9,14 @@
 
 
 
-Server::Server(int newMaxClients, int newPort, RequestHandler * newRequestHandler)
+Server::Server(int newMaxClients, int newPort, LoginHandler * newLoginHandler, RequestHandler * newRequestHandler)
 {
 	maxClients = newMaxClients;
 	port = newPort;
 	requestHandler = newRequestHandler;
+	loginHandler = newLoginHandler;
 }
 
-int Server::addToClientList(int socket)
-{
-	//add new socket to array of sockets
-	for(int i = 0; i < maxClients; i++) 
-	{
-		//if position is empty
-		if(clientSockets[i] == 0)
-		{
-			clientSockets[i] = socket;
-			printf("New client added with id %d\n" , i);
-			return i;
-		}
-	}
-	return -1;
-}
-
-int Server::removeFromClientList(int socket)
-{
-	//add new socket to array of sockets
-	for(int i = 0; i < maxClients; i++) 
-	{
-		//if position is empty
-		if(clientSockets[i] == socket)
-		{
-			clientSockets[i] = 0;
-			printf("Removed client with id %d\n" , i);
-			return i;
-		}
-	}
-	return -1;
-}
 int Server::addSocketsToSelector()
 {
 	//clear the socket set
@@ -55,16 +25,17 @@ int Server::addSocketsToSelector()
 	FD_SET(serverSocket, &selector);
 	int max_sd = serverSocket;
 	//add child sockets to set
-	for (int i = 0 ; i < maxClients ; i++) 
+	int socket;
+	while (loginHandler->iterateOnSockets(&socket)) 
 	{
-		if(clientSockets[i] > 0) //if valid socket descriptor then add to read list
+		if(socket > 0) //if valid socket descriptor then add to read list
 		{
-			FD_SET(clientSockets[i], &selector);			
+			FD_SET(socket, &selector);			
 		}
 		
-		if(clientSockets[i] > max_sd) //highest file descriptor number, need it for the select function
+		if(socket > max_sd) //highest file descriptor number, need it for the select function
 		{
-			max_sd = clientSockets[i];			
+			max_sd = socket;			
 		}
 	}
 	
@@ -82,9 +53,9 @@ void Server::acceptClient()
 		return;
 	}
 	
-	if(addToClientList(newSocket) < 0)
+	if(loginHandler->addNewClient(newSocket) < 0)
 	{
-		printf("SERVER FULL\n");
+		printf("SERVER FULL or CONNECTION FAILED\n");
 		close(newSocket);
 	}
 }
@@ -106,14 +77,14 @@ int Server::answerToClient(int clientSocket)
 
 void Server::handleClients()
 {
-	//else its some IO operation on some other socket :)
-	for (int i = 0; i < maxClients ; i++) 
-	{				  
-		if(FD_ISSET(clientSockets[i] , &selector)) 
+	int socket;
+	while (loginHandler->iterateOnSockets(&socket)) 
+	{
+		if(FD_ISSET(socket, &selector)) 
 		{
-			if(answerToClient(clientSockets[i]) == 0)
+			if(answerToClient(socket) == 0)
 			{ // disconnected
-				removeFromClientList(clientSockets[i]);
+				loginHandler->disconnect(socket);
 			}
 		}
 	}
@@ -148,13 +119,6 @@ void Server::work()
 
 bool Server::setup()
 {
-	clientSockets = (int *) calloc(maxClients,sizeof(int));
-	if(clientSockets == NULL)
-	{
-		printf("ERROR allocation failed (ClientSockets, %d)",maxClients);
-		return true;
-	}
-	
 	
 	struct sockaddr_in serverAddr;
 

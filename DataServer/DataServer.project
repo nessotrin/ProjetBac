@@ -15,6 +15,10 @@
     <File Name="RequestHandler.cpp"/>
     <File Name="RequestMaker.h"/>
     <File Name="RequestMaker.cpp"/>
+    <File Name="LoginHandler.h"/>
+    <File Name="LoginHandler.cpp"/>
+    <File Name="Client.h"/>
+    <File Name="Client.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

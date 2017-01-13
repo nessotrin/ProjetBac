@@ -1,6 +1,7 @@
 #include "RequestMaker.h"
 
-RequestMaker::RequestMaker(Server * newServer)
+
+RequestMaker::RequestMaker(LoginHandler * newLoginHandler)
 {
-	server = newServer;
+	loginHandler = newLoginHandler;
 }
