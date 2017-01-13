@@ -9,7 +9,10 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
-    <File Name="server.h"/>
+    <File Name="requestParser.cpp"/>
+    <File Name="requestParser.h"/>
+    <File Name="Server.h"/>
+    <File Name="Server.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
