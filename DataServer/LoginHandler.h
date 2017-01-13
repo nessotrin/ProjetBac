@@ -4,10 +4,14 @@
 #include "LoginHandler.h"
 #include "Client.h"
 
+#include <cstring>
+
 
 class LoginHandler
 {
 public:
+	LoginHandler();
+
 	int iterateOnSockets(int * socketToUse);
 	int addNewClient(int socket);
 	int disconnect(int socket);
@@ -15,10 +19,10 @@ public:
 private:
 	void removeFromList(int id);
 
-	Client ** clientList;
-	int clientCount = 0;
+	Client ** clientList ;
+	int clientCount;
 	
-	int iteratorCounter = 0;
+	int iteratorCounter;
 };
 
 #endif // _LOGIN_HANDLER_H_

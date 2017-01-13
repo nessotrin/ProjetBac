@@ -2,11 +2,21 @@
 
 #include <cstring>
 #include <cstdlib>
+#include <cstdio>
+
+LoginHandler::LoginHandler()
+{
+	clientList = NULL;
+	clientCount = 0;
+	iteratorCounter = 0;
+}
 
 int LoginHandler::addNewClient(int socket)
 {
 	//DO PROTOCOL HERE
 	
+	
+	printf("%d\n",clientList);
 	
 	clientCount++;
 	clientList = (Client **) realloc(clientList,clientCount*sizeof(Client*));
