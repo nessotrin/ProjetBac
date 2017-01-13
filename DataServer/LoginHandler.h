@@ -6,6 +6,7 @@
 
 #include <cstring>
 
+#include "LoginProtocol.h"
 
 class LoginHandler
 {
@@ -13,13 +14,16 @@ public:
 	LoginHandler();
 
 	int iterateOnSockets(int * socketToUse);
-	int addNewClient(int socket);
-	int disconnect(int socket);
+	bool addNewClient(int socket);
+	void disconnect(int socket);
 	
 private:
+	
+	LoginProtocol loginProtocol;
+
 	void removeFromList(int id);
 
-	Client ** clientList ;
+	Client ** clientList;
 	int clientCount;
 	
 	int iteratorCounter;

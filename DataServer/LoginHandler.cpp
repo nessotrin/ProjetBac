@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstdio>
 
+
 LoginHandler::LoginHandler()
 {
 	clientList = NULL;
@@ -11,20 +12,26 @@ LoginHandler::LoginHandler()
 	iteratorCounter = 0;
 }
 
-int LoginHandler::addNewClient(int socket)
+bool LoginHandler::addNewClient(int socket)
 {
-	//DO PROTOCOL HERE
-	
-	
-	printf("%d\n",clientList);
+	printf("Start connection protocol on the client ...\n");
+
+	Client * newClient = new Client(socket);
+	if(loginProtocol.doLogin(newClient))
+	{
+		delete(newClient);
+		return true;
+	}
 	
 	clientCount++;
 	clientList = (Client **) realloc(clientList,clientCount*sizeof(Client*));
 	
-	clientList[clientCount-1] = new Client(socket);
+	clientList[clientCount-1] = newClient;
+	
+	return false;
 }
 
-int LoginHandler::disconnect(int socket)
+void LoginHandler::disconnect(int socket)
 {
 
 	for(int i = 0 ; i < clientCount ; i++)
@@ -37,7 +44,6 @@ int LoginHandler::disconnect(int socket)
 	}
 
 	//GLOBAL DO PROTOCOL HERE
-	
 }
 
 int LoginHandler::iterateOnSockets(int * socketToUse)
@@ -50,6 +56,7 @@ int LoginHandler::iterateOnSockets(int * socketToUse)
 	else
 	{
 		*socketToUse = clientList[iteratorCounter]->getSocket();
+		iteratorCounter++;
 		return 1;
 	}
 }

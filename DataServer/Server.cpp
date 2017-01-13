@@ -44,6 +44,8 @@ int Server::addSocketsToSelector()
 
 void Server::acceptClient()
 {
+	printf("New client connecting ...\n");
+	
 	struct sockaddr_in address;
 	int addrlen;
 	int newSocket = accept(serverSocket, (struct sockaddr *)&address, (socklen_t*)&addrlen);
@@ -53,11 +55,13 @@ void Server::acceptClient()
 		return;
 	}
 	
-	if(loginHandler->addNewClient(newSocket) < 0)
+	if(loginHandler->addNewClient(newSocket))
 	{
 		printf("SERVER FULL or CONNECTION FAILED\n");
 		close(newSocket);
 	}
+	
+	printf("Client fully connected !\n");
 }
 
 int Server::answerToClient(int clientSocket)
@@ -77,9 +81,11 @@ int Server::answerToClient(int clientSocket)
 
 void Server::handleClients()
 {
+	printf("Handling clients ...\n");
 	int socket;
 	while (loginHandler->iterateOnSockets(&socket)) 
 	{
+		printf("Checking socket ...\n");
 		if(FD_ISSET(socket, &selector)) 
 		{
 			if(answerToClient(socket) == 0)
@@ -87,6 +93,7 @@ void Server::handleClients()
 				loginHandler->disconnect(socket);
 			}
 		}
+		printf("Socket checked ...\n");
 	}
 }
 
@@ -94,8 +101,11 @@ void Server::work()
 {
 	while(1)
 	{
+		printf("Setting up selector ... \n");
 		int max_sd = addSocketsToSelector();
+		printf("Set'ed up ! \n");
 		
+		printf("Waiting for activity on sockets ...\n");
 		//wait for an activity on one of the sockets , timeout is NULL , so wait indefinitely
         int activity = select( max_sd + 1 , &selector , NULL , NULL , NULL);
         if(activity < 0)
@@ -113,7 +123,7 @@ void Server::work()
 		{
 			handleClients();
 		}			
-
+		printf("Activity loop restarting ... \n");
 	}
 }
 
