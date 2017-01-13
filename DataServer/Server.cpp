@@ -9,10 +9,11 @@
 
 
 
-Server::Server(int newMaxClients, int newPort)
+Server::Server(int newMaxClients, int newPort, RequestHandler * newRequestHandler)
 {
 	maxClients = newMaxClients;
 	port = newPort;
+	requestHandler = newRequestHandler;
 }
 
 int Server::addToClientList(int socket)
@@ -90,10 +91,32 @@ void Server::acceptClient()
 
 int Server::answerToClient(int clientSocket)
 {
-	char buffer[1024];
+	unsigned char buffer[1024];
 	int bufferLength = read(clientSocket , buffer, 1024);
 	printf("read %dB\n",bufferLength);
+	
+	if(bufferLength > 0)
+	{
+		requestHandler->handleRequest(buffer,bufferLength);
+	}
+	
+	
 	return bufferLength;
+}
+
+void Server::handleClients()
+{
+	//else its some IO operation on some other socket :)
+	for (int i = 0; i < maxClients ; i++) 
+	{				  
+		if(FD_ISSET(clientSockets[i] , &selector)) 
+		{
+			if(answerToClient(clientSockets[i]) == 0)
+			{ // disconnected
+				removeFromClientList(clientSockets[i]);
+			}
+		}
+	}
 }
 
 void Server::work()
@@ -117,17 +140,7 @@ void Server::work()
         }
 		else
 		{
-			//else its some IO operation on some other socket :)
-			for (int i = 0; i < maxClients ; i++) 
-			{				  
-				if(FD_ISSET(clientSockets[i] , &selector)) 
-				{
-					if(answerToClient(clientSockets[i]) == 0)
-					{ // disconnected
-						removeFromClientList(clientSockets[i]);
-					}
-				}
-			}
+			handleClients();
 		}			
 
 	}

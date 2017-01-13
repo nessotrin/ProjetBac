@@ -1,4 +1,7 @@
 #include "Server.h"
+#include "RequestHandler.h"
+#include "RequestMaker.h"
+
 
 #include <stdio.h>
 
@@ -14,8 +17,16 @@ int main(int argc, char **argv)
 {
 	printf("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
 	
+	RequestHandler requestHandler;
+	Server server(MAX_CLIENTS, SERVER_PORT, &requestHandler);
+	RequestMaker requestMaker(&server);
+	
+
+	printf("Setuping database ...\n");
+
+	
 	printf("Setup'ing server ...\n");
-	Server server(MAX_CLIENTS, SERVER_PORT);
+
 	if(server.setup())
 	{
 		return 1;

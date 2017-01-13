@@ -1,17 +1,20 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
+#include "RequestHandler.h"
+ 
 #include <fcntl.h>
 
 class Server
 {
 public:
-	Server(int newMaxClients, int newPort);
+	Server(int newMaxClients, int newPort, RequestHandler * newRequestHandler);
 
 	bool setup();
 	void work();
 	
 private:
+	RequestHandler * requestHandler;
 	int port;
 	int maxClients;
 	int serverSocket;
@@ -24,6 +27,7 @@ private:
 	int addSocketsToSelector();
 
 	void acceptClient();
+	void handleClients();
 	int answerToClient(int clientSocket);
 };
 
