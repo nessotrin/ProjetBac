@@ -27,6 +27,8 @@
     <File Name="MedHandler.cpp"/>
     <File Name="Med.h"/>
     <File Name="Med.cpp"/>
+    <File Name="IOHelper.cpp"/>
+    <File Name="IOHelper.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

@@ -1,33 +1,30 @@
 #include "RequestHandler.h"
+#include "IOHelper.h"
+
 
 #include <stdio.h>
 
-RequestHandler::RequestHandler(LoginHandler * newLoginHandler)
+RequestHandler::RequestHandler(LoginHandler * newLoginHandler, MedHandler * newMedHandler)
 {
 	loginHandler = newLoginHandler;
+	medHandler = newMedHandler;
 }
 
 
-int RequestHandler::handleRequest(Client * client)
+bool RequestHandler::handleRequest(Client * client)
 {
-//	printf("Received \"%s\"\n",buffer);
-	unsigned char buffer[1024];
-	
-	int length = client->receiveData(buffer,1024);
-	if(length > 0)
+	char * request = IOHelper::getRequest(client->getSocket());
+	if(request == NULL)
 	{
-		if(length < 16)
-		{
-			printf("BROKEN REQUEST !\n");
-			return length;
-		}
-		if(memcmp("GETMEDLISTCOMPLE",buffer,16) == 0)
-		{
-			
-		}
+		printf("Bad request ...\n");
+		return true;
+	}
+	
+	if(strlen(request) >= 16 && memcmp(request, "ListerMedicaments", 17) == 0)
+	{
+		printf("Liste des médicaments demandée\n");
 	}
 	
 	
-	
-	return length;
+	return false;
 }

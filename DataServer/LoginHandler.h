@@ -13,8 +13,8 @@ class LoginHandler
 public:
 	LoginHandler();
 
-	int iterateOnSockets(int * socketToUse);
-	int iterateOnClients(Client ** clientToUse);
+	bool iterateOnSockets(int * socketToUse);
+	bool iterateOnClients(Client ** clientToUse);
 	bool addNewClient(int socket);
 	void disconnect(int socket);
 	

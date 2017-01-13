@@ -52,3 +52,13 @@ bool ConnectionHandler::doLogin(ModuleInfo info)
 	printf("Loggin'ed ! \n");
 	return false;
 }
+
+int ConnectionHandler::getSocket()
+{
+	return clientSocket;
+}
+
+void ConnectionHandler::disconnect()
+{
+	close(clientSocket);
+}

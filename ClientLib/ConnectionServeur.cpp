@@ -1,6 +1,7 @@
 #include "ConnectionServeur.h"
 
 #include "ModuleInfo.h"
+#include "IOHelper.h"
 
 #include <cstdio>
 
@@ -33,3 +34,17 @@ bool ConnectionServeur::initialisation(char * ip, int newType, int newVersionMaj
 }
 
 
+bool ConnectionServeur::envoyer(char * message)
+{
+	return IOHelper::sendRequest(connectionHandler.getSocket(),message);
+}
+
+char * ConnectionServeur::recevoir()
+{
+	return IOHelper::getRequest(connectionHandler.getSocket());
+}
+
+void ConnectionServeur::fermer()
+{
+	connectionHandler.disconnect();
+}

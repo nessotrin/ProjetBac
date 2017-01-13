@@ -96,6 +96,8 @@
     <File Name="ConnectionHandler.cpp"/>
     <File Name="ConnectionServeur.cpp"/>
     <File Name="ModuleInfo.h"/>
+    <File Name="IOHelper.h"/>
+    <File Name="IOHelper.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="ConnectionServeur.h"/>

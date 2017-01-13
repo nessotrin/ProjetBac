@@ -72,7 +72,7 @@ void Server::handleClients()
 		printf("Checking socket ...\n");
 		if(FD_ISSET(client->getSocket(), &selector)) 
 		{
-			if(requestHandler->handleRequest(client) == 0)
+			if(requestHandler->handleRequest(client))
 			{
 				loginHandler->disconnect(client->getSocket());
 			}

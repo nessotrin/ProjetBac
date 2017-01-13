@@ -15,9 +15,12 @@ int main(int argc, char **argv)
 {
 	printf("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
 	
+	printf("Initializing med handler ...\n");
+	MedHandler medHandler; 
+	
 	LoginHandler loginHandler;
 	
-	RequestHandler requestHandler(&loginHandler);
+	RequestHandler requestHandler(&loginHandler,&medHandler);
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
 	RequestMaker requestMaker(&loginHandler);
 	

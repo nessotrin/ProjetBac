@@ -28,51 +28,57 @@ bool LoginHandler::addNewClient(int socket)
 	
 	clientList[clientCount-1] = newClient;
 	
+	printf("Now at %d clients !\n",clientCount);
+	
 	return false;
 }
 
 void LoginHandler::disconnect(int socket)
 {
-
+	printf("Disconnecting socket ...\n");
 	for(int i = 0 ; i < clientCount ; i++)
 	{
 		if(clientList[i]->getSocket() == socket)
 		{
 			//DO CLIENT PROTOCOL HERE
 			removeFromList(i);
+			break;
 		}
 	}
+	
+
 
 	//GLOBAL DO PROTOCOL HERE
 }
 
-int LoginHandler::iterateOnSockets(int * socketToUse)
+bool LoginHandler::iterateOnSockets(int * socketToUse)
 {
 	if(iteratorCounter >= clientCount)
 	{
 		iteratorCounter = 0;
-		return 0;
+		return false;
 	}
 	else
 	{
 		*socketToUse = clientList[iteratorCounter]->getSocket();
 		iteratorCounter++;
-		return 1;
+		return true;
 	}
 }
 
-int LoginHandler::iterateOnClients(Client ** clientToUse)
+bool LoginHandler::iterateOnClients(Client ** clientToUse)
 {
+	printf("Iterating at %d/%d\n",iteratorCounter,clientCount);
 	if(iteratorCounter >= clientCount)
 	{
 		iteratorCounter = 0;
-		return 0;
+		return false;
 	}
 	else
 	{
 		*clientToUse = clientList[iteratorCounter];
 		iteratorCounter++;
-		return 1;
+		return true;
 	}
 }
 
@@ -86,5 +92,7 @@ void LoginHandler::removeFromList(int id)
 	
 	delete(clientList[id]);
 	
-	memmove(clientList+id,clientList+id+1,clientCount-id-1); //CHECK ARGS ORDER
+	memmove(clientList+id,clientList+id+1,clientCount-id-1);
+	
+	clientCount--;
 }
