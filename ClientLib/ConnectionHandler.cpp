@@ -7,23 +7,31 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-
+/***
+Création d'un socket 'unix' et connection au serveur
+Le socket est crée, paramétré et connecté
+***/
 bool ConnectionHandler::connectToIP(char * ip, int port)
 {
 	printf("Connecting to \"%s\" ...\n",ip);
+	
+	/* Crée la variable de l'adresse */
     struct sockaddr_in serverAddr;
-    struct hostent *server;
 
+	/* Domande à l'OS un socket réseau */
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket < 0)
 	{
 		printf("ERROR opening socket !");
 		return true;
 	}
+	/* Paramètre le socket */
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = inet_addr(ip);
     serverAddr.sin_port = htons(port);
+	
+	/* Connecte le socket */
     if (connect(clientSocket,(struct sockaddr *) &serverAddr,sizeof(serverAddr)) < 0)
 	{
 		printf("FAILED TO CONNECT !\n");
@@ -35,9 +43,13 @@ bool ConnectionHandler::connectToIP(char * ip, int port)
     return false;
 }
 
-
+/***
+S'identifie au serveur, donne ses informations et passe le 'challenge'
+Le challenge est le mot de passe '<3COOKIE'
+***/
 bool ConnectionHandler::doLogin(ModuleInfo info)
 {
+	/* Crée le message et y place les informations conformément à la spécification*/
 	char buffer[64]; 
 	memcpy(buffer,"<3COOKIE",8);
 	buffer[8] = info.type;
@@ -46,18 +58,24 @@ bool ConnectionHandler::doLogin(ModuleInfo info)
 	buffer[11] = info.versionPatch;
 	buffer[12] = info.isDebug;
 	
-	
+	/* Envoie le message dans le socket */
 	write(clientSocket,buffer,64);
 	
 	printf("Loggin'ed ! \n");
 	return false;
 }
 
+/***
+Acceseurs de la class
+***/
 int ConnectionHandler::getSocket()
 {
 	return clientSocket;
 }
 
+/***
+Coupe la connection et rend le socket à l'OS
+***/
 void ConnectionHandler::disconnect()
 {
 	close(clientSocket);

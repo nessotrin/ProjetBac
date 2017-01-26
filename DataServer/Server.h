@@ -6,6 +6,10 @@
  
 #include <fcntl.h>
 
+/***
+Class server qui gère le serveur
+***/
+
 class Server
 {
 public:

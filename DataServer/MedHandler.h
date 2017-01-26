@@ -3,16 +3,21 @@
 
 #include "Med.h"
 
+/***
+Class handler qui gère les médicaments et leur stock
+***/
+
 class MedHandler
 {
 public:
 	MedHandler();
 	int getMedCount();
 	bool iterateOnMeds(Med ** medToUse);
+	
 
 
 private:
-	Med * medList;
+	Med ** medList;
 	int medCount;
 	int iteratorCounter;
 };

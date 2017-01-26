@@ -3,6 +3,9 @@
 
 #include "ModuleInfo.h"
 
+/***
+Définition de la class ConnectionHandler
+***/
 class ConnectionHandler
 {
 public:

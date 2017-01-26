@@ -5,6 +5,9 @@
 
 #include "MedRequest.h"
 
+/***
+Class request handler qui gère toutes les requêtes qui arrivent et les redistribues handlers respectifs
+***/
 class RequestHandler
 {
 public:

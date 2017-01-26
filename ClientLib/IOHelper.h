@@ -1,8 +1,12 @@
 #ifndef _IO_HELPER_H_
 #define _IO_HELPER_H_
 
+/***
+Definition de la class IOHelper
+***/
 class IOHelper
 {
+	
 public:
 	static char * sendRequestAndGetRequest(int clientSocket, char * requestBuffer);
 	static char * getRequest(int clientSocket);

@@ -1,6 +1,12 @@
 #ifndef _CLIENT_H_
 #define _CLIENT_H_
 
+
+/***
+Class objet qui représente un client, stock son socket, son type et son état 'debug'
+Elle permet d'envoyer et de recevoir des données à travers le socket
+***/
+
 class Client
 {
 public:

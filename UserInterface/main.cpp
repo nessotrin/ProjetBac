@@ -7,20 +7,29 @@
 #include <cstdlib>
 #include <cstring>
 
+/***
+Récupère la liste des medicaments à partir du serveur
+***/
 Medicament * recupererListeMedicament()
 {
+	/* Création du buffer qui servivra au messages */
 	char message[1024];
+	
+	/* Demande la liste des medicaments au serveur */
 	sprintf(message,"ListerMedicaments\n");
 	if(ConnectionServeur::envoyer(message))
 	{
 		return NULL;
 	}
 	
+	/* Reçoit une réponse */
 	char * reponse = ConnectionServeur::recevoir();
 	if(reponse == NULL)
 	{
 		return NULL;
 	}
+	
+	/* Analyse la réponse */
 	int nombreDeMed;
 	if(sscanf(reponse,"Nombre%d\n",&nombreDeMed) == EOF)
 	{
@@ -29,8 +38,10 @@ Medicament * recupererListeMedicament()
 	}
 	free(reponse);
 
+	/* Il y a x medicaments */
 	printf("%d Médicaments\n",nombreDeMed);
 	
+	/* Allocation mémoire de la liste de médicament avec la bonne taille */
 	Medicament * listeMeds = (Medicament *) malloc(sizeof(Medicament)*nombreDeMed);
 	if(listeMeds == NULL)
 	{
@@ -38,45 +49,57 @@ Medicament * recupererListeMedicament()
 		return NULL;
 	}
 		
-	
+	/* Pour chaque medicament */
 	for(int i = 0 ; i < nombreDeMed ; i++)
 	{
+		/* On reçoit le nom */
 		reponse = ConnectionServeur::recevoir();
 		if(reponse == NULL)
 		{
 			return NULL;
 		}
 		reponse[strlen(reponse)-1] = 0; // retirer le \n
+		/* On donne au medicament son nom */
 		listeMeds->nom = reponse;
+		
+		/* On reçoit le reste des info */
 		reponse = ConnectionServeur::recevoir();
 		if(reponse == NULL)
 		{
 			return NULL;
 		}
 		
+		/* On analyse la réponse et place les valeurs dans loe bon médicament */
 		sscanf(reponse,"PoidBase%d Unite%d Compte%d Max%d Position%d\n",&listeMeds->poidDeBase,&listeMeds->poidUnite,&listeMeds->compte, &listeMeds->maximum,&listeMeds->position);
 		free(reponse);
 	}
 	
+	/* On retourne la liste complète des medicaments */
 	return listeMeds;
 }
 
+
+/***
+Se connecte et lance l'interface
+***/
 int main(int argc, char **argv)
 {
-    std::cout << "User interface" << std::endl;
+    std::cout << "User interface TESTBED" << std::endl;
 	
+	/* On initialise la connection au seveur et on écrit le résultat */
 	printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
 	
-	
+	/* On récupère la liste des medicaments */
 	Medicament * listeMeds = recupererListeMedicament();
 	if(listeMeds == NULL)
 	{
 		return 1;
 	}
 
-	
+	/* On attends avant de fermer */
 	sleep(3);
 	
+	/* On se déconnecte du serveur */
 	ConnectionServeur::fermer();
 	
     return 0;

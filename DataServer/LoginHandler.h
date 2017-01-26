@@ -8,6 +8,10 @@
 
 #include "LoginProtocol.h"
 
+/***
+Class handler qui gère et stock les clients
+***/
+
 class LoginHandler
 {
 public:

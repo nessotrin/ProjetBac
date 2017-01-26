@@ -1,8 +1,8 @@
 .PHONY: clean All
 
 All:
-	@echo "----------Building project:[ DataServer - Debug ]----------"
-	@cd "DataServer" && "$(MAKE)" -f  "DataServer.mk"
+	@echo "----------Building project:[ UserInterface - Debug ]----------"
+	@cd "UserInterface" && "$(MAKE)" -f  "UserInterface.mk"
 clean:
-	@echo "----------Cleaning project:[ DataServer - Debug ]----------"
-	@cd "DataServer" && "$(MAKE)" -f  "DataServer.mk" clean
+	@echo "----------Cleaning project:[ UserInterface - Debug ]----------"
+	@cd "UserInterface" && "$(MAKE)" -f  "UserInterface.mk" clean

@@ -1,6 +1,9 @@
 #ifndef _MODULE_INFO_H_
 #define _MODULE_INFO_H_
 
+/***
+Structure qui définie les informations d'identification qu'un programme donnera au serveur
+***/
 struct ModuleInfo
 {
 	int type;

@@ -1,5 +1,8 @@
 #include "TextResolver.h"
 
+/***
+Convertit un type (selon définition) en son nom
+***/
 char * TextResolver::typeToName(int type)
 {
 	switch(type)
@@ -29,6 +32,9 @@ char * TextResolver::typeToName(int type)
 	}
 }
 
+/***
+Convertit un booléen en texte français
+***/
 char * TextResolver::boolToFrench(bool value)
 {
 	if(value)

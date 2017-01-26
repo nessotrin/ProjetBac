@@ -1,6 +1,11 @@
 #ifndef _MED_H_
 #define _MED_H_
 
+
+/***
+Classe objet repésentant un médicament
+Elle ne fait que stocker les valeurs de donner des accesseurs
+***/
 class Med
 {
 public:
