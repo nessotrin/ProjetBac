@@ -52,12 +52,22 @@ void MedRequest::sendMedInfo(Client * client, int id)
 	/* Création du buffer de communication */
 	char buffer[1024];
 
-/*	TODO
-
-	sprintf(buffer, "Nombre%d\n",medHandler->getMedCount());
+	/* Récupération du médicament demandé */
+	Med * selectedMed = medHandler->getMed(id);
+	
+	/* Envoi du nom (comme défini par le protocol) */
+	sprintf(buffer,"%s\n",selectedMed->getName());
 	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
 	{
+		/* Abandon */
 		return;
 	}
-*/
+
+	/* Envoi du reste des infos (comme défini par le protocol) */
+	sprintf(buffer,"PoidBase%d Unite%d Compte%d Max%d Position%d\n",selectedMed->getBaseWeigth(),selectedMed->getUnitWeigth(),selectedMed->getCurrentCount(), selectedMed->getMaxCount(), selectedMed->getLocation());
+	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
+	{
+		/* Abandon */
+		return;
+	}
 }

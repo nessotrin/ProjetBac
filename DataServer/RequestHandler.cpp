@@ -33,7 +33,7 @@ bool RequestHandler::handleRequest(Client * client)
 	else if(strlen(request) >= 16 && memcmp(request, "InfoMedicament", 14) == 0)
 	{
 		int id;
-		sscanf(reponse,"InfoMedicament%d\n",&id);
+		sscanf(request,"InfoMedicament%d\n",&id);
 		medRequest->sendMedInfo(client,id);
 	}
 	else

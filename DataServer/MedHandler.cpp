@@ -1,6 +1,7 @@
 #include "MedHandler.h"
 
 #include <unistd.h>
+#include <cstdio>
 
 MedHandler::MedHandler()
 {
@@ -42,4 +43,13 @@ bool MedHandler::iterateOnMeds(Med ** medToUse)
 		/* On préviens de continuer*/
 		return true;
 	}
+}
+
+/***
+Permet de récupérer un médicament par son numéro
+***/
+Med * MedHandler::getMed(int id)
+{
+	/* retourne un pointeur vers le médicament*/
+	return medList[id];
 }

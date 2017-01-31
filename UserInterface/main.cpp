@@ -61,17 +61,6 @@ Medicament * recupererListeMedicament()
 		reponse[strlen(reponse)-1] = 0; // retirer le \n
 		/* On donne au medicament son nom */
 		listeMeds->nom = reponse;
-		
-		/* On reçoit le reste des info */
-		reponse = ConnectionServeur::recevoir();
-		if(reponse == NULL)
-		{
-			return NULL;
-		}
-		
-		/* On analyse la réponse et place les valeurs dans loe bon médicament */
-		sscanf(reponse,"PoidBase%d Unite%d Compte%d Max%d Position%d\n",&listeMeds->poidDeBase,&listeMeds->poidUnite,&listeMeds->compte, &listeMeds->maximum,&listeMeds->position);
-		free(reponse);
 	}
 	
 	/* On retourne la liste complète des medicaments */

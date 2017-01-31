@@ -13,7 +13,7 @@ public:
 	MedHandler();
 	int getMedCount();
 	bool iterateOnMeds(Med ** medToUse);
-	
+	Med * getMed(int id);
 
 
 private:
