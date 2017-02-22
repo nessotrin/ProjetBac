@@ -14,7 +14,8 @@ public:
 	int getMedCount();
 	bool iterateOnMeds(Med ** medToUse);
 	Med * getMed(int id);
-
+	
+	void addMed(Med * newMed);
 
 private:
 	Med ** medList;

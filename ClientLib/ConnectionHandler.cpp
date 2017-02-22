@@ -60,8 +60,7 @@ bool ConnectionHandler::doLogin(ModuleInfo info)
 	
 	/* Envoie le message dans le socket */
 	write(clientSocket,buffer,64);
-	
-	printf("Loggin'ed ! \n");
+		printf("Loggin'ed ! \n");
 	return false;
 }
 

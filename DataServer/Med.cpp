@@ -12,6 +12,17 @@ char * Med::getName()
 	return name;
 }
 
+
+char * Med::getImg()
+{
+	return img;
+}
+void Med::setImg(char * newImg)
+{
+	img = newImg;
+}
+
+
 int Med::getBaseWeigth()
 {
 	return baseWeigth;

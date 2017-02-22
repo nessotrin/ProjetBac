@@ -27,6 +27,8 @@ void MedRequest::sendMedList(Client * client)
 		return; 
 	}
 	
+	printf("Medcount sent !\n");
+	
 	Med * med;
 	/* Boucle sur les médicaments */
 	while(medHandler->iterateOnMeds(&med))
@@ -70,4 +72,26 @@ void MedRequest::sendMedInfo(Client * client, int id)
 		/* Abandon */
 		return;
 	}
+}
+
+/***
+Envoie le nom de l'img du médicament au numéro donné
+***/
+void MedRequest::sendMedImg(Client * client, int id)
+{
+	printf("Img asked on med %d... \n", id);
+	/* Création du buffer de communication */
+	char buffer[1024];
+
+	/* Récupération du médicament demandé */
+	Med * selectedMed = medHandler->getMed(id);
+	
+	/* Envoi du nom (comme défini par le protocol) */
+	sprintf(buffer,"%s\n",selectedMed->getImg());
+	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
+	{
+		/* Abandon */
+		return;
+	}
+
 }

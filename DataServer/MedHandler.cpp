@@ -2,15 +2,19 @@
 
 #include <unistd.h>
 #include <cstdio>
+#include <cstdlib>
+
 
 MedHandler::MedHandler()
 {
 	/* Initialise les valeurs à 0 */
 	medList = NULL;
 	medCount = 0;
-	iteratorCounter = 0;
-}
+	iteratorCounter = 0;}
 
+/***
+Retourne le nombre de médicaments dans la base de données
+***/
 int MedHandler::getMedCount()
 {
 	return medCount;
@@ -52,4 +56,11 @@ Med * MedHandler::getMed(int id)
 {
 	/* retourne un pointeur vers le médicament*/
 	return medList[id];
+}
+
+void MedHandler::addMed(Med * newMed)
+{
+	medList = (Med**) realloc(medList, sizeof(Med *)*(medCount+1));
+	medList[medCount] = newMed;
+	medCount++;
 }

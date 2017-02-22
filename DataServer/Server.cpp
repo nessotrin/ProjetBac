@@ -92,9 +92,11 @@ void Server::handleClients()
 		/* On vérifie si il se passe quelque chose sur le socket */
 		if(FD_ISSET(client->getSocket(), &selector)) /* Il se passe quelque chose */
 		{
+			printf("Socket triggered\n");
 			/* Gestion de la requête */
 			if(requestHandler->handleRequest(client)) /* Vérification de l'échec*/
 			{
+				printf("Socket handling failed\n");
 				/* On déconnecte le client */
 				loginHandler->disconnect(client->getSocket());
 			}
@@ -160,10 +162,16 @@ bool Server::setup()
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 	serverAddr.sin_port = htons(port);
 
+	retry:
+
+	printf("Binding port ...\n");
+
 	/* Demande à l'OS de bind' le socket sur le port*/
 	if (bind(serverSocket, (struct sockaddr *) &serverAddr, sizeof(serverAddr)) < 0) /* Vérification d'échec */
 	{
-		printf("ERROR Couldn't bind port !\nIs a server already running ?\n");
+		printf("ERROR Couldn't bind port !\nIs or was a server already running ?\n");
+		sleep(5000);
+		goto retry;
 		/* Abandon */
 		return true;
 	}

@@ -15,6 +15,8 @@ Reçoit une requête directement du client, l'analyse et le distribue au bon han
 ***/
 bool RequestHandler::handleRequest(Client * client)
 {
+	printf("Receiving request ...\n");
+	
 	/* Reçoit la requête */
 	char * request = IOHelper::getRequest(client->getSocket());
 	if(request == NULL) /* Vérification d'échec */
@@ -24,16 +26,25 @@ bool RequestHandler::handleRequest(Client * client)
 		return true;
 	}
 	
+	printf("Analyzing request ...\n");
+	
 	/* Comparaisons */
 	
 	if(strlen(request) >= 16 && memcmp(request, "ListerMedicaments", 17) == 0)
 	{
 		medRequest->sendMedList(client);
 	}
-	else if(strlen(request) >= 16 && memcmp(request, "InfoMedicament", 14) == 0)
+	else if(strlen(request) >= 13 && memcmp(request, "ImgMedicament", 13) == 0)
 	{
 		int id;
-		sscanf(request,"InfoMedicament%d\n",&id);
+		printf("IMG ----------\n");
+		sscanf(request,"ImgMedicament%d\n",&id);
+		medRequest->sendMedImg(client,id);
+	}
+	else if(strlen(request) >= 15 && memcmp(request, "InfoMedicaments", 15) == 0)
+	{
+		int id;
+		sscanf(request,"InfoMedicaments<%d\n",&id);
 		medRequest->sendMedInfo(client,id);
 	}
 	else

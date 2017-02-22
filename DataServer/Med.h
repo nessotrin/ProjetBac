@@ -14,6 +14,9 @@ Med(char * newName);
 
 char * getName();
 
+char * getImg();
+void setImg(char * newImg);
+
 int getBaseWeigth();
 void setBaseWeigth(int newBaseWeigth);
 
@@ -31,6 +34,7 @@ void setLocation(int newLocation);
 	
 private:
 	char * name;
+	char * img;
 	int baseWeigth;
 	int unitWeigth;
 	int currentCount;

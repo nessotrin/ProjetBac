@@ -46,7 +46,19 @@ char * IOHelper::getRequest(int clientSocket)
 			}
 		}
 		/* On lit un octet et on l'ajoute au buffer */
-		bufferPos += read(clientSocket, buffer+bufferPos, 1);
+		int readReturn = read(clientSocket, buffer+bufferPos, 1);
+		if(readReturn == 0)
+		{
+			printf("Connection ended !\n");
+			return NULL;
+		}
+		else if(readReturn < 0)
+		{
+			printf("ERROR Read failed %d\n",readReturn);
+			return NULL;
+		}
+		bufferPos += readReturn;
+		
 	} while(bufferPos == 0 || buffer[bufferPos-1] != '\n'); /*On vérifie qu'il ne s'agisse pas d'une fin de ligne*/
 
 	/* On donne le buffer qui contient le requête reçue */

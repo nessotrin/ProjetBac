@@ -31,6 +31,14 @@ int main(int argc, char **argv)
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
 
+	Med * testMed = new Med("PROCRASTINATION 1000KG");
+	Med * newTestMed = new Med("JPEUT_PAS_BOUFFER_JE_TE_HAIS");
+	
+	testMed->setImg("http://www.luvbat.com/uploads/kitten_in_a_box_1983471666.jpg");
+	newTestMed->setImg("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Middle_finger_BNC.jpg/250px-Middle_finger_BNC.jpg");
+
+	medHandler.addMed(testMed);
+	medHandler.addMed(newTestMed);
 	
 
 	printf("Setuping database ...\n");
