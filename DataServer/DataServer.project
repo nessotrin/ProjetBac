@@ -29,6 +29,10 @@
     <File Name="IOHelper.h"/>
     <File Name="MedRequest.h"/>
     <File Name="MedRequest.cpp"/>
+    <File Name="Human.h"/>
+    <File Name="Human.cpp"/>
+    <File Name="HumanHandler.h"/>
+    <File Name="HumanHandler.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
