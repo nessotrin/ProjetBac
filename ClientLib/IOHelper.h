@@ -2,8 +2,9 @@
 #define _IO_HELPER_H_
 
 /***
-Definition de la class IOHelper
+Class helper qui simplifie les envoie et receptions de messages standards avec des fonctions
 ***/
+
 class IOHelper
 {
 	

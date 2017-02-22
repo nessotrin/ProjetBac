@@ -3,7 +3,7 @@
 
 
 /***
-Classe objet repésentant un médicament
+Classe objet repésentant un médicament, elle stock son nom, son image et les autres caractéristiques typiques
 Elle ne fait que stocker les valeurs de donner des accesseurs
 ***/
 class Med

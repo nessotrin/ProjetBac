@@ -3,6 +3,10 @@
 
 #include <Human.h>
 
+
+/***
+Class handler qui stock les humans et leurs permissions
+***/
 class HumanHandler
 {
 public:

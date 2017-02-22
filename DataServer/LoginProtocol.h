@@ -3,7 +3,9 @@
 
 #include "Client.h" 
 
-/* Class object qui gère la connection des clients*/
+/***
+Class object qui gère la connection des clients
+***/
 class LoginProtocol
 {
 public:

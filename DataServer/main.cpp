@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 {
 	printf("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
 	
-	printf("Initializing med handler ...\n");
+	printf("Initializing handlers ...\n");
 	
 	/* Création des gestionnaires de médicament et de clients*/
 	MedHandler medHandler; 
@@ -31,17 +31,16 @@ int main(int argc, char **argv)
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
 
+	printf("Setuping database ...\n");
+
+	/* TESTS */
 	Med * testMed = new Med("PROCRASTINATION 1000KG");
 	Med * newTestMed = new Med("JPEUT_PAS_BOUFFER_JE_TE_HAIS");
-	
 	testMed->setImg("http://www.luvbat.com/uploads/kitten_in_a_box_1983471666.jpg");
 	newTestMed->setImg("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Middle_finger_BNC.jpg/250px-Middle_finger_BNC.jpg");
-
 	medHandler.addMed(testMed);
 	medHandler.addMed(newTestMed);
-	
 
-	printf("Setuping database ...\n");
 
 	
 	printf("Setup'ing server ...\n");
