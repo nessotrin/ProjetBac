@@ -1,5 +1,8 @@
 #include "LoginHandler.h"
 
+#include "Logger.h"
+
+
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
@@ -19,7 +22,7 @@ Il crée un nouveau client, s'occupe du 'login' et l'ajoute à la liste
 ***/
 bool LoginHandler::addNewClient(int socket)
 {
-	printf("Start connection protocol on the client ...\n");
+	Logger::log("Start connection protocol on the client ...\n");
 
 	/* Crée un nouveau client avec le 'socket' donné*/
 	Client * newClient = new Client(socket);
@@ -38,7 +41,7 @@ bool LoginHandler::addNewClient(int socket)
 	/* Le nouveau client est ajouté */
 	clientList[clientCount-1] = newClient;
 	
-	printf("Now at %d clients !\n",clientCount);
+	Logger::log("Now at %d clients !\n",clientCount);
 	
 	return false;
 }
@@ -50,7 +53,7 @@ Le client est ensuite supprimé
 ***/
 void LoginHandler::disconnect(int socket)
 {
-	printf("Disconnecting socket %d ...\n", socket);
+	Logger::log("Disconnecting socket %d ...\n", socket);
 	
 	/* Passage dans la liste des clients */
 	for(int i = 0 ; i < clientCount ; i++)
@@ -101,7 +104,7 @@ La fonction retourne 'True' tant que tout les clients ne sont pas passés
 ***/
 bool LoginHandler::iterateOnClients(Client ** clientToUse)
 {
-	printf("Iterating at %d/%d\n",iteratorCounter,clientCount);
+	Logger::log("Iterating at %d/%d\n",iteratorCounter,clientCount);
 
 	/* Vérification de la progression */
 	if(iteratorCounter >= clientCount)

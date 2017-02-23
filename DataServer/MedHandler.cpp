@@ -1,5 +1,8 @@
 #include "MedHandler.h"
 
+#include "Logger.h"
+
+
 #include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
@@ -27,10 +30,7 @@ La fonction retourne 'True' tant que tout les clients ne sont pas passés
 ***/
 bool MedHandler::iterateOnMeds(Med ** medToUse)
 {
-	printf("Iterating at %d/%d\n",iteratorCounter,medCount);
-
 	/* Vérification de la progression */
-
 	if(iteratorCounter >= medCount)
 	{
 		/* Retour à 0 */

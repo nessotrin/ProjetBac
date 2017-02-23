@@ -2,6 +2,9 @@
 
 #include "IOHelper.h"
 
+#include "Logger.h"
+
+
 #include <cstdio>
 
 MedRequest::MedRequest(MedHandler * newMedHandler)
@@ -15,7 +18,7 @@ Envoie la liste complète des médicaments et leurs info
 ***/
 void MedRequest::sendMedList(Client * client)
 {
-	printf("Medlist asked ... \n");
+	Logger::log("Medlist asked ... \n");
 	/* Création du buffer de communication */
 	char buffer[1024];
 	
@@ -27,7 +30,7 @@ void MedRequest::sendMedList(Client * client)
 		return; 
 	}
 	
-	printf("Medcount sent !\n");
+	Logger::log("Medcount sent !\n");
 	
 	Med * med;
 	/* Boucle sur les médicaments */
@@ -50,7 +53,7 @@ Envoie les infos sur le médicament au numéro donné
 ***/
 void MedRequest::sendMedInfo(Client * client, int id)
 {
-	printf("Info asked on med %d... \n", id);
+	Logger::log("Info asked on med %d... \n", id);
 	/* Création du buffer de communication */
 	char buffer[1024];
 
@@ -79,7 +82,7 @@ Envoie le nom de l'img du médicament au numéro donné
 ***/
 void MedRequest::sendMedImg(Client * client, int id)
 {
-	printf("Img asked on med %d... \n", id);
+	Logger::log("Img asked on med %d... \n", id);
 	/* Création du buffer de communication */
 	char buffer[1024];
 

@@ -1,5 +1,6 @@
 #include "Server.h"
 
+#include "Logger.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -52,7 +53,7 @@ Accepte un client et lui donne un socket
 ***/
 void Server::acceptClient()
 {
-	printf("New client connecting ...\n");
+	Logger::log("New client connecting ...\n");
 	
 	/* Création du socket et acceptation */
 	struct sockaddr_in address;
@@ -60,7 +61,7 @@ void Server::acceptClient()
 	int newSocket = accept(serverSocket, (struct sockaddr *)&address, (socklen_t*)&addrlen);
 	if(newSocket < 0) /* Vérification de réussite */
 	{
-		printf("ERROR on accept\n");
+		Logger::log("ERROR on accept\n");
 		/* Abandon */
 		return;
 	}
@@ -68,14 +69,14 @@ void Server::acceptClient()
 	/* Ajout du client au handler des clients */
 	if(loginHandler->addNewClient(newSocket)) /* Vérification de l'échec, érreur réseau ou serveur plein */
 	{
-		printf("SERVER FULL or CONNECTION FAILED\n");
+		Logger::log("SERVER FULL or CONNECTION FAILED\n");
 		/* Ferme le nouveau socket*/
 		close(newSocket);
 		/* Abandon */
 		return;
 	}
 	
-	printf("Client fully connected !\n");
+	Logger::log("Client fully connected !\n");
 }
 
 /***
@@ -83,25 +84,25 @@ Gère les clients
 **/
 void Server::handleClients()
 {
-	printf("Handling clients ...\n");
+	Logger::log("Handling clients ...\n");
 	Client * client;
 	/* Boucle sur les clients */
 	while (loginHandler->iterateOnClients(&client)) 
 	{
-		printf("Checking socket ...\n");
+		Logger::log("Checking socket ...\n");
 		/* On vérifie si il se passe quelque chose sur le socket */
 		if(FD_ISSET(client->getSocket(), &selector)) /* Il se passe quelque chose */
 		{
-			printf("Socket triggered\n");
+			Logger::log("Socket triggered\n");
 			/* Gestion de la requête */
 			if(requestHandler->handleRequest(client)) /* Vérification de l'échec*/
 			{
-				printf("Socket handling failed\n");
+				Logger::log("Socket handling failed\n");
 				/* On déconnecte le client */
 				loginHandler->disconnect(client->getSocket());
 			}
 		}
-		printf("Socket checked ...\n");
+		Logger::log("Socket checked ...\n");
 	}
 }
 
@@ -109,18 +110,18 @@ void Server::work()
 {
 	while(1)
 	{
-		printf("Setting up selector ... \n");
+		Logger::log("Setting up selector ... \n");
 		/* On ajoute les sockets 'UNIX' au selecteur 'UNIX' */
 		int max_sd = addSocketsToSelector();
-		printf("Set'ed up ! \n");
+		Logger::log("Set'ed up ! \n");
 		
-		printf("Waiting for activity on sockets ...\n");
+		Logger::log("Waiting for activity on sockets ...\n");
 		//wait for an activity on one of the sockets , timeout is NULL , so wait indefinitely
         /* On attends que quelque chose se passe */
 		int activity = select( max_sd + 1 , &selector , NULL , NULL , NULL);
         if(activity < 0)
         {
-            printf("ERROR on select\n");
+            Logger::log("ERROR on select\n");
         }
 		
 		  
@@ -137,7 +138,7 @@ void Server::work()
 			/* On gère les clients */
 			handleClients();
 		}			
-		printf("Activity loop restarting ... \n");
+		Logger::log("Activity loop restarting ... \n");
 	}
 }
 
@@ -152,7 +153,7 @@ bool Server::setup()
 	serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (serverSocket < 0) /* Vérification de l'échec */ 
 	{
-		printf("ERROR opening socket\n");
+		Logger::log("ERROR opening socket\n");
 		/* Abandon */
 		return true;
 	}
@@ -164,12 +165,12 @@ bool Server::setup()
 
 	retry:
 
-	printf("Binding port ...\n");
+	Logger::log("Binding port ...\n");
 
 	/* Demande à l'OS de bind' le socket sur le port*/
 	if (bind(serverSocket, (struct sockaddr *) &serverAddr, sizeof(serverAddr)) < 0) /* Vérification d'échec */
 	{
-		printf("ERROR Couldn't bind port !\nIs or was a server already running ?\n");
+		Logger::log("ERROR Couldn't bind port !\nIs or was a server already running ?\n");
 		sleep(5000);
 		goto retry;
 		/* Abandon */
@@ -179,7 +180,7 @@ bool Server::setup()
 	/* Demande à l'OS d'ouvrir le socket aux connections */
 	if(listen(serverSocket,3) < 0) /* Vérification d'échec */
 	{
-		printf("ERROR while setting to listening mode\n");
+		Logger::log("ERROR while setting to listening mode\n");
 		/* Abandon */
 		return true;
 	}

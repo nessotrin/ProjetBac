@@ -4,7 +4,7 @@
 
 Med::Med(char * newName)
 {
-	name = newName;
+	name = strdup(newName);
 }
 
 char * Med::getName()

@@ -1,5 +1,6 @@
 #include "RequestHandler.h"
 #include "IOHelper.h"
+#include "Logger.h"
 
 
 #include <stdio.h>
@@ -15,18 +16,18 @@ Reçoit une requête directement du client, l'analyse et le distribue au bon han
 ***/
 bool RequestHandler::handleRequest(Client * client)
 {
-	printf("Receiving request ...\n");
+	Logger::log("Receiving request ...\n");
 	
 	/* Reçoit la requête */
 	char * request = IOHelper::getRequest(client->getSocket());
 	if(request == NULL) /* Vérification d'échec */
 	{
-		printf("Bad request ...\n");
+		Logger::log("Bad request ...\n");
 		/* Abandon */
 		return true;
 	}
 	
-	printf("Analyzing request ...\n");
+	Logger::log("Analyzing request ...\n");
 	
 	/* Comparaisons */
 	
@@ -37,8 +38,6 @@ bool RequestHandler::handleRequest(Client * client)
 	}
 	else if(strlen(request) >= 13 && memcmp(request, "ImgMedicament", 13) == 0)
 	{
-		printf("IMG ----------\n");
-
 		/* On récupère le numéro dans la requête*/
 		int id;
 		sscanf(request,"ImgMedicament%d\n",&id);
@@ -57,7 +56,7 @@ bool RequestHandler::handleRequest(Client * client)
 	}
 	else
 	{
-		printf("Unknow request !!!\n");
+		Logger::log("Unknow request !!!\n");
 		/* Échec */
 		return true;
 	}

@@ -33,6 +33,8 @@
     <File Name="Human.cpp"/>
     <File Name="HumanHandler.h"/>
     <File Name="HumanHandler.cpp"/>
+    <File Name="Logger.h"/>
+    <File Name="Logger.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

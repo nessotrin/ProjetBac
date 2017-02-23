@@ -10,13 +10,17 @@
 
 #define SERVER_PORT 65534
 
+#include "Logger.h"
 
 /* Fonction d'entrée du serveur */
 int main(int argc, char **argv)
 {
-	printf("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
+	Logger::initLogger();
+	Logger::initFile("log.txt");
 	
-	printf("Initializing handlers ...\n");
+	Logger::log("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
+	
+	Logger::log("Initializing handlers ...\n");
 	
 	/* Création des gestionnaires de médicament et de clients*/
 	MedHandler medHandler; 
@@ -31,7 +35,7 @@ int main(int argc, char **argv)
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
 
-	printf("Setuping database ...\n");
+	Logger::log("Setuping database ...\n");
 
 	/* TESTS */
 	Med * testMed1 = new Med("Doliprane");
@@ -45,8 +49,17 @@ int main(int argc, char **argv)
 	medHandler.addMed(testMed3);
 
 
+	for(int i = 4 ; i <= 7 ; i++)
+	{
+		char name[50];
+		sprintf(name, "Medicament %d",i);
+		Med * tmpMed = new Med(name);
+		tmpMed->setImg("https://placeholdit.imgix.net/~text?txtsize=28&bg=0099ff&txtclr=ffffff&txt=300%C3%97300&w=300&h=300&fm=png");
+		medHandler.addMed(tmpMed);
+	}
 	
-	printf("Setup'ing server ...\n");
+	
+	Logger::log("Setup'ing server ...\n");
 
 	/* Mise en place du serveur */
 	if(server.setup())
@@ -54,7 +67,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	
-	printf("Starting client handling ...\n");
+	Logger::log("Starting client handling ...\n");
 	
 	/* Lancement du serveur */
 	server.work();

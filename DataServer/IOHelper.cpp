@@ -1,5 +1,8 @@
 #include "IOHelper.h"
 
+#include "Logger.h"
+
+
 #include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
@@ -41,7 +44,7 @@ char * IOHelper::getRequest(int clientSocket)
 			buffer = (char *) realloc(buffer, bufferSize);
 			if(buffer == NULL) /* Si la réalocation échoue */
 			{
-				printf("ALLOC ERROR !\n");
+				Logger::log("ALLOC ERROR !\n");
 				return NULL;
 			}
 		}
@@ -49,12 +52,12 @@ char * IOHelper::getRequest(int clientSocket)
 		int readReturn = read(clientSocket, buffer+bufferPos, 1);
 		if(readReturn == 0)
 		{
-			printf("Connection ended !\n");
+			Logger::log("Connection ended !\n");
 			return NULL;
 		}
 		else if(readReturn < 0)
 		{
-			printf("ERROR Read failed %d\n",readReturn);
+			Logger::log("ERROR Read failed %d\n",readReturn);
 			return NULL;
 		}
 		bufferPos += readReturn;
