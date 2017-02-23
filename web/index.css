@@ -1,0 +1,150 @@
+
+body
+{
+   color:#40A497; /*on peut nommer les couleurs autrement... */
+   font-family: Arial, "Arial Black", "Times New Roman", Times, serif;
+   text-align: justify;
+}
+
+*
+{
+	margin: 0px;
+}
+
+.nomMedecin
+{
+	text-align :center;
+	color: #000;
+	font-size: 20px;
+	margin-top: -15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+h1
+{
+	text-align: center;
+	font-family: Arial;
+	font-size: 50px;
+	margin-bottom: 100px;
+}
+
+
+
+.fond
+{
+	background-color: #FFF;
+}
+
+
+.titreMedecin
+{
+	color: #000;
+	font-size: 40px;
+	margin:0;
+}
+
+.medecinZone
+{
+	background-color: blue;
+	float:left;
+	width: 75%
+}
+
+.medecinBubble
+{
+	width: 150px;
+	height: 150px;
+	background-position:center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border-radius: 100%;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	margin-right: 5px;
+	margin-left: 5px;
+	overflow:hidden;
+}
+
+.medecinBubbleOverlay
+{
+	background-color:black;
+	width: 100%;
+	height: 100%;
+
+
+  	opacity: 0;
+	transition: opacity, 1s;
+	overflow: hidden;
+}
+
+.medecinBubbleText
+{
+	text-align: center;
+	margin-top: 25px;
+}
+.medecinBubble:hover .medecinBubbleOverlay
+{
+  	opacity: 1;
+}
+
+.medecinNom
+{
+	text-align: center;
+}
+
+.titreMedoc
+{
+	float: left;
+	color: #000;
+	font-size: 40px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 50px;
+}
+
+.medocZone
+{
+	width: auto;
+	height: auto;
+	left: 75%;
+	background-color: red;
+	padding-bottom: 20px;
+	padding-right: 20px;
+	overflow: auto;
+	float: right;
+}
+
+.medoc
+{
+	margin-top: 20px;
+	text-align:left;
+}
+
+.titreHistorique
+{
+
+}
+
+.historiqueZone
+{
+	background-color: green;
+	float:left;
+	padding: 2px;
+	width: auto;
+	height: auto;
+}
+
+
+
+.historique
+{
+	overflow: auto;
+}
+
+img
+{
+	padding : 5px;
+	border : solid 2px;
+	background-color: #FFF;
+}
