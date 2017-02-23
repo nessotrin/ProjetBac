@@ -104,7 +104,7 @@ La fonction retourne 'True' tant que tout les clients ne sont pas passés
 ***/
 bool LoginHandler::iterateOnClients(Client ** clientToUse)
 {
-	Logger::log("Iterating at %d/%d\n",iteratorCounter,clientCount);
+	Logger::log("Iterating on clients at %d/%d\n",iteratorCounter,clientCount);
 
 	/* Vérification de la progression */
 	if(iteratorCounter >= clientCount)

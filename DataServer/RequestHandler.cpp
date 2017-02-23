@@ -45,6 +45,15 @@ bool RequestHandler::handleRequest(Client * client)
 		/* On envoie l'image demandée*/
 		medRequest->sendMedImg(client,id);
 	}
+	else if(strlen(request) >= 13 && memcmp(request, "NombreMedicament", 16) == 0)
+	{
+		/* On récupère le numéro dans la requête*/
+		int id;
+		sscanf(request,"NombreMedicament%d\n",&id);
+		
+		/* On envoie l'image demandée*/
+		medRequest->sendMedCount(client,id);
+	}
 	else if(strlen(request) >= 15 && memcmp(request, "InfoMedicaments", 15) == 0)
 	{
 		/* On récupère le numéro dans la requête */		

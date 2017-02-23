@@ -98,3 +98,25 @@ void MedRequest::sendMedImg(Client * client, int id)
 	}
 
 }
+
+/***
+Envoie le nombre de médicament du numéro donné
+***/
+void MedRequest::sendMedCount(Client * client, int id)
+{
+	Logger::log("Count asked on med %d... \n", id);
+	/* Création du buffer de communication */
+	char buffer[1024];
+
+	/* Récupération du médicament demandé */
+	Med * selectedMed = medHandler->getMed(id);
+	
+	/* Envoi du nom (comme défini par le protocol) */
+	sprintf(buffer,"Nombre%d\n",selectedMed->getCurrentCount());
+	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
+	{
+		/* Abandon */
+		return;
+	}
+
+}
