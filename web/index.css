@@ -4,11 +4,13 @@ body
    color:#40A497; /*on peut nommer les couleurs autrement... */
    font-family: Arial, "Arial Black", "Times New Roman", Times, serif;
    text-align: justify;
+	
 }
 
 *
 {
 	margin: 0px;
+	padding: 0px;
 }
 
 .nomMedecin
@@ -26,14 +28,13 @@ h1
 	text-align: center;
 	font-family: Arial;
 	font-size: 50px;
-	margin-bottom: 100px;
 }
 
 
 
-.fond
+.titrePage
 {
-	background-color: #FFF;
+	background-color: #303030;
 }
 
 
@@ -46,9 +47,15 @@ h1
 
 .medecinZone
 {
-	background-color: blue;
 	float:left;
-	width: 75%
+	width: 75%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.medecinTable
+{
+	width: 100%;
 }
 
 .medecinBubble
@@ -59,10 +66,8 @@ h1
 	background-repeat: no-repeat;
 	background-size: 100%;
 	border-radius: 100%;
-	margin-top: 50px;
-	margin-bottom: 50px;
-	margin-right: 5px;
-	margin-left: 5px;
+	margin-left: auto;
+	margin-right: auto;
 	overflow:hidden;
 }
 
@@ -73,7 +78,7 @@ h1
 	height: 100%;
 
 
-  	opacity: 0;
+ 	opacity: 0;
 	transition: opacity, 1s;
 	overflow: hidden;
 }
@@ -85,7 +90,7 @@ h1
 }
 .medecinBubble:hover .medecinBubbleOverlay
 {
-  	opacity: 1;
+ 	opacity: 1;
 }
 
 .medecinNom
@@ -103,48 +108,66 @@ h1
 	margin-left: 50px;
 }
 
+.medocSeparator
+{
+	width: 7px;
+  height: 100%;
+	background-color: #303030;
+}
+
 .medocZone
 {
-	width: auto;
-	height: auto;
-	left: 75%;
-	background-color: red;
-	padding-bottom: 20px;
+	width: 23%;
+	background-color: #fafafa;
+	height: 100%;
+	border: black 0px solid;
+	padding-bottom: 0px;
 	padding-right: 20px;
+	margin-top: 0px;
 	overflow: auto;
 	float: right;
 }
 
-.medoc
+.medocStyleTable
 {
-	margin-top: 20px;
+	border-spacing: 0px;
+}
+
+table.medocTable
+{
+	margin-left: 5px;
+}
+
+.addLeftSpacing
+{
+	padding-left: 20px;	
+}
+
+.medocImg
+{
+	padding : 5px;
+	border : #E0E0E0 solid 2px;
+}
+
+.medocNom
+{
 	text-align:left;
 }
 
+
 .titreHistorique
 {
-
+  padding: 10px;
 }
 
 .historiqueZone
 {
-	background-color: green;
+	background-color: #303030;
 	float:left;
-	padding: 2px;
-	width: auto;
-	height: auto;
+	width: 75%;
 }
 
-
-
-.historique
+.historiqueTexte
 {
-	overflow: auto;
-}
-
-img
-{
-	padding : 5px;
-	border : solid 2px;
-	background-color: #FFF;
+	padding: 5px;
 }
