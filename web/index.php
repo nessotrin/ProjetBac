@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html> <!-- ça c'est pour dire que c'est du html-->
 
+<!-- permet d'accéder à la base de donnée, de se connecter et de récupérer les médicaments -->
 <?php
 include 'database.php';
 $socket = connect();
@@ -10,7 +11,7 @@ getMedsInfo($socket);
     <head>  <!-- en anglais, tête -->
         <meta charset="utf-8" /> <!-- ça c'est pour dire quel encodage de caractère on utilise -->
           
-		  <link rel="stylesheet" media="screen" title="fiche rentree Issert Erika" 
+		  <link rel="stylesheet" media="screen" title="A.D.S. Centre de controle" 
 		             href="index.css" />
 					 
 		<title>Fiche de rentrée</title><!-- en anglais...non je ne le dis pas --> 
