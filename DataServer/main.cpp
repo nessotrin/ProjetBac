@@ -34,12 +34,15 @@ int main(int argc, char **argv)
 	printf("Setuping database ...\n");
 
 	/* TESTS */
-	Med * testMed = new Med("PROCRASTINATION 1000KG");
-	Med * newTestMed = new Med("JPEUT_PAS_BOUFFER_JE_TE_HAIS");
-	testMed->setImg("http://www.luvbat.com/uploads/kitten_in_a_box_1983471666.jpg");
-	newTestMed->setImg("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Middle_finger_BNC.jpg/250px-Middle_finger_BNC.jpg");
-	medHandler.addMed(testMed);
-	medHandler.addMed(newTestMed);
+	Med * testMed1 = new Med("Doliprane");
+	Med * testMed2 = new Med("Dafalgan");
+	Med * testMed3 = new Med("Corde+Tabouret");
+	testMed1->setImg("icon_medication1.png");
+	testMed2->setImg("icon_medication2.png");
+	testMed3->setImg("icon_medication3.png");
+	medHandler.addMed(testMed1);
+	medHandler.addMed(testMed2);
+	medHandler.addMed(testMed3);
 
 
 	
