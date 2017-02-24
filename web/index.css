@@ -47,8 +47,6 @@ h1
 
 .medecinZone
 {
-	float:left;
-	width: 74%;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -108,39 +106,41 @@ h1
 	margin-left: 50px;
 }
 
-.medocSeparator
-{
-	width: 7px;
-  height: 100%;
-	background-color: #303030;
-}
 
 .medocZone
 {
-	width: 23%;
+	float:right;
 	background-color: #fafafa;
-	height: 100%;
 	border: black 0px solid;
 	padding-bottom: 0px;
 	padding-right: 20px;
 	margin-top: 0px;
 	overflow: auto;
-	float: right;
 }
 
-.medocStyleTable
+.styleTable
 {
 	border-spacing: 0px;
+	height: 100%;
 }
 
-table.medocTable
+table.styleTable td{
+	vertical-align: top;
+}
+
+tr
+{
+	
+}
+
+.medocTable
 {
 	margin-left: 5px;
 }
 
 .addLeftSpacing
 {
-	padding-left: 20px;	
+	padding-left: 25px;	
 }
 
 .medocImg
@@ -154,6 +154,10 @@ table.medocTable
 	text-align:left;
 }
 
+.medocCount
+{
+	font-size: 30px
+}
 
 .titreHistorique
 {
@@ -164,10 +168,34 @@ table.medocTable
 {
 	background-color: #303030;
 	float:left;
-	width: 74%;
 }
 
 .historiqueTexte
 {
 	padding: 5px;
+}
+
+.rightScreenZone
+{
+	min-width: 350px;
+}
+
+
+
+.screenMiddleSeparator
+{
+  height: 100%;
+	padding-left: 5px;
+}
+
+.screenMiddleSeparatorLine
+{
+	width: 7px;
+  height: 100%;
+	background-color: #303030;
+}
+
+.leftScreenZone
+{
+	
 }

@@ -100,5 +100,16 @@
 		
 		return receiveData($socket); // on retourne la réponse sans traitement
 	}
-	
+
+	// TEST:fonction qui récupère le nombre d'un médicament
+	function getMedCount($socket, $id)
+	{
+		$cmd = sprintf("%s%d\n", "NombreMedicament", $id); //création de la demande avec le numéro demandé
+		sendData($socket, $cmd); //envoie de la demande
+
+		$answer = receiveData($socket); // reception de la réponse
+		list($thisMedCount) = sscanf($answer, "Nombre%d\n"); // analyse de la réponse
+
+		return $thisMedCount; // on retourne la réponse traitée
+	}	
 ?>
