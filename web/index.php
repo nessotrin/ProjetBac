@@ -107,7 +107,7 @@ Praesent in varius ex. Quisque magna lectus, mattis at eleifend eu, mattis eu ve
 					<h2 class="titreMedoc">Medicaments</h2>
 					<table class="medocTable" >
 						<?php 
-						for ($idMed = 0 ; $idMed < $medCount ; $idMed++)
+						for ($idMed = 0 ; $idMed < $medsCount ; $idMed++)
 						{
 							echo "<tr>";
 								echo "<td>";
@@ -117,7 +117,7 @@ Praesent in varius ex. Quisque magna lectus, mattis at eleifend eu, mattis eu ve
 								echo "</td>";
 								echo "<td class=\"addLeftSpacing\">";
 									echo "<div class=\"medocNom\">";
-										echo $medNames[$idMed]; 
+										echo $medsName[$idMed]; 
 									echo "</div>";
 								echo "<td class=\"addLeftSpacing\">";
 									echo "<div class=\"medocCount\">";

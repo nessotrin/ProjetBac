@@ -1,8 +1,8 @@
 <?php
 
 
-	$medCount = 0; // nombre de medicaments
-	$medNames = array(); // tableau des noms de médicaments
+	$medsCount = 0; // nombre de medicaments
+	$medsName = array(); // tableau des noms de médicaments
 	$peopleCount = 0; // nombre de personnes
 	$peopleNames = array(); // tableau des noms des personnes
 
@@ -70,22 +70,22 @@
 	{
 //		echo "DEBUG: </br>";
 		
-		global $medCount; // pour les appels hors de database.php
-		global $medNames; // pour les appels hors de database.php
+		global $medsCount; // pour les appels hors de database.php
+		global $medsName; // pour les appels hors de database.php
 
 		$cmd = "ListerMedicaments\n";
 		sendData($socket, $cmd); // envoie de la demande
 		
 		
 		$answer = receiveData($socket); // reception de la réponse
-		list($medCount) = sscanf($answer, "Nombre%d\n"); // analyse de la réponse
+		list($medsCount) = sscanf($answer, "Nombre%d\n"); // analyse de la réponse
 //		echo  "Nombre de médicaments: " . $medCount . "</br></br>" . "Noms des médicaments:" . "</br>";
 
 		
 		
-		for($medId = 0 ; $medId < $medCount ; $medId++) // pour chaque médicament
+		for($medId = 0 ; $medId < $medsCount ; $medId++) // pour chaque médicament
 		{
-			$medNames[] = receiveData($socket); // réception de la réponse
+			$medsName[] = receiveData($socket); // réception de la réponse
 //			echo  "\"" . $medNames[$medId] . "\"</br>";
 		}
 		
