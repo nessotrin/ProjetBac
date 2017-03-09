@@ -16,6 +16,7 @@ public:
 	void sendMedInfo(Client * client, int id);
 	void sendMedCount(Client * client, int id);
 	void sendMedImg(Client * client, int id);
+	void handleRequest(char * request, Client * client);
 
 private:
 	MedHandler * medHandler;

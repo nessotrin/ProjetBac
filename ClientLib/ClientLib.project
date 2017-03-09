@@ -93,7 +93,6 @@
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="ConnectionHandler.h"/>
-    <File Name="ConnectionHandler.cpp"/>
     <File Name="ConnectionServeur.cpp"/>
     <File Name="ModuleInfo.h"/>
     <File Name="IOHelper.h"/>
@@ -101,5 +100,6 @@
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="ConnectionServeur.h"/>
+    <File Name="ConnectionHandler.cpp"/>
   </VirtualDirectory>
 </CodeLite_Project>

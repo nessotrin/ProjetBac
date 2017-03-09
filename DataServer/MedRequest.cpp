@@ -6,6 +6,7 @@
 
 
 #include <cstdio>
+#include <cstring>
 
 MedRequest::MedRequest(MedHandler * newMedHandler)
 {
@@ -119,4 +120,48 @@ void MedRequest::sendMedCount(Client * client, int id)
 		return;
 	}
 
+}
+
+
+void MedRequest::handleRequest(char * request, Client * client)
+{
+		/* Comparaisons */
+	
+	if(strlen(request) >= 16 && memcmp(request, "ListerMedicaments", 17) == 0)
+	{
+		/* On envoie la liste des médicaments */
+		sendMedList(client);
+	}
+	else if(strlen(request) >= 13 && memcmp(request, "ImgMedicament", 13) == 0)
+	{
+		/* On récupère le numéro dans la requête*/
+		int id;
+		sscanf(request,"ImgMedicament%d\n",&id);
+		
+		/* On envoie l'image demandée*/
+		sendMedImg(client,id);
+	}
+	else if(strlen(request) >= 13 && memcmp(request, "NombreMedicament", 16) == 0)
+	{
+		/* On récupère le numéro dans la requête*/
+		int id;
+		sscanf(request,"NombreMedicament%d\n",&id);
+		
+		/* On envoie l'image demandée*/
+		sendMedCount(client,id);
+	}
+	else if(strlen(request) >= 15 && memcmp(request, "InfoMedicaments", 15) == 0)
+	{
+		/* On récupère le numéro dans la requête */		
+		int id;
+		sscanf(request,"InfoMedicaments<%d\n",&id);
+		
+		/* On envoie les info sur le médicament */
+		sendMedInfo(client,id);
+	}
+	else
+	{
+		Logger::log("Unknow request !!!\n");
+		/* Échec */
+	}
 }

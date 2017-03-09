@@ -11,9 +11,9 @@ Class request handler qui gère toutes les requêtes qui arrivent et les redistr
 class RequestHandler
 {
 public:
-	RequestHandler(LoginHandler * newLoginHandler, MedRequest * newMedRequest);
+	RequestHandler(MedRequest * newMedRequest);
 	
-	bool handleRequest(Client * client);
+	bool triageRequest(Client * client);
 private:
 
 	LoginHandler * loginHandler;

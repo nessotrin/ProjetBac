@@ -35,6 +35,8 @@
     <File Name="HumanHandler.cpp"/>
     <File Name="Logger.h"/>
     <File Name="Logger.cpp"/>
+    <File Name="RequestMap.h"/>
+    <File Name="RequestMap.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

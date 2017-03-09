@@ -95,7 +95,7 @@ void Server::handleClients()
 		{
 			Logger::log("Socket triggered\n");
 			/* Gestion de la requête */
-			if(requestHandler->handleRequest(client)) /* Vérification de l'échec*/
+			if(requestHandler->triageRequest(client)) /* Vérification de l'échec*/
 			{
 				Logger::log("Socket handling failed\n");
 				/* On déconnecte le client */
@@ -147,6 +147,7 @@ On initialise le serveur en créant le socket de récepetion, en le paramétrant
 ***/
 bool Server::setup()
 {
+	retry:
 	
 	/* Création de la variable des paramètres et du socket internet */
 	struct sockaddr_in serverAddr;
@@ -163,7 +164,6 @@ bool Server::setup()
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 	serverAddr.sin_port = htons(port);
 
-	retry:
 
 	Logger::log("Binding port ...\n");
 
@@ -171,7 +171,7 @@ bool Server::setup()
 	if (bind(serverSocket, (struct sockaddr *) &serverAddr, sizeof(serverAddr)) < 0) /* Vérification d'échec */
 	{
 		Logger::log("ERROR Couldn't bind port !\nIs or was a server already running ?\n");
-		sleep(5000);
+		sleep(5);
 		goto retry;
 		/* Abandon */
 		return true;

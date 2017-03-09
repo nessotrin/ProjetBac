@@ -16,9 +16,12 @@
 
 #include <time.h>
 
+#include "RequestMap.h"
+
 /* Fonction d'entrée du serveur */
 int main(int argc, char **argv)
 {
+	RequestMap::initRequestMap();
 	Logger::initLogger();
 	Logger::initFile("log.txt");
 	
@@ -34,7 +37,7 @@ int main(int argc, char **argv)
 	MedRequest medRequest(&medHandler);
 
 	/* Création du gestionnaire de reqûete global */
-	RequestHandler requestHandler(&loginHandler,&medRequest);
+	RequestHandler requestHandler(&medRequest);
 
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
