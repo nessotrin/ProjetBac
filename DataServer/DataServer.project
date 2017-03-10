@@ -37,6 +37,8 @@
     <File Name="Logger.cpp"/>
     <File Name="RequestMap.h"/>
     <File Name="RequestMap.cpp"/>
+    <File Name="RequestHelper.h"/>
+    <File Name="RequestHelper.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

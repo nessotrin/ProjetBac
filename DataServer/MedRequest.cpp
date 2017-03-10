@@ -4,6 +4,8 @@
 
 #include "Logger.h"
 
+#include "RequestHelper.h"
+
 
 #include <cstdio>
 #include <cstring>
@@ -15,16 +17,37 @@ MedRequest::MedRequest(MedHandler * newMedHandler)
 
 
 /***
+Envoie le nom de l'img du médicament au numéro donné
+***/
+void MedRequest::sendMedUnitWeigth(Client * client, int id)
+{
+	/* Création du buffer de communication */
+	char buffer[1024];
+
+	/* Récupération du médicament demandé */
+	Med * selectedMed = medHandler->getMed(id);
+	
+	/* Envoi du nom (comme défini par le protocol) */
+	sprintf(buffer,"PoidUnitaire%d\n",selectedMed->getUnitWeigth());
+	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
+	{
+		/* Abandon */
+		return;
+	}
+
+}
+
+
+/***
 Envoie la liste complète des médicaments et leurs info
 ***/
-void MedRequest::sendMedList(Client * client)
+void MedRequest::sendMedImg(Client * client, int id)
 {
-	Logger::log("Medlist asked ... \n");
 	/* Création du buffer de communication */
 	char buffer[1024];
 	
 	/* Création et envoie d'un message donnant le nombre total de médicaments */
-	sprintf(buffer, "Nombre%d\n",medHandler->getMedCount());
+	sprintf(buffer, "%s\n",medHandler->getMedCount());
 	if(IOHelper::sendRequest(client->getSocket(),buffer)) /* Vérification échec */
 	{
 		/* Abandon */
@@ -32,29 +55,16 @@ void MedRequest::sendMedList(Client * client)
 	}
 	
 	Logger::log("Medcount sent !\n");
-	
-	Med * med;
-	/* Boucle sur les médicaments */
-	while(medHandler->iterateOnMeds(&med))
-	{
-		/* Création et envoie d'un message contenant le nom du médicament */
-		sprintf(buffer, "%s\n",med->getName());
-		if(IOHelper::sendRequest(client->getSocket(),buffer)) /* Vérification échec */
-		{
-			/* Abandon */
-			return;
-		}
-	}
-
 }
 
 
 /***
-Envoie les infos sur le médicament au numéro donné
+Envoie le nom de l'img du médicament au numéro donné
 ***/
-void MedRequest::sendMedInfo(Client * client, int id)
+void MedRequest::sendMedName(Client * client, int id)
 {
-	Logger::log("Info asked on med %d... \n", id);
+	printf("Send med name\n");
+	
 	/* Création du buffer de communication */
 	char buffer[1024];
 
@@ -69,43 +79,13 @@ void MedRequest::sendMedInfo(Client * client, int id)
 		return;
 	}
 
-	/* Envoi du reste des infos (comme défini par le protocol) */
-	sprintf(buffer,"PoidBase%d Unite%d Compte%d Max%d Position%d\n",selectedMed->getBaseWeigth(),selectedMed->getUnitWeigth(),selectedMed->getCurrentCount(), selectedMed->getMaxCount(), selectedMed->getLocation());
-	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
-	{
-		/* Abandon */
-		return;
-	}
 }
 
 /***
 Envoie le nom de l'img du médicament au numéro donné
 ***/
-void MedRequest::sendMedImg(Client * client, int id)
-{
-	Logger::log("Img asked on med %d... \n", id);
-	/* Création du buffer de communication */
-	char buffer[1024];
-
-	/* Récupération du médicament demandé */
-	Med * selectedMed = medHandler->getMed(id);
-	
-	/* Envoi du nom (comme défini par le protocol) */
-	sprintf(buffer,"%s\n",selectedMed->getImg());
-	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
-	{
-		/* Abandon */
-		return;
-	}
-
-}
-
-/***
-Envoie le nombre de médicament du numéro donné
-***/
 void MedRequest::sendMedCount(Client * client, int id)
 {
-	Logger::log("Count asked on med %d... \n", id);
 	/* Création du buffer de communication */
 	char buffer[1024];
 
@@ -123,42 +103,79 @@ void MedRequest::sendMedCount(Client * client, int id)
 }
 
 
+/***
+Envoie le nombre de médicament du numéro donné
+***/
+void MedRequest::sendMedListSize(Client * client)
+{
+	/* Création du buffer de communication */
+	char buffer[1024];
+
+	/* Envoi du nom (comme défini par le protocol) */
+	sprintf(buffer,"Nombre%d\n",medHandler->getMedCount());
+	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
+	{
+		/* Abandon */
+		return;
+	}
+
+}
+
+
+/***
+Envoie le nombre de médicament du numéro donné
+***/
+void MedRequest::sendMedId(Client * client, int id)
+{
+	Logger::log("Count asked on med %d... \n", id);
+	/* Création du buffer de communication */
+	char buffer[1024];
+
+	/* Récupération du médicament demandé */
+	Med * selectedMed = medHandler->getMed(id);
+	
+	/* Envoi du nom (comme défini par le protocol) */
+//	sprintf(buffer,"Id%d\n",selectedMed->getMedId); TODO
+	if(IOHelper::sendRequest(client->getSocket(),buffer)) 
+	{
+		/* Abandon */
+		return;
+	}
+
+}
+
+
+
 void MedRequest::handleRequest(char * request, Client * client)
 {
 		/* Comparaisons */
 	
-	if(strlen(request) >= 16 && memcmp(request, "ListerMedicaments", 17) == 0)
+	printf("handleRequest with MEDHANDLER\n");
+	
+	if(strlen(request) >= 23 && memcmp(request, "RecupPoidsUnitaireMedoc", 23) == 0)
 	{
-		/* On envoie la liste des médicaments */
-		sendMedList(client);
+		sendMedUnitWeigth(client, RequestHelper::getOneIntArg(request,23));
 	}
-	else if(strlen(request) >= 13 && memcmp(request, "ImgMedicament", 13) == 0)
+	else if(strlen(request) >= 15 && memcmp(request, "RecupImageMedoc", 15) == 0)
 	{
-		/* On récupère le numéro dans la requête*/
-		int id;
-		sscanf(request,"ImgMedicament%d\n",&id);
-		
-		/* On envoie l'image demandée*/
-		sendMedImg(client,id);
+		sendMedImg(client, RequestHelper::getOneIntArg(request,15));
 	}
-	else if(strlen(request) >= 13 && memcmp(request, "NombreMedicament", 16) == 0)
+	else if(strlen(request) >= 13 && memcmp(request, "RecupNomMedoc", 13) == 0)
 	{
-		/* On récupère le numéro dans la requête*/
-		int id;
-		sscanf(request,"NombreMedicament%d\n",&id);
-		
-		/* On envoie l'image demandée*/
-		sendMedCount(client,id);
+		sendMedName(client, RequestHelper::getOneIntArg(request,13));
 	}
-	else if(strlen(request) >= 15 && memcmp(request, "InfoMedicaments", 15) == 0)
+	else if(strlen(request) >= 16 && memcmp(request, "RecupNombreMedoc", 16) == 0)
 	{
-		/* On récupère le numéro dans la requête */		
-		int id;
-		sscanf(request,"InfoMedicaments<%d\n",&id);
-		
-		/* On envoie les info sur le médicament */
-		sendMedInfo(client,id);
+		sendMedCount(client, RequestHelper::getOneIntArg(request,16));
 	}
+	else if(strlen(request) >= 21 && memcmp(request, "RecupTailleListeMedoc", 21) == 0)
+	{
+		sendMedListSize(client);
+	}
+	else if(strlen(request) >= 12 && memcmp(request, "RecupIdMedoc", 12) == 0)
+	{
+		sendMedId(client, RequestHelper::getOneIntArg(request,12));
+	}	
 	else
 	{
 		Logger::log("Unknow request !!!\n");

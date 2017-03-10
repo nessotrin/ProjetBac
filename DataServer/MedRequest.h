@@ -12,10 +12,12 @@ class MedRequest
 {
 public:
 	MedRequest(MedHandler * newMedHandler);
-	void sendMedList(Client * client);
-	void sendMedInfo(Client * client, int id);
-	void sendMedCount(Client * client, int id);
+	void sendMedUnitWeigth(Client * client, int id);
 	void sendMedImg(Client * client, int id);
+	void sendMedName(Client * client, int id);
+	void sendMedCount(Client * client, int id);
+	void sendMedListSize(Client * client);
+	void sendMedId(Client * client, int id);
 	void handleRequest(char * request, Client * client);
 
 private:

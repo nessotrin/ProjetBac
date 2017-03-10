@@ -11,6 +11,7 @@ RequestHandler::RequestHandler(MedRequest * newMedRequest)
 	medRequest = newMedRequest;
 }
 
+
 /***
 Reçoit une requête directement du client, l'analyse et le distribue au bon handler
 ***/

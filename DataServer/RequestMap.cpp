@@ -23,7 +23,7 @@ class Request
 
 
 
-#define REQUEST_MAP_SIZE 24
+#define REQUEST_MAP_SIZE 25
 
 Request requestList[REQUEST_MAP_SIZE] = 
 {
@@ -32,8 +32,9 @@ Request requestList[REQUEST_MAP_SIZE] =
 	{"RecupIdAutorisesMedecin",17,Aucun,MED_HANDLER},
 	{"RecupPoidsUnitaireMedoc",13,Aucun,MED_HANDLER},
 	{"RecupImageMedoc",16,Aucun,MED_HANDLER},
-	{"RecupNomMedoc",15,Aucun,MED_HANDLER},
+	{"RecupNomMedoc",13,Aucun,MED_HANDLER},
 	{"RecupNombreMedoc",15,Aucun,MED_HANDLER},	
+	{"RecupTailleListeMedoc",15,Aucun,MED_HANDLER},	
 	{"RecupIdMedoc",17,Aucun,MED_HANDLER},
 	{"RecupDateMedoc",13,Aucun,MED_HANDLER},
 	{"RecupEtatPorte",16,Aucun,MED_HANDLER},
