@@ -52,6 +52,7 @@ Request requestList[REQUEST_MAP_SIZE] =
 	{"DeclencherAlarme",15,Alarme,MED_HANDLER},
 	{"AllumerLumieresAlarme",15,Leds,MED_HANDLER},
 	{"EnvoyerMailAlarme",15,AlarmeMail,MED_HANDLER},
+	{"VerifierIdCarte",15,VerrouPorte,MED_HANDLER},
 };
 
 void RequestMap::initRequestMap()

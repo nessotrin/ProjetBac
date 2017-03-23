@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Workspace Name="ProjetBac" Database="">
-  <Project Name="DataServer" Path="DataServer/DataServer.project" Active="Yes"/>
+<CodeLite_Workspace Name="ProjetBac" Database="" Version="10.0.0">
+  <Project Name="DataServer" Path="DataServer/DataServer.project" Active="No"/>
   <Project Name="ClientLib" Path="ClientLib/ClientLib.project" Active="No"/>
-  <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="No"/>
+  <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="Yes"/>
+  <Project Name="MagnetController" Path="MagnetController/MagnetController.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="DataServer" ConfigName="Debug"/>
       <Project Name="ClientLib" ConfigName="Debug"/>
       <Project Name="UserInterface" ConfigName="Debug"/>
+      <Project Name="MagnetController" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="DataServer" ConfigName="Release"/>
       <Project Name="ClientLib" ConfigName="Release"/>
       <Project Name="UserInterface" ConfigName="Release"/>
+      <Project Name="MagnetController" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
