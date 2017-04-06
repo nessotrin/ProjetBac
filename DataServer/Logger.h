@@ -2,6 +2,8 @@
 #define _LOGGER_H_
 
 #include <stdio.h>
+#include <stdarg.h>
+
 
 class Logger
 {

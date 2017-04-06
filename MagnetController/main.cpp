@@ -1,4 +1,10 @@
 #include <stdio.h>
+#include <cstring>
+#include <cstdlib>
+
+
+#include <ConnectionServeur.h>
+
 
 void changerEtatAimant(bool statusPin)
 {
@@ -7,7 +13,7 @@ void changerEtatAimant(bool statusPin)
 
 int main(int argc, char **argv)
 {
-	printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",VerrouPorte,0,0,1,true));
+	printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Verrou,0,0,1,true));
 	
 	while(1)
 	{
@@ -20,8 +26,8 @@ int main(int argc, char **argv)
 				ConnectionServeur::envoyer("RecupEtatPorte");
 				char * reponse = ConnectionServeur::recevoir();
 				bool porteFerme = true;
-				while()
-				if(strlen(message) >= 16 && memcmp(message,"OuvrirPorte",16) == 0)
+				//while()
+				//if(strlen(message) >= 16 && memcmp(message,"OuvrirPorte",16) == 0)
 			}
 			else if(strlen(message) >= 16 && memcmp(message,"FermerPorte",16) == 0)
 			{

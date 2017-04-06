@@ -23,7 +23,7 @@ class Request
 
 
 
-#define REQUEST_MAP_SIZE 25
+#define REQUEST_MAP_SIZE 26
 
 Request requestList[REQUEST_MAP_SIZE] = 
 {
