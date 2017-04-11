@@ -13,7 +13,8 @@ MedHandler::MedHandler()
 	/* Initialise les valeurs à 0 */
 	medList = NULL;
 	medCount = 0;
-	iteratorCounter = 0;}
+	iteratorCounter = 0;
+}
 
 /***
 Retourne le nombre de médicaments dans la base de données

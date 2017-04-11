@@ -5,7 +5,7 @@
   <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="Yes"/>
   <Project Name="MagnetController" Path="MagnetController/MagnetController.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="DataServer" ConfigName="Debug"/>
       <Project Name="ClientLib" ConfigName="Debug"/>

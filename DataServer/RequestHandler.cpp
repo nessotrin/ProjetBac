@@ -6,9 +6,10 @@
 
 #include <stdio.h>
 
-RequestHandler::RequestHandler(MedRequest * newMedRequest)
+RequestHandler::RequestHandler(MedRequest * newMedRequest, HumanRequest * newHumanRequest)
 {
 	medRequest = newMedRequest;
+	humanRequest = newHumanRequest;
 }
 
 
@@ -35,13 +36,16 @@ bool RequestHandler::triageRequest(Client * client)
 		//TODO: write broadcast
 	}
 	
-	switch(RequestMap::getDesignatedHandler(request))
+	switch(RequestMap::getDesignatedRequestHandler(request))
 	{
-		case MED_HANDLER:
+		case MED_REQUEST:
 			medRequest->handleRequest(request, client);
 		break;
+		case HUMAN_REQUEST:
+			humanRequest->handleRequest(request, client);
+		break;
 		default:
-			printf("NO HANDLER FOR REQUEST ! %d\n",RequestMap::getDesignatedHandler(request));
+			printf("NO HANDLER FOR REQUEST ! %d\n",RequestMap::getDesignatedRequestHandler(request));
 	}
 	
 	

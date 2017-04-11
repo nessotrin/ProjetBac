@@ -1,10 +1,14 @@
 #ifndef _REQUEST_MAP_H_
 #define _REQUEST_MAP_H_
 
-enum handlerList
+enum requestHandlerList
 {
-	NO_HANDLER = -1,
-	MED_HANDLER = 0,
+	NO_REQUEST = -1,
+	MED_REQUEST = 0,
+	HUMAN_REQUEST,
+	DOOR_REQUEST,
+	LED_REQUEST,
+	SENSOR_REQUEST,
 };
 
 enum
@@ -29,7 +33,7 @@ class RequestMap
 public:
 	static void initRequestMap();
 	static int getBroadcastTo(char * request);
-	static int getDesignatedHandler(char * request);
+	static int getDesignatedRequestHandler(char * request);
 
 };
 

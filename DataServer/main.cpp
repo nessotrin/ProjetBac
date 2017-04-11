@@ -31,13 +31,15 @@ int main(int argc, char **argv)
 	
 	/* Création des gestionnaires de médicament et de clients*/
 	MedHandler medHandler; 
+	HumanHandler humanHandler; 
 	LoginHandler loginHandler;
 	
 	/* Création du gestionnarie de requête de médicament */
 	MedRequest medRequest(&medHandler);
+	HumanRequest humanRequest(&humanHandler);
 
 	/* Création du gestionnaire de reqûete global */
-	RequestHandler requestHandler(&medRequest);
+	RequestHandler requestHandler(&medRequest, &humanRequest);
 
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);

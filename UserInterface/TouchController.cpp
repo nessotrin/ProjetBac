@@ -1,23 +1,48 @@
-#include "touchController.h"
+#include "TouchController.h"
 
+
+float fmin(float A, float B)
+{
+	if(A < B)
+	{
+		return A;
+	}
+	else
+	{
+		return B;
+	}
+}
+
+float fmax(float A, float B)
+{
+	if(A > B)
+	{
+		return A;
+	}
+	else
+	{
+		return B;
+	}
+}
 
 float interpolate(int A, int B, float factor)
 {
-	return min(a,b)  +   ( max(a,b) - min(a,b) ) * factor;
+	return fmin(A,A)  +   ( fmax(A,A) - fmin(A,A) ) * factor;
 }
 
-ScreenPos TouchController::getCursorPos()
+Pos TouchController::getCursorPos()
 {
-		ScreenPos pos;
-		pos.x = computeRealPos(X, getTension(X));
-		pos.x = computeRealPos(Y, getTension(Y));
+	Pos pos;
+	pos.x = computeRealPos(X, getTension(X));
+	pos.x = computeRealPos(Y, getTension(Y));
+	return pos;
 }
 
 
-void TouchController::setCalibrationData(touchCorners corner)
+void TouchController::setCalibrationData(TOUCH_CORNER corner)
 {
-	calibrationPoints[corner, X] = getTension(X);
-	calibrationPoints[corner, Y] = getTension(Y);
+	calibrationPoints[X][corner] = getTension(X);
+	calibrationPoints[Y][corner] = getTension(Y);
 }
 
 
@@ -30,7 +55,7 @@ int TouchController::computeRealPos(AXIS axis, int value)
 {
 	Boundaries boundaries = computeAxisLimit(axis,0.5); //0.5 -> half of screen, a correct approximation
 
-	float pos = (value-boundaries.lowLimit)/(boundaries.maxLimit-boundaries.lowLimit);
+	float pos = (value-boundaries.lowLimit)/(boundaries.highLimit-boundaries.lowLimit);
 
 	if(axis == X)
 	{
@@ -43,7 +68,7 @@ int TouchController::computeRealPos(AXIS axis, int value)
 
 }
 
-Boundaries TouchController::computeAxisLimit(AXIS axis, float opositeAxisPos)
+Boundaries TouchController::computeAxisLimit(AXIS axis, float oppositeAxisPos)
 {
 	Boundaries boundaries;
 	if(axis == X)

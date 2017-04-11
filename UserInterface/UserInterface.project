@@ -9,8 +9,37 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
-    <File Name="touchController.h"/>
-    <File Name="touchController.cpp"/>
+    <File Name="OpenGLHolder.h"/>
+    <File Name="OpenGLHolder.cpp"/>
+    <File Name="Compositor.h"/>
+    <File Name="Compositor.cpp"/>
+    <File Name="Renderable.h"/>
+    <File Name="Surface.h"/>
+    <File Name="Surface.cpp"/>
+    <File Name="Button.h"/>
+    <File Name="Button.cpp"/>
+    <File Name="Interactable.h"/>
+    <File Name="Interactable.cpp"/>
+    <File Name="UIHelper.h"/>
+    <File Name="TextureHelper.h"/>
+    <File Name="TextureHelper.cpp"/>
+    <File Name="GLHelper.h"/>
+    <File Name="GLHelper.cpp"/>
+    <File Name="Texture.h"/>
+    <File Name="Texture.cpp"/>
+    <File Name="Callbackable.h"/>
+    <File Name="InputMaster.h"/>
+    <File Name="InputMaster.cpp"/>
+    <File Name="TouchController.cpp"/>
+    <File Name="TouchController.h"/>
+    <File Name="MenuWorker.h"/>
+    <File Name="MenuWorker.cpp"/>
+    <File Name="MainMenu.h"/>
+    <File Name="MainMenu.cpp"/>
+    <File Name="Menu.h"/>
+    <File Name="Menu.cpp"/>
+    <File Name="BMPLoader.h"/>
+    <File Name="BMPLoader.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -29,9 +58,11 @@
       <Linker Options="" Required="yes">
         <LibraryPath Value="../ClientLib/Debug/"/>
         <Library Value="libClientLib.a"/>
+        <Library Value="libSDL2"/>
+        <Library Value="libGL"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./Debug/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>

@@ -23,36 +23,34 @@ class Request
 
 
 
-#define REQUEST_MAP_SIZE 26
+#define REQUEST_MAP_SIZE 24
 
 Request requestList[REQUEST_MAP_SIZE] = 
 {
-	{"RecupIdMedecin",17,Aucun,MED_HANDLER},
-	{"RecupNomMedecin",17,Aucun,MED_HANDLER},
-	{"RecupIdAutorisesMedecin",17,Aucun,MED_HANDLER},
-	{"RecupPoidsUnitaireMedoc",13,Aucun,MED_HANDLER},
-	{"RecupImageMedoc",16,Aucun,MED_HANDLER},
-	{"RecupNomMedoc",13,Aucun,MED_HANDLER},
-	{"RecupNombreMedoc",15,Aucun,MED_HANDLER},	
-	{"RecupTailleListeMedoc",15,Aucun,MED_HANDLER},	
-	{"RecupIdMedoc",17,Aucun,MED_HANDLER},
-	{"RecupDateMedoc",13,Aucun,MED_HANDLER},
-	{"RecupEtatPorte",16,Aucun,MED_HANDLER},
-	{"OuvrirPorte",16,VerrouPorte,MED_HANDLER},
-	{"FermerPorte",16,VerrouPorte,MED_HANDLER},
-	{"LEDOn",15,Leds,MED_HANDLER},
-	{"LEDOff",17,Leds,MED_HANDLER},
-	{"CapteurOn",13,Capteurs,MED_HANDLER},
-	{"CapteurOff",16,Capteurs,MED_HANDLER},
-	{"ChangerPoidsUnitaireMedoc",15,Capteurs,MED_HANDLER},
-	{"ChangerNombreMedoc",17,Capteurs,MED_HANDLER},
-	{"EnvoieCarteId",13,NFC,MED_HANDLER},
-	{"EnvoieNombreMedocDeclare",16,Capteurs,MED_HANDLER},
-	{"EnvoieNombreMedocReel",15,Aucun,MED_HANDLER},
-	{"DeclencherAlarme",15,Alarme,MED_HANDLER},
-	{"AllumerLumieresAlarme",15,Leds,MED_HANDLER},
-	{"EnvoyerMailAlarme",15,AlarmeMail,MED_HANDLER},
-	{"VerifierIdCarte",15,VerrouPorte,MED_HANDLER},
+	{"RecupNomMedecin",15,Aucun,HUMAN_REQUEST}, //OK
+	{"RecupIdAutorisesMedecin",23,Aucun,HUMAN_REQUEST}, //50%
+	{"RecupPoidsUnitaireMedoc",13,Aucun,MED_REQUEST}, //OK
+	{"RecupImageMedoc",16,Aucun,MED_REQUEST}, //50%
+	{"RecupNomMedoc",13,Aucun,MED_REQUEST}, //OK
+	{"RecupNombreMedoc",15,Aucun,MED_REQUEST}, //OK
+	{"RecupTailleListeMedoc",15,Aucun,MED_REQUEST}, //OK	
+	{"RecupIdMedoc",17,Aucun,MED_REQUEST}, //OK
+	{"RecupDateMedoc",13,Aucun,DOOR_REQUEST}, //OK
+	{"RecupEtatPorte",16,Aucun,DOOR_REQUEST}, //TRIAGING TO DO
+	{"OuvrirPorte",16,Aucun,DOOR_REQUEST},  //TRIAGING TO DO
+	{"FermerPorte",16,Aucun,DOOR_REQUEST}, //1%
+	{"LEDOn",15,Aucun,LED_REQUEST}, //move to client
+	{"LEDOff",17,Aucun,LED_REQUEST}, //move to client
+	{"CapteurOn",13,Capteurs,SENSOR_REQUEST}, 
+	{"CapteurOff",16,Capteurs,SENSOR_REQUEST},
+	{"ChangerPoidsUnitaireMedoc",15,Capteurs,MED_REQUEST},
+	{"ChangerNombreMedoc",17,Capteurs,MED_REQUEST},
+	{"ResultatCoherencePoid",21,Alarme,NO_REQUEST},
+	{"DeclencherAlarme",15,Alarme,NO_REQUEST},
+	{"AllumerLumieresAlarme",15,Leds,NO_REQUEST},
+	{"EnvoyerMailAlarme",15,AlarmeMail,NO_REQUEST},
+	{"VerifierIdCarte",15,Aucun,HUMAN_REQUEST},
+	{"MedecinConnecte",15,Ecran,NO_REQUEST},
 };
 
 void RequestMap::initRequestMap()
@@ -72,7 +70,7 @@ int RequestMap::getBroadcastTo(char * request)
 	return Aucun;
 }
 
-int RequestMap::getDesignatedHandler(char * request)
+int RequestMap::getDesignatedRequestHandler(char * request)
 {
 	for(int i = 0 ; i < REQUEST_MAP_SIZE ; i++)
 	{
@@ -83,7 +81,7 @@ int RequestMap::getDesignatedHandler(char * request)
 		}
 	}
 	
-	return NO_HANDLER;
+	return NO_REQUEST;
 }
 
 

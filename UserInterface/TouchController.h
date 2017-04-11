@@ -1,50 +1,50 @@
 #ifndef _TOUCH_CONTROLER_H_
 #define _TOUCH_CONTROLER_H_
 
+#include "UIHelper.h"
+
 /**
 TOP LEFT 0;0         BOTTOM RIGHT 1;1
 **/
-enum {
+enum TOUCH_CORNER {
 TOP_LEFT = 0,
 TOP_RIGHT,
 BOTTOM_LEFT,
 BOTTOM_RIGHT,	
-} TOUCH_CORNER;
+};
 
-struct{
-	int x;
-	int y;
-} ScreenPos;
-
-struct{
-	int lowLimit;
-	int highLimit;
-} Boundaries;
-
-enum{
+enum AXIS{
 	X = 0,
 	Y,
-} AXIS;
+};
+
+struct Boundaries{
+	int lowLimit;
+	int highLimit;
+};
+
 
 
 #define RESOLUTION_X 100
 #define RESOLUTION_Y 50
 
-class touchController
+class TouchController
 {
 public:
 	
-	ScreenPos getCursorPos();
+	Pos getCursorPos();
 
 
-	void setCalibrationData(touchCorners corner, int value);
+	void setCalibrationData(TOUCH_CORNER corner);
 
 private:
 
 	
-	int calibrationPoints[2][4];
+	int calibrationPoints[2][4] = { {    0, 4000,    0, 4000}, //X
+									{    0,    0, 4000, 4000}}; //Y
 	int getTension(AXIS axis);
 	int computeRealPos(AXIS axis, int value);
+	Boundaries computeAxisLimit(AXIS axis, float opositeAxisPos);
 
 };
 

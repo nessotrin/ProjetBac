@@ -7,6 +7,9 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "OpenGLHolder.h"
+#include "MenuWorker.h"
+
 /***
 Récupère la liste des medicaments à partir du serveur
 ***/
@@ -71,25 +74,26 @@ Medicament * recupererListeMedicament()
 /***
 Se connecte et lance l'interface
 ***/
+
+
 int main(int argc, char **argv)
 {
-    std::cout << "User interface TESTBED" << std::endl;
+    std::cout << "User interface" << std::endl;
+
+	OpenGLHolder openGLHolder;
+	openGLHolder.initGraphics();
 	
 	/* On initialise la connection au seveur et on écrit le résultat */
 	printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
 	
-	/* On récupère la liste des medicaments */
-	Medicament * listeMeds = recupererListeMedicament();
-	if(listeMeds == NULL)
-	{
-		return 1;
-	}
-
+	MenuWorker menuWorker(&openGLHolder);
+	menuWorker.work();
+	
 	/* On attends avant de fermer */
 	sleep(3);
 	
 	/* On se déconnecte du serveur */
 	ConnectionServeur::fermer();
-	
+		
     return 0;
 }
