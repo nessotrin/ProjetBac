@@ -7,17 +7,20 @@
 
 int RequestHelper::getOneIntArg(char * request, int requestCmdLength)
 {	
-	printf("HELPER---\n");
+	printf("HELPER--- \"%s\" searching at %d \n",request,requestCmdLength);
 	if(strlen(request) <= requestCmdLength)
 	{
 		Logger::log("NO ARG APPENDED ON : \"%s\" !!",request);
 		return 0;
 	}
 
-	printf("Has a value\n");
+	printf("Has a value, \"%s\"\n",request+requestCmdLength);
 
 	int value;	
-	sscanf("%d",request+requestCmdLength,&value);
+	if(sscanf(request+requestCmdLength,"%d\n",&value) == 0)
+	{
+		printf("VALUE IS NOT A NUMBER ??!!\n");
+	}
 
 	printf("Read the value %d\n",value);
 

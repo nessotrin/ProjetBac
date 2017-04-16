@@ -1,0 +1,238 @@
+body
+{
+   color:#000000
+   font-family: Arial, "Arial Black", "Times New Roman", Times, serif;
+   text-align: justify;
+	
+}
+
+#bloc_page
+{
+    width: 900px;
+    margin: auto;
+}
+
+section
+{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+article, aside
+{
+    text-align: justify;
+}
+
+article
+{
+    margin-right: 20px;
+    flex: 3;
+}
+
+aside
+{
+    flex: 1.2;
+    position: relative;
+    background-color: #706b64;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    font-size: 0.9em;
+}
+
+footer
+{
+    display: flex;
+    background:  url('images/ico_top.png') no-repeat top center, url('images/separateur.png') repeat-x top, url('images/ombre.png') repeat-x top;
+    padding-top: 25px;
+}
+
+footer p, footer ul
+{
+    font-size: 0.8em;
+}
+
+footer h1
+{
+    font-size: 1.1em;
+}
+
+
+.nomMedecin
+{
+	text-align :center;
+	color: #000;
+	font-size: 20px;
+	margin-top: -15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+h1
+{
+	text-align: center;
+	font-family: Arial;
+	font-size: 50px;
+}
+
+
+
+.titrePage
+{
+	background-color: #303030;
+}
+
+
+.titreMedecin
+{
+	color: #000;
+	font-size: 40px;
+	margin:0;
+}
+
+.medecinZone
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.medecinTable
+{
+	width: 100%;
+}
+
+.medecinBubble
+{
+	width: 150px;
+	height: 150px;
+	background-position:center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border-radius: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	overflow:hidden;
+}
+
+.medecinBubbleOverlay
+{
+	background-color:black;
+	width: 100%;
+	height: 100%;
+
+
+ 	opacity: 0;
+	transition: opacity, 1s;
+	overflow: hidden;
+}
+
+.medecinBubbleText
+{
+	text-align: center;
+	margin-top: 25px;
+}
+.medecinBubble:hover .medecinBubbleOverlay
+{
+ 	opacity: 1;
+}
+
+.medecinNom
+{
+	text-align: center;
+}
+
+.titreMedoc
+{
+	float: left;
+	color: #000;
+	font-size: 40px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 50px;
+}
+
+
+.medocZone
+{
+	float:right;
+	background-color: #fafafa;
+	border: black 0px solid;
+	padding-bottom: 0px;
+	padding-right: 20px;
+	margin-top: 0px;
+	overflow: auto;
+}
+
+.styleTable
+{
+	border-spacing: 0px;
+	height: 100%;
+}
+
+table.styleTable td{
+	vertical-align: top;
+}
+
+
+.medocTable
+{
+	margin-left: 5px;
+}
+
+.addLeftSpacing
+{
+	padding-left: 25px;	
+}
+
+.medocImg
+{
+	padding : 5px;
+	border : #E0E0E0 solid 2px;
+}
+
+.medocNom
+{
+	text-align:left;
+}
+
+.medocCount
+{
+	font-size: 30px
+}
+
+.titreHistorique
+{
+  padding: 10px;
+}
+
+.historiqueZone
+{
+	background-color: #303030;
+	float:left;
+}
+
+.historiqueTexte
+{
+	padding: 5px;
+}
+
+.rightScreenZone
+{
+	min-width: 350px;
+}
+
+
+
+.screenMiddleSeparator
+{
+  height: 100%;
+	padding-left: 5px;
+}
+
+.screenMiddleSeparatorLine
+{
+	width: 7px;
+  height: 100%;
+	background-color: #303030;
+}

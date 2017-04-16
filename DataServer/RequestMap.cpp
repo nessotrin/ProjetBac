@@ -27,30 +27,30 @@ class Request
 
 Request requestList[REQUEST_MAP_SIZE] = 
 {
-	{"RecupNomMedecin",15,Aucun,HUMAN_REQUEST}, //OK
-	{"RecupIdAutorisesMedecin",23,Aucun,HUMAN_REQUEST}, //50%
-	{"RecupPoidsUnitaireMedoc",13,Aucun,MED_REQUEST}, //OK
-	{"RecupImageMedoc",16,Aucun,MED_REQUEST}, //50%
-	{"RecupNomMedoc",13,Aucun,MED_REQUEST}, //OK
-	{"RecupNombreMedoc",15,Aucun,MED_REQUEST}, //OK
-	{"RecupTailleListeMedoc",15,Aucun,MED_REQUEST}, //OK	
-	{"RecupIdMedoc",17,Aucun,MED_REQUEST}, //OK
-	{"RecupDateMedoc",13,Aucun,DOOR_REQUEST}, //OK
-	{"RecupEtatPorte",16,Aucun,DOOR_REQUEST}, //TRIAGING TO DO
-	{"OuvrirPorte",16,Aucun,DOOR_REQUEST},  //TRIAGING TO DO
-	{"FermerPorte",16,Aucun,DOOR_REQUEST}, //1%
-	{"LEDOn",15,Aucun,LED_REQUEST}, //move to client
-	{"LEDOff",17,Aucun,LED_REQUEST}, //move to client
-	{"CapteurOn",13,Capteurs,SENSOR_REQUEST}, 
-	{"CapteurOff",16,Capteurs,SENSOR_REQUEST},
-	{"ChangerPoidsUnitaireMedoc",15,Capteurs,MED_REQUEST},
-	{"ChangerNombreMedoc",17,Capteurs,MED_REQUEST},
-	{"ResultatCoherencePoid",21,Alarme,NO_REQUEST},
-	{"DeclencherAlarme",15,Alarme,NO_REQUEST},
-	{"AllumerLumieresAlarme",15,Leds,NO_REQUEST},
-	{"EnvoyerMailAlarme",15,AlarmeMail,NO_REQUEST},
-	{"VerifierIdCarte",15,Aucun,HUMAN_REQUEST},
-	{"MedecinConnecte",15,Ecran,NO_REQUEST},
+	{"RecupNomMedecin",(int)strlen("RecupNomMedecin"),Aucun,HUMAN_REQUEST}, //OK
+	{"RecupIdAutorisesMedecin",(int)strlen("RecupIdAutorisesMedecin"),Aucun,HUMAN_REQUEST}, //50%
+	{"RecupPoidsUnitaireMedoc",(int)strlen("RecupPoidsUnitaireMedoc"),Aucun,MED_REQUEST}, //OK
+	{"RecupImageMedoc",(int)strlen("RecupImageMedoc"),Aucun,MED_REQUEST}, //50%
+	{"RecupNomMedoc",(int)strlen("RecupNomMedoc"),Aucun,MED_REQUEST}, //OK
+	{"RecupNombreMedoc",(int)strlen("RecupNombreMedoc"),Aucun,MED_REQUEST}, //OK
+	{"RecupTailleListeMedoc",(int)strlen("RecupTailleListeMedoc"),Aucun,MED_REQUEST}, //OK	
+	{"RecupIdMedoc",(int)strlen("RecupIdMedoc"),Aucun,MED_REQUEST}, //OK
+	{"RecupDateMedoc",(int)strlen("RecupDateMedoc"),Aucun,DOOR_REQUEST}, //OK
+	{"RecupEtatPorte",(int)strlen("RecupEtatPorte"),Aucun,DOOR_REQUEST}, //TRIAGING TO DO
+	{"OuvrirPorte",(int)strlen("OuvrirPorte"),Aucun,DOOR_REQUEST},  //TRIAGING TO DO
+	{"FermerPorte",(int)strlen("FermerPorte"),Aucun,DOOR_REQUEST}, //1%
+	{"LEDOn",(int)strlen("LEDOn"),Aucun,LED_REQUEST}, //move to client
+	{"LEDOff",(int)strlen("LEDOff"),Aucun,LED_REQUEST}, //move to client
+	{"CapteurOn",(int)strlen("CapteurOn"),Capteurs,SENSOR_REQUEST}, 
+	{"CapteurOff",(int)strlen("CapteurOff"),Capteurs,SENSOR_REQUEST},
+	{"ChangerPoidsUnitaireMedoc",(int)strlen("ChangerPoidsUnitaireMedoc"),Capteurs,MED_REQUEST},
+	{"ChangerNombreMedoc",(int)strlen("ChangerNombreMedoc"),Capteurs,MED_REQUEST},
+	{"ResultatCoherencePoid",(int)strlen("ResultatCoherencePoid"),Alarme,NO_REQUEST},
+	{"DeclencherAlarme",(int)strlen("DeclencherAlarme"),Alarme,NO_REQUEST},
+	{"AllumerLumieresAlarme",(int)strlen("AllumerLumieresAlarme"),Leds,NO_REQUEST},
+	{"EnvoyerMailAlarme",(int)strlen("EnvoyerMailAlarme"),AlarmeMail,NO_REQUEST},
+	{"VerifierIdCarte",(int)strlen("VerifierIdCarte"),Aucun,HUMAN_REQUEST},
+	{"MedecinConnecte",(int)strlen("MedecinConnecte"),Ecran,NO_REQUEST},
 };
 
 void RequestMap::initRequestMap()

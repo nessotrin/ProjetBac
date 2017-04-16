@@ -47,14 +47,14 @@ void MedRequest::sendMedImg(Client * client, int id)
 	char buffer[1024];
 	
 	/* Création et envoie d'un message donnant le nombre total de médicaments */
-	sprintf(buffer, "%s\n",medHandler->getMedCount());
+	sprintf(buffer, "%s\n",medHandler->getMed(id)->getImg());
 	if(IOHelper::sendRequest(client->getSocket(),buffer)) /* Vérification échec */
 	{
 		/* Abandon */
 		return; 
 	}
 	
-	Logger::log("Medcount sent !\n");
+	Logger::log("Med img sent !\n");
 }
 
 

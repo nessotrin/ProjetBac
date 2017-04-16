@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="ProjetBac" Database="" Version="10.0.0">
   <Project Name="DataServer" Path="DataServer/DataServer.project" Active="No"/>
-  <Project Name="ClientLib" Path="ClientLib/ClientLib.project" Active="No"/>
-  <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="Yes"/>
+  <Project Name="ClientLib" Path="ClientLib/ClientLib.project" Active="Yes"/>
+  <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="No"/>
   <Project Name="MagnetController" Path="MagnetController/MagnetController.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">

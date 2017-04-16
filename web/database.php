@@ -73,7 +73,7 @@
 		global $medsCount; // pour les appels hors de database.php
 		global $medsName; // pour les appels hors de database.php
 
-		$cmd = "ListerMedicaments\n";
+		$cmd = "RecupTailleListeMedoc\n";
 		sendData($socket, $cmd); // envoie de la demande
 		
 		
@@ -85,6 +85,7 @@
 		
 		for($medId = 0 ; $medId < $medsCount ; $medId++) // pour chaque médicament
 		{
+			sendData($socket, sprintf("RecupNomMedoc%d\n",$medId)); // envoie de la demande
 			$medsName[] = receiveData($socket); // réception de la réponse
 //			echo  "\"" . $medNames[$medId] . "\"</br>";
 		}
@@ -95,7 +96,7 @@
 	// TEST:fonction qui récupère l'image d'un médicament
 	function getMedImg($socket, $id)
 	{
-		$cmd = sprintf("%s%d\n", "ImgMedicament", $id); //création de la demande avec le numéro demandé
+		$cmd = sprintf("RecupImageMedoc%d\n", $id); //création de la demande avec le numéro demandé
 		sendData($socket, $cmd); //envoie de la demande
 		
 		return receiveData($socket); // on retourne la réponse sans traitement
@@ -104,7 +105,7 @@
 	// TEST:fonction qui récupère le nombre d'un médicament
 	function getMedCount($socket, $id)
 	{
-		$cmd = sprintf("%s%d\n", "NombreMedicament", $id); //création de la demande avec le numéro demandé
+		$cmd = sprintf("%s%d\n", "RecupNombreMedoc", $id); //création de la demande avec le numéro demandé
 		sendData($socket, $cmd); //envoie de la demande
 
 		$answer = receiveData($socket); // reception de la réponse
