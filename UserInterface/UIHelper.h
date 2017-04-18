@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cstdio>
 
+#include <cstdlib>
 
 class Pos
 {
@@ -19,6 +20,13 @@ public:
 		x = newX;
 		y = newY;
 	}
+	Pos& operator+(const Pos& otherPos)
+	{
+		x += otherPos.x;
+		y += otherPos.y;
+	}
+	
+	
 	
 	int x;
 	int y;

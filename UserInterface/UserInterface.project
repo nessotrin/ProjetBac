@@ -40,6 +40,8 @@
     <File Name="Menu.cpp"/>
     <File Name="BMPLoader.h"/>
     <File Name="BMPLoader.cpp"/>
+    <File Name="ScrollableTable.cpp"/>
+    <File Name="ScrollableTable.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

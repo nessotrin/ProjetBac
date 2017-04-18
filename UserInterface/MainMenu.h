@@ -6,6 +6,7 @@
 
 #include "Button.h"
 #include "Texture.h"
+#include "ScrollableTable.h"
 
 class MainMenu : public Menu, Callbackable
 {
@@ -25,6 +26,8 @@ private:
 
 	Button * mainButton;
 	Texture * mainButtonTexture;
+	ScrollableTable * scrollableTable;
+
 
 };
 

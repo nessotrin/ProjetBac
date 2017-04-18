@@ -5,14 +5,23 @@
 
 #include "UIHelper.h"
 
+
+enum InteractMode
+{
+	InteractClick = 0b01,
+	InteractSwipe = 0b10,
+	InteractAll   = 0b11, // 11 ->   le ET binaire réponds oui pour les deux modes précédents
+};
+
 class Interactable : public Renderable
 {
 public:
-	virtual void interact(Pos pos) = 0;
+	virtual void interact(Pos pos, InteractMode currentInteractMode) = 0;
 
 	Pos pos;
 	Size size;
-
+	
+	InteractMode allowedInteractMode;
 
 };
 

@@ -27,7 +27,7 @@ Button::Button(Callbackable * newCallbackObject, int newCallbackValue, Pos newPo
 	printf("Button init'ed ...\n");	
 }
 
-void Button::interact(Pos pos)
+void Button::interact(Pos pos, InteractMode currentInteractMode)
 {
 	callbackObject->callback(callbackValue);
 }

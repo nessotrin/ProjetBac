@@ -55,25 +55,31 @@ void MainMenu::work()
 	
 }
 
+
+
 void MainMenu::init()
 {
-	unsigned char rawTexture[36] =
-{255,255,255,255,     20, 20, 20,255,      20, 20, 20,255,
- 255,255,255,255,      0,  0,255,255,      20, 20, 20,255,
- 255,255,255,255,      0,  0,255,255,      20, 20, 20,255,	
-};
+	unsigned char data[] = {50,50,255,255};
+	TextureData tex;
+	tex.buffer = data;
+	tex.size = Size(1,1);
+	
+	//TextureData testImg = BMPLoader::load("test.bmp");
 
-	TextureData testImg = BMPLoader::load("test.bmp");
-
-	mainButtonTexture = new Texture(testImg.buffer, testImg.size);
+	mainButtonTexture = new Texture(tex.buffer, tex.size);
 
 
 	mainButton = new Button(this,0,Pos(10,10),Size(50,50),mainButtonTexture,0);
+
 
 	compositor->addRenderable(mainButton);
 	inputMaster->addInteractable(mainButton);
 	
 	printf("Main menu init'ed\n");
+	
+	unsigned char color[] = {255,255,220,255};
+	
+	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,2,2,Size(50,50),Size(20,20),color);
 
 }
 

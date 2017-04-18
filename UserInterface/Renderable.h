@@ -6,7 +6,7 @@
 class Renderable
 {
 public:
-	virtual void render() = 0;
+	virtual void render(Pos pos) = 0;
 	unsigned char ZHeight;
 };
 

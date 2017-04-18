@@ -9,6 +9,7 @@
 
 #include <cstring>
 
+
 class InputMaster
 {
 public:
@@ -29,8 +30,16 @@ private:
 
 	bool checkBoundingBox(Interactable * interactable, Pos point);
 
-	void handleInput(Pos pos);
+	int searchInteractable(Pos pos, InteractMode interactMode);
 
+	void interact(Pos pos, InteractMode interactMode);
+
+	int computeDistance(Pos posA, Pos posB);
+
+	int continuousCount;
+	Pos continuousPos;
+	bool isSwipe;
+	bool isDone;
 };
 
 #endif // _INPUT_MASTER_H_

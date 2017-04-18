@@ -11,8 +11,8 @@ class Button : public Interactable
 {
 public:
 	Button(Callbackable * newCallbackObject, int newCallbackValue, Pos newPos , Size newSize, Texture * newTexture, unsigned char newZHeight);
-	void render();
-	void interact(Pos pos);
+	void render(Pos pos);
+	void interact(Pos pos, InteractMode currentInteractMode);
 	
 private:
 

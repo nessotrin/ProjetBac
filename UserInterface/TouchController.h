@@ -40,8 +40,7 @@ public:
 private:
 
 	
-	int calibrationPoints[2][4] = { {    0, 4000,    0, 4000}, //X
-									{    0,    0, 4000, 4000}}; //Y
+	int calibrationPoints[2][4];
 	int getTension(AXIS axis);
 	int computeRealPos(AXIS axis, int value);
 	Boundaries computeAxisLimit(AXIS axis, float opositeAxisPos);

@@ -39,6 +39,16 @@ void MenuWorker::work()
 		
 		openGLHolder->finishFrame();
 		
+		for(int i = 0 ; i < menuList.getCount() ; i++)
+		{
+			if(menuList.get(i)->isDone())
+			{
+				delete menuList.get(i);
+				menuList.remove(menuList.get(i));
+				i--;
+			}
+		}
+		
 		usleep(10000);
 	}
 
