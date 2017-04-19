@@ -38,6 +38,7 @@ public:
 	static bool initialisation(char * ip, int newType, int newVersionMajor, int newVersionMinor, int newVersionPatch, bool newIsDebug);
 	static bool envoyer(char * message);
 	static char * recevoir();
+	static bool verifRecevoirPret();
 	static void fermer();
 
 private:

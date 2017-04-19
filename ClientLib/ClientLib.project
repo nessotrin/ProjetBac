@@ -93,12 +93,10 @@
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="ConnectionHandler.h"/>
-    <File Name="ConnectionServeur.cpp"/>
     <File Name="ModuleInfo.h"/>
     <File Name="IOHelper.h"/>
     <File Name="IOHelper.cpp"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="include">
+    <File Name="ConnectionServeur.cpp"/>
     <File Name="ConnectionServeur.h"/>
     <File Name="ConnectionHandler.cpp"/>
   </VirtualDirectory>

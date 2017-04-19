@@ -13,6 +13,7 @@ public:
 	bool doLogin(ModuleInfo info);
 	void disconnect();
 	int getSocket();
+	bool checkForData();
 
 private:
 	int clientSocket;

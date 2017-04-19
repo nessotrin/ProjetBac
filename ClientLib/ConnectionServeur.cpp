@@ -56,6 +56,14 @@ char * ConnectionServeur::recevoir()
 }
 
 /***
+Vérifie si il y a un message prêt à être reçu
+***/
+bool ConnectionServeur::verifRecevoirPret()
+{
+	return connectionHandler.checkForData();
+}
+
+/***
 Ferme la connection au serveur à l'aide des fonctions avancées
 ***/
 void ConnectionServeur::fermer()

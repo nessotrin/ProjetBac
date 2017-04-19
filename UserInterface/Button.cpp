@@ -33,7 +33,7 @@ void Button::interact(Pos pos, InteractMode currentInteractMode)
 }
 
 
-void Button::render()
+void Button::render(Pos offset)
 {
 	angle++;
 	if(angle >= 360 || angle < 0)
@@ -55,8 +55,8 @@ void Button::render()
 
 	
 	
-	float translateX = ((pos.x+size.x/2)-(640/2))/(float)(640/2);
-	float translateY = -((pos.y+size.y/2)-(480/2))/(float)(480/2);
+	float translateX = ((pos.x+offset.x+size.x/2)-(640/2))/(float)(640/2);
+	float translateY = -((pos.y+offset.y+size.y/2)-(480/2))/(float)(480/2);
 
 	glTranslated(translateX,translateY,0);
 

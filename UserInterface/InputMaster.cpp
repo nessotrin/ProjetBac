@@ -79,7 +79,6 @@ void InputMaster::work()
 
 		continuousCount = 0;
 
-		printf("Not pressed continuous %d\n",continuousCount);
 	}	
 	
 	//printf("x %d y %d\n",x,y);

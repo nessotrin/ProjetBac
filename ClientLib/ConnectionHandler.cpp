@@ -5,7 +5,9 @@
 #include <cstring>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 /***
 Création d'un socket 'unix' et connection au serveur
@@ -38,6 +40,10 @@ bool ConnectionHandler::connectToIP(char * ip, int port)
 		return true;
 	}
 	
+
+	/* Met le socket en mode non bloquant */
+	fcntl(clientSocket, F_SETFL, fcntl(clientSocket, F_GETFL, 0) | O_NONBLOCK);
+	
 	printf("Sucessfully connected !\n");
 	
     return false;
@@ -59,8 +65,13 @@ bool ConnectionHandler::doLogin(ModuleInfo info)
 	buffer[12] = info.isDebug;
 	
 	/* Envoie le message dans le socket */
-	write(clientSocket,buffer,64);
-		printf("Loggin'ed ! \n");
+	if(write(clientSocket,buffer,64) != 64)
+	{
+		printf("Failed to sent login message !\n");
+		return true;
+	}
+	
+	printf("Loggin'ed ! \n");
 	return false;
 }
 
@@ -78,4 +89,11 @@ Coupe la connection et rend le socket à l'OS
 void ConnectionHandler::disconnect()
 {
 	close(clientSocket);
+}
+
+bool ConnectionHandler::checkForData()
+{
+	int count;
+	ioctl(clientSocket, FIONREAD, &count);
+	return (count > 0);
 }

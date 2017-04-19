@@ -16,7 +16,7 @@ void Compositor::render()
 		{
 			if(renderableList.get(i)->ZHeight == ZHeight)
 			{
-				renderableList.get(i)->render();
+				renderableList.get(i)->render(Pos(0,0));
 			}
 		}		
 	}
