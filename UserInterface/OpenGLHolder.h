@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 
+#define WINDOW_SIZE_X 640
+#define WINDOW_SIZE_Y 480
 
 class OpenGLHolder
 {

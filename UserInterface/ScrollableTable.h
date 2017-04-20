@@ -10,7 +10,7 @@ class ScrollableTable : public Menu, Interactable
 public:
 
 	ScrollableTable(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList,
-					int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, unsigned char newBackgroundColor[4]);
+					int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, unsigned char newBackgroundColor[4], int newZHeight, Pos newPos, Size newSize);
 	bool isDone();
 	void render(Pos pos);
 	
@@ -22,7 +22,7 @@ public:
 	
 	void work();
 	
-	void interact(Pos pos, InteractMode interactMode);
+	void interact(Pos pos, InteractMode interactMode, bool isRepeated);
 	
 
 private:
@@ -35,9 +35,6 @@ private:
 	int elementPerColumn;
 	Size elementSize;
 	Size elementMargin;
-	
-	Pos tablePos;
-	Size tableSize;
 
 	int scrollPos;
 	Pos lastInteractPos;

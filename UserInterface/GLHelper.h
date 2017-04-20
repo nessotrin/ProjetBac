@@ -10,8 +10,8 @@ class GLHelper
 {
 public:
 	static void CheckForErrors(char * text);
-	static void drawTexturedSquare(Pos pos, Size size, GLint texture);
-	static void drawColorSquare(Pos pos, Size size, unsigned char color[4]);
+	static void drawTexturedSquare(Pos pos, Size size, GLint texture, int angleX, int angleY, int angleZ);
+	static void drawColorSquare(Pos pos, Size size, unsigned char color[4], int angleX, int angleY, int angleZ);
 };
 
 #endif // _GL_HELPER_H_

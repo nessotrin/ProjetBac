@@ -40,6 +40,7 @@ void InputMaster::work()
 		{
 			if(continuousCount == 0)
 			{
+				isRepeated = false;
 				isSwipe = false;
 				continuousPos = Pos(x,y);
 			}
@@ -53,13 +54,15 @@ void InputMaster::work()
 				{
 					isDone = true;
 					printf("Click\n");
-					interact(continuousPos, InteractClick);
+					interact(continuousPos, InteractClick, isRepeated);
 				}
 			}
 			if(isSwipe == true)
 			{
 				printf("Swipe ! %d %d\n",x,y);
-				interact(Pos(x,y),InteractSwipe);
+				interact(Pos(x,y),InteractSwipe, isRepeated);
+				
+				isRepeated = true;//AFTER THE FIRST SWIPE
 			}
 		}
 		
@@ -74,7 +77,7 @@ void InputMaster::work()
 		if(!isDone && continuousCount > 0 && isSwipe == false)
 		{
 			printf("fast Click!\n");
-			interact(continuousPos, InteractClick);
+			interact(continuousPos, InteractClick, isRepeated);
 		}
 
 		continuousCount = 0;
@@ -108,6 +111,7 @@ int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 	
 	for(int i = 0 ; i < interactableList.getCount() ; i++)
 	{
+		printf("%d %d\n",interactableList.get(i)->pos.x,interactableList.get(i)->size.x);
 		if(checkBoundingBox(interactableList.get(i),pos) && (interactableList.get(i)->allowedInteractMode & interactMode) )
 		{
 			if(HighestZHeight == interactableList.get(i)->ZHeight)
@@ -135,14 +139,14 @@ int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 }
 
 
-void InputMaster::interact(Pos pos, InteractMode interactMode)
+void InputMaster::interact(Pos pos, InteractMode interactMode, bool isRepeated)
 {
-	int id = searchInteractable(pos, InteractSwipe);
+	int id = searchInteractable(pos, interactMode);
 	if(id >= 0)
 	{
 		interactableList.get(id)->interact(Pos(pos.x - interactableList.get(id)->pos.x,
 											   pos.y - interactableList.get(id)->pos.y),
-										   interactMode);
+										   interactMode, isRepeated);
 	}
 
 }

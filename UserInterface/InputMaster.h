@@ -32,7 +32,7 @@ private:
 
 	int searchInteractable(Pos pos, InteractMode interactMode);
 
-	void interact(Pos pos, InteractMode interactMode);
+	void interact(Pos pos, InteractMode interactMode, bool isRepeated);
 
 	int computeDistance(Pos posA, Pos posB);
 
@@ -40,6 +40,7 @@ private:
 	Pos continuousPos;
 	bool isSwipe;
 	bool isDone;
+	bool isRepeated;
 };
 
 #endif // _INPUT_MASTER_H_

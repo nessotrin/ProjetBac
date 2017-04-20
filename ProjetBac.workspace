@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="ProjetBac" Database="" Version="10.0.0">
-  <Project Name="DataServer" Path="DataServer/DataServer.project" Active="No"/>
+  <Project Name="DataServer" Path="DataServer/DataServer.project" Active="Yes"/>
   <Project Name="ClientLib" Path="ClientLib/ClientLib.project" Active="No"/>
   <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="No"/>
   <Project Name="MagnetController" Path="MagnetController/MagnetController.project" Active="No"/>
-  <Project Name="Sensors" Path="Sensors/Sensors.project" Active="Yes"/>
+  <Project Name="Sensors" Path="Sensors/Sensors.project" Active="No"/>
   <Project Name="BBBio_lib" Path="BBBio_lib/BBBio_lib.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">

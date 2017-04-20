@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 	/* On initialise la connection au seveur et on écrit le résultat */
 	printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
 	
-	recupererListeMedicament();
+	//recupererListeMedicament();
 	
 	MenuWorker menuWorker(&openGLHolder);
 	menuWorker.work();

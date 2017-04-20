@@ -16,7 +16,7 @@ enum InteractMode
 class Interactable : public Renderable
 {
 public:
-	virtual void interact(Pos pos, InteractMode currentInteractMode) = 0;
+	virtual void interact(Pos pos, InteractMode currentInteractMode, bool isRepeated) = 0;
 
 	Pos pos;
 	Size size;

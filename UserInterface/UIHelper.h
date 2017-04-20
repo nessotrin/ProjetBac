@@ -20,10 +20,9 @@ public:
 		x = newX;
 		y = newY;
 	}
-	Pos& operator+(const Pos& otherPos)
+	Pos operator+(const Pos& otherPos)
 	{
-		x += otherPos.x;
-		y += otherPos.y;
+		return Pos(x + otherPos.x, y + otherPos.y);
 	}
 	
 	
