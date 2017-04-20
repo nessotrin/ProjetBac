@@ -3,30 +3,17 @@
 
 #include "UIHelper.h"
 
-class TextureData
-{
-public:
-
-	TextureData()
-	{
-		buffer = NULL;
-		size.x = -1;
-		size.y = -1;
-	}
-
-	unsigned char * buffer;
-	Size size;
-};
+#include "Texture.h"
 
 class BMPLoader
 {
 public:
-	static TextureData load(char * name);
+	static Texture load(char * name);
 
 
 private:
 
-	static bool readBMP(unsigned char * rawData, int rawDataSize, TextureData * textureData);
+	static bool readBMP(unsigned char * rawData, int rawDataSize, unsigned char ** buffer, Size * size);
 	static bool getRawData(unsigned char ** rawData, int * size, char * name);
 	static int getRawSize(FILE * imgFile);
 	static void error(char * name, char * where);

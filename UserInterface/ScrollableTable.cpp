@@ -26,6 +26,9 @@ bool ScrollableTable::isDone()
 	return false;
 }
 
+#include <unistd.h>//sleep
+
+
 void ScrollableTable::render(Pos offset)
 {
 	GLHelper::drawColorSquare(pos+offset,size,backgroundColor,0,0,0);

@@ -10,13 +10,17 @@ class Texture
 {
 public:
 	Texture(unsigned char * bitmap, Size newSize);
-	~Texture();
+	Texture(GLuint newGLtexture, Size newSize);
+	Texture();
+
+	void Delete();
 
 	GLuint GLtexture;
 
+	Size size;
+
 
 private:
-	Size size;
 
 };
 

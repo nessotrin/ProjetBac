@@ -4,13 +4,16 @@
 
 #include <cstdio>
 
-GLint TextureHelper::loadTexture(unsigned char * buffer, Size size)
+GLuint TextureHelper::loadTexture(unsigned char * buffer, Size size)
 {
-	GLuint newTexture;
-
-//	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); ??
-//	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	GLuint newTexture = 500;
+/*
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+*/
 	glGenTextures(1, &newTexture);
+
+	printf("Gen'ed %d\n",newTexture);
 
 	GLHelper::CheckForErrors("glGenTextures");
 
@@ -19,11 +22,7 @@ GLint TextureHelper::loadTexture(unsigned char * buffer, Size size)
 
 	GLHelper::CheckForErrors("glBindTexture");
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	 
-	printf("Bind %d %d\n",size.x, size.y);
+	printf("Bind %d %d [%d]\n",size.x, size.y,buffer);
 
 /*
 	for(int i = 0 ; i < size.x*size.y*4 ; i+=4)
@@ -33,9 +32,17 @@ GLint TextureHelper::loadTexture(unsigned char * buffer, Size size)
 */
 	
 	 
+	 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (GLsizei) size.x, (GLsizei) size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)buffer);
+//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (GLsizei) 2, (GLsizei) 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)buf);
 
 	GLHelper::CheckForErrors("glTexImage2D");
+
+/*
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+*/
+
 
 	return newTexture;
 }

@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include "GLHelper.h"
 
 void Compositor::addRenderable(Renderable * newRenderable)
 {
@@ -20,6 +21,8 @@ void Compositor::render()
 			}
 		}		
 	}
+	
+	GLHelper::CheckForErrors("COMPOSITOR");
 }
 
 void Compositor::removeRenderable(Renderable * oldRenderable)

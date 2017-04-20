@@ -9,7 +9,7 @@
 class TextureHelper
 {
 public:
-	static GLint loadTexture(unsigned char * buffer, Size size);
+	static GLuint loadTexture(unsigned char * buffer, Size size);
 };
 
 #endif // _TEXTURE_HELPER_H_

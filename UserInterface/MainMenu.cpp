@@ -57,33 +57,39 @@ void MainMenu::work()
 
 
 
+	
+	Texture testImg;
+	Texture test2Img;
+
+
+	
+
+
 void MainMenu::init()
 {
-	unsigned char data[] = {50,50,255,255};
-	TextureData tex;
-	tex.buffer = data;
-	tex.size = Size(1,1);
+	//unsigned char data[] = {50,50,255,255};
+
 	
-	TextureData testImg = BMPLoader::load("test.bmp");
-	TextureData test2Img = BMPLoader::load("test2.bmp");
+	testImg = BMPLoader::load("test.bmp");
+
+	
+	test2Img = BMPLoader::load("test2.bmp");
 
 
-	printf("%dx%d\n",testImg.size.x,testImg.size.y);
-
-	mainButtonTexture = new Texture(testImg.buffer, testImg.size);
-
-	Texture * mainButtonTexture2 = new Texture(test2Img.buffer, test2Img.size);
+//	printf("---%d %d\n",testImg.GLtexture,test2Img.GLtexture);
 
 
-	mainButton = new Button(this,0,Pos(10,10),Size(50,50),mainButtonTexture,255);
+
+	mainButton = new Button(this,0,Pos(10,10),Size(50,50),testImg,255);
 
 
 	compositor->addRenderable(mainButton);
 	inputMaster->addInteractable(mainButton);
 	
-	printf("Main menu init'ed\n");
+	//printf("Main menu init'ed\n");
 	
 	unsigned char color[] = {255,255,220,255};
+	
 	
 	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,3,2,Size(100,100),Size(30,30),color,1,Pos(0,0),Size(1000,1000));
 
@@ -91,11 +97,14 @@ void MainMenu::init()
 
 	for(int i = 0 ; i < 100 ; i++)
 	{
-		Button * button1 = new Button(this,1,Pos(0,0),Size(100,100),mainButtonTexture2,2);
+		Button * button1 = new Button(this,1,Pos(0,0),Size(100,100),test2Img,2);
+		inputMaster->addInteractable(button1);
+
 		scrollableTable->add(button1);
 	}
 
 	scrollableTable->init();
+	
 }
 
 void MainMenu::deinit()

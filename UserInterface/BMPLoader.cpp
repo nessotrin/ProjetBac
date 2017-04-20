@@ -6,6 +6,8 @@
 
 #include <cerrno>
 
+#include "TextureHelper.h"
+
 void BMPLoader::error(char * name, char * where)
 {
 	printf("ERROR: OPENING IMAGE \"%s\" at %s with errno %d\n",name,where,errno);	
@@ -34,28 +36,37 @@ int BMPLoader::getRawSize(FILE * imgFile)
 	return rawDataSize;
 }
 	
-TextureData BMPLoader::load(char * name)
+Texture BMPLoader::load(char * name)
 {
-	TextureData textureData;
 	
 	unsigned char * rawData = NULL;
 	int rawDataSize;
 	if(BMPLoader::getRawData(&rawData,&rawDataSize,name))
 	{
 		error(name, "getRawData");
-		textureData.buffer = (unsigned char *) -1;
-		return textureData;
+		return Texture(-1,Size(0,0));
 	}
 	
+	unsigned char * buffer = (unsigned char *)-1;
+	Size size;
 
-	if(BMPLoader::readBMP(rawData,rawDataSize,&textureData))
+	if(BMPLoader::readBMP(rawData,rawDataSize,&buffer,&size))
 	{
 		error(name, "readBMP");
-		textureData.buffer = (unsigned char *) -2;
-		return textureData;
+		return Texture(-1,Size(0,0));
 	}
 	
-	return textureData;
+	
+		
+	GLuint textureInt = TextureHelper::loadTexture(buffer, size);
+	if(textureInt < 0)
+	{
+		error(name, "upload");
+		return Texture(-1,Size(0,0));
+	}
+
+	
+	return Texture(textureInt,size);
 }
 
 bool BMPLoader::getRawData(unsigned char ** rawData, int * size, char * name)
@@ -69,6 +80,8 @@ bool BMPLoader::getRawData(unsigned char ** rawData, int * size, char * name)
 	}
 	
 	*size = getRawSize(imgFile);
+
+	printf("size %d\n",*size);
 
 	if(*size <= 0)
 	{
@@ -87,13 +100,13 @@ bool BMPLoader::getRawData(unsigned char ** rawData, int * size, char * name)
 		error(name, "malloc");
 		return true;
 	}
-	
-	
+		
 	if(fread(*rawData, 1, *size, imgFile) != *size)
 	{
 		error(name, "fread");
 		return true;
 	}
+	
 
 	fclose(imgFile);
 
@@ -101,7 +114,7 @@ bool BMPLoader::getRawData(unsigned char ** rawData, int * size, char * name)
 }
 
 
-bool BMPLoader::readBMP(unsigned char * rawData, int rawDataSize, TextureData * textureData)
+bool BMPLoader::readBMP(unsigned char * rawData, int rawDataSize, unsigned char ** buffer, Size * size)
 {
 	printf("Bitmap marked \"%c%c\"\n",rawData[0],rawData[1]);
 	
@@ -121,33 +134,35 @@ bool BMPLoader::readBMP(unsigned char * rawData, int rawDataSize, TextureData * 
 	
 	int bitmapDataStart = ucharToInt(rawData,10);
 	
-	textureData->size.x = ucharToInt(rawData,18);
-	textureData->size.y = ucharToInt(rawData,22);
+	size->x = ucharToInt(rawData,18);
+	size->y = ucharToInt(rawData,22);
+
 	
-	textureData->buffer = (unsigned char *) malloc(4*textureData->size.x*textureData->size.y);
-	printf("Alloc %d\n",4*textureData->size.x*textureData->size.y);
-	if(textureData->buffer == NULL)
+	(*buffer) = (unsigned char *) malloc(4*size->x*size->y);
+
+	printf("Alloc %d\n",4*size->x*size->y);
+	if((*buffer) == NULL)
 	{
 		return true;
 	}
 
-	int bytesX = textureData->size.x*bytesPerPixel;
+	int bytesX = size->x*bytesPerPixel;
 	int bytesXPadded = BMPLoader::addPaddingFor4Bytes(bytesX);
-	int bytesXRGBA = textureData->size.x*4;
+	int bytesXRGBA = size->x*4;
 
-	for(int y = 0 ; y < textureData->size.y ; y++)
+	for(int y = 0 ; y < size->y ; y++)
 	{
 		if(bytesPerPixel == 3)
 		{
-			BMPLoader::copyColorBytesBGR(textureData->buffer+(bytesXRGBA*(textureData->size.y-y-1)),
+			BMPLoader::copyColorBytesBGR((*buffer)+(bytesXRGBA*(size->y-y-1)),
 				   rawData            +(bytesXPadded*y) + bitmapDataStart,
-				   textureData->size.x);			
+				   size->x);			
 		}
 		else
 		{
-			BMPLoader::copyColorBytesABGR(textureData->buffer+(bytesXRGBA*(textureData->size.y-y-1)),
+			BMPLoader::copyColorBytesABGR((*buffer)+(bytesXRGBA*(size->y-y-1)),
 				   rawData            +(bytesXPadded*y) + bitmapDataStart,
-				   textureData->size.x);			
+				   size->x);			
 
 		}
 			   
@@ -199,9 +214,11 @@ unsigned short BMPLoader::ucharToUShort(unsigned char * buffer, int offset)
 
 void BMPLoader::copyColorBytesBGR(unsigned char * rgbaBuffer, unsigned char * rgbBuffer, int count)
 {
+
 	int writePos = 0;
 	for(int i = 0 ; i < count ; i++)
 	{
+
 		rgbaBuffer[writePos+0] = rgbBuffer[i*3+2];
 		rgbaBuffer[writePos+1] = rgbBuffer[i*3+1];
 		rgbaBuffer[writePos+2] = rgbBuffer[i*3];
@@ -209,10 +226,12 @@ void BMPLoader::copyColorBytesBGR(unsigned char * rgbaBuffer, unsigned char * rg
 		writePos+= 4;
 		//printf("At %d\n",writePos);
 	}
+
 }
 
 void BMPLoader::copyColorBytesABGR(unsigned char * rgbaBuffer, unsigned char * rgbBuffer, int count)
 {
+
 	int writePos = 0;
 	for(int i = 0 ; i < count ; i++)
 	{

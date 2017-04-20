@@ -6,24 +6,18 @@
 
 #include "GLHelper.h"
 
-Button::Button(Callbackable * newCallbackObject, int newCallbackValue, Pos newPos , Size newSize, Texture * newTexture, unsigned char newZHeight)
+Button::Button(Callbackable * newCallbackObject, int newCallbackValue, Pos newPos , Size newSize, Texture newTexture, unsigned char newZHeight)
 {
 	callbackObject = newCallbackObject;
 	callbackValue = newCallbackValue;
 	pos = newPos;
 	size = newSize;
 	texture = newTexture;
+
 	ZHeight = newZHeight;
 	angle = 0;
 	
 	allowedInteractMode = InteractClick;
-
-	printf("Binding texture ...\n");
-
-	glEnable(GL_TEXTURE_2D);
-	GLHelper::CheckForErrors("Enable texture");
-	glBindTexture(GL_TEXTURE_2D, texture->GLtexture);
-	GLHelper::CheckForErrors("Bind texture");
 
 	printf("Button init'ed ...\n");	
 }
@@ -33,6 +27,7 @@ void Button::interact(Pos pos, InteractMode currentInteractMode, bool isRepeated
 	callbackObject->callback(callbackValue);
 }
 
+extern Texture tex;
 
 void Button::render(Pos offset)
 {
@@ -45,6 +40,13 @@ void Button::render(Pos offset)
 	
 	Pos p = pos+offset;
 	
-	GLHelper::drawTexturedSquare(pos+offset, size, texture->GLtexture, 0, angle, 0);
+	//unsigned char color[] = {255,100,100,255};
+	
+	
+
+//		GLHelper::drawTexturedSquare(Pos(0,0),Size(10,10),texture.GLtexture,0,0,0);
+
+	GLHelper::drawTexturedSquare(pos+offset, size, texture.GLtexture, 0, angle, 0);
+	//GLHelper::drawColorSquare(pos+offset, size, color, 0, 0, 0);
 
 }

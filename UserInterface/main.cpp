@@ -9,6 +9,7 @@
 
 #include "OpenGLHolder.h"
 #include "MenuWorker.h"
+#include "GlobalTexture.h"
 
 /***
 Récupère la liste des medicaments à partir du serveur
@@ -75,6 +76,7 @@ Medicament * recupererListeMedicament()
 Se connecte et lance l'interface
 ***/
 
+#include "GLHelper.h"
 
 int main(int argc, char **argv)
 {
@@ -82,9 +84,12 @@ int main(int argc, char **argv)
 
 	OpenGLHolder openGLHolder;
 	openGLHolder.initGraphics();
+
+	
+	//GlobalTexture::load();
 	
 	/* On initialise la connection au seveur et on écrit le résultat */
-	printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
+	//printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
 	
 	//recupererListeMedicament();
 	

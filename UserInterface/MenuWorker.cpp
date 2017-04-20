@@ -17,6 +17,8 @@ MenuWorker::MenuWorker(OpenGLHolder * newOpenGLHolder)
 	openGLHolder = newOpenGLHolder;
 }
 
+ #include "GLHelper.h"
+
 void MenuWorker::work()
 {
 	TouchController touchController;
@@ -27,6 +29,9 @@ void MenuWorker::work()
 	mainMenu.init();
 	
 	printf("Starting loop ! \n");
+	
+	
+
 	
 	while(1)
 	{
@@ -39,6 +44,7 @@ void MenuWorker::work()
 		
 		openGLHolder->finishFrame();
 		
+		/*
 		for(int i = 0 ; i < menuList.getCount() ; i++)
 		{
 			if(menuList.get(i)->isDone())
@@ -48,7 +54,7 @@ void MenuWorker::work()
 				i--;
 			}
 		}
-		
+		*/
 		usleep(10000);
 	}
 

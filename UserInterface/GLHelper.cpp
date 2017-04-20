@@ -13,7 +13,9 @@ void GLHelper::CheckForErrors(char * text)
     }
 }
 
-void GLHelper::drawTexturedSquare(Pos pos, Size size, GLint texture, int angleX, int angleY, int angleZ)
+#include "Texture.h"
+
+void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX, int angleY, int angleZ)
 {	
 	float sizeX = size.x/(float)(640/2);
 	float sizeY = size.y/(float)(480/2);
@@ -27,14 +29,26 @@ void GLHelper::drawTexturedSquare(Pos pos, Size size, GLint texture, int angleX,
 	float translateX = ((pos.x+size.x/2)-(640/2))/(float)(640/2);
 	float translateY = -((pos.y+size.y/2)-(480/2))/(float)(480/2);
 
+
 	glEnable(GL_TEXTURE_2D);
 	GLHelper::CheckForErrors("Enable texture");
+
+
 	glBindTexture(GL_TEXTURE_2D, texture);
 	GLHelper::CheckForErrors("Bind texture");
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
+	
 
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	 
+
+
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	GLHelper::CheckForErrors("Enable Alpha");
+
+	glEnable(GL_BLEND);
+	GLHelper::CheckForErrors("Enable blend");
 
 //    glMatrixMode( GL_MODELVIEW );
     glLoadIdentity( );
@@ -42,6 +56,7 @@ void GLHelper::drawTexturedSquare(Pos pos, Size size, GLint texture, int angleX,
 	glTranslated(translateX,translateY,0);
 
     glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
+
 
 	glBegin(GL_QUADS);
 		glTexCoord2d(0,1); glVertex2d(startX,startY);
