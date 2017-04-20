@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="ProjetBac" Database="" Version="10.0.0">
-  <Project Name="DataServer" Path="DataServer/DataServer.project" Active="Yes"/>
+  <Project Name="DataServer" Path="DataServer/DataServer.project" Active="No"/>
   <Project Name="ClientLib" Path="ClientLib/ClientLib.project" Active="No"/>
   <Project Name="UserInterface" Path="UserInterface/UserInterface.project" Active="No"/>
   <Project Name="MagnetController" Path="MagnetController/MagnetController.project" Active="No"/>
   <Project Name="Sensors" Path="Sensors/Sensors.project" Active="No"/>
   <Project Name="BBBio_lib" Path="BBBio_lib/BBBio_lib.project" Active="No"/>
+  <Project Name="PorteSwitch" Path="PorteSwitch/PorteSwitch.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
@@ -15,6 +16,7 @@
       <Project Name="MagnetController" ConfigName="Debug"/>
       <Project Name="Sensors" ConfigName="Debug"/>
       <Project Name="BBBio_lib" ConfigName="Debug"/>
+      <Project Name="PorteSwitch" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
@@ -24,6 +26,7 @@
       <Project Name="MagnetController" ConfigName="Release"/>
       <Project Name="Sensors" ConfigName="Release"/>
       <Project Name="BBBio_lib" ConfigName="Debug"/>
+      <Project Name="PorteSwitch" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

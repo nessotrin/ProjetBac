@@ -15,6 +15,7 @@ enum
 	SMS,
 	Poids,
 	debug,
+	switchPorte,
 } typeList;
 
 struct Medicament
