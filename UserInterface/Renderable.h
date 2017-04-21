@@ -6,12 +6,15 @@
 class Renderable
 {
 public:
-	Renderable(Pos newPos, Size newSize, unsigned char newZHeight);
+	Renderable(Pos newPos, Size newSize, unsigned char newZHeight, unsigned char newAlpha);
 
 	Pos pos;
 	Size size;
 
+	void setAlpha(unsigned char newAlpha);
 	virtual void render(Pos offset) = 0;
+	
+	unsigned char alpha;
 	unsigned char ZHeight;
 };
 

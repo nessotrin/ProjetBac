@@ -9,7 +9,7 @@
 #include <cstring>
 
 
-MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList) : Menu(newPos, newSize, newZHeight, InteractClick, newCompositor, newInputMaster, newMenuList)
+MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList, Texture newBackgroundTexture) : Menu(newPos, newSize, newZHeight, newAlpha, InteractClick, newCompositor, newInputMaster, newMenuList)
 {
 	medSubmenuList = newMedSubmenuList;
 	
@@ -19,6 +19,8 @@ MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeight, Compositor * ne
 	buttonMinus = NULL;
 	
 	count = 0;
+
+	backgroundTexture = newBackgroundTexture;
 }
 
 
@@ -41,8 +43,8 @@ void MedSubmenu::work()
 
 void MedSubmenu::init()
 {
-	buttonPlus = new Button(Pos(-1,-1), Size((size.x-6)/3,(size.y-6)/2), ZHeight+1, this, 0, GlobalTexture::plusTexture, GlobalTexture::plusTextureActive, 30,10);
-	buttonMinus = new Button(Pos(-1,-1), Size((size.x-6)/3,(size.y-6)/2), ZHeight+1, this, 1, GlobalTexture::minusTexture, GlobalTexture::minusTextureActive, 30,10);
+	buttonPlus = new Button(Pos(-1,-1), Size((size.x-6)/3,(size.y-6)/2), ZHeight+1, 255, this, 0, GlobalTexture::plusTexture, GlobalTexture::plusTextureActive, 30,10);
+	buttonMinus = new Button(Pos(-1,-1), Size((size.x-6)/3,(size.y-6)/2), ZHeight+1, 255, this, 1, GlobalTexture::minusTexture, GlobalTexture::minusTextureActive, 30,10);
 }
 
 void MedSubmenu::addButtons()
@@ -72,18 +74,21 @@ void MedSubmenu::render(Pos pos)
 	unsigned char color[4];
 	if(!isSelected)
 	{
-		color[0] = 240;		
-		color[1] = 200;
-		color[2] = 200;
+		color[0] = 255;		
+		color[1] = 255;
+		color[2] = 255;
 	}
 	else
 	{
-		color[0] = 200;		
-		color[1] = 200;
-		color[2] = 50;
+		color[0] = 255;		
+		color[1] = 255;
+		color[2] = 100;
 	}
 	color[3] = 255;
-	GLHelper::drawColorSquare(pos,size,color,0,0,0);
+	
+	GLHelper::alphaOnRGBA(color,alpha);
+	
+	GLHelper::drawColoredTexturedSquare(pos,size,color,backgroundTexture.GLtexture,0,0,0);
 
 	unsigned char colorText[4];
 	if(count == 0)
@@ -95,16 +100,19 @@ void MedSubmenu::render(Pos pos)
 	}
 	else
 	{
-		int redAdd = 20*count;
-		if(redAdd > 255-50)
+		int redAdd = 10*count;
+		if(redAdd > 50)
 		{
-			redAdd = 255-50;
+			redAdd = 50;
 		}
 		colorText[0] = 50+redAdd;
 		colorText[1] = 20;
 		colorText[2] = 20;
-		colorText[3] = 200;		
+		colorText[3] = 255;		
 	}
+	
+	GLHelper::alphaOnRGBA(colorText,alpha);
+
 	
 	if(isSelected || count > 0)
 	{
@@ -155,6 +163,17 @@ void MedSubmenu::callback(int id)
 		{
 			count = 0;
 		}
+	}
+	
+	if(count > 0)
+	{
+		buttonPlus->setAlpha(150);
+		buttonMinus->setAlpha(150);
+	}
+	else
+	{
+		buttonPlus->setAlpha(255);
+		buttonMinus->setAlpha(255);		
 	}
 }
 

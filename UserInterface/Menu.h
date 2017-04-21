@@ -8,7 +8,7 @@ class Menu : public Interactable
 {
 public:
 
-	Menu(Pos newPos, Size newSize, int newZHeight, InteractMode newAllowedInteractMode, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
+	Menu(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, InteractMode newAllowedInteractMode, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
 
 	virtual bool isDone() = 0;
 	virtual void work() = 0;

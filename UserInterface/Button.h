@@ -10,7 +10,7 @@
 class Button : public Interactable
 {
 public:
-	Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay);
+	Button(Pos newPos , Size newSize, unsigned char newZHeight, unsigned char newAlpha, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay);
 	void render(Pos pos);
 	void interact(Pos pos, InteractMode currentInteractMode, bool isRepeated);
 	void work();

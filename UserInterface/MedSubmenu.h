@@ -15,7 +15,7 @@ class MedSubmenu : public Menu, public Callbackable
 {
 public:
 
-	MedSubmenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList);
+	MedSubmenu(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList, Texture newBackgroundTexture);
 
 
 	void unselect();
@@ -45,6 +45,8 @@ private:
 	
 	Button * buttonPlus;
 	Button * buttonMinus;
+	
+	Texture backgroundTexture;
 	
 	int count;
 };

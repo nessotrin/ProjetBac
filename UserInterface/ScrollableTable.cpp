@@ -4,7 +4,7 @@
 
 #include "OpenGLHolder.h"
 
-ScrollableTable::ScrollableTable(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, int newZHeight, Pos newPos, Size newSize, int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, Size newBorderMargin, unsigned char newBackgroundColor[4]) : Menu(newPos, newSize, newZHeight, InteractSwipe, newCompositor, newInputMaster, newMenuList)
+ScrollableTable::ScrollableTable(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, Size newBorderMargin, unsigned char newBackgroundColor[4]) : Menu(newPos, newSize, newZHeight, newAlpha, InteractSwipe, newCompositor, newInputMaster, newMenuList)
 {
 	allowedInteractMode = InteractAll;
 	scrollPos = 0;
@@ -34,7 +34,12 @@ bool ScrollableTable::isDone()
 
 void ScrollableTable::render(Pos offset)
 {
-	GLHelper::drawColorSquare(pos+offset,size,backgroundColor,0,0,0);
+	unsigned char colorModified[4];
+	memcpy(colorModified,backgroundColor,4);
+	GLHelper::alphaOnRGBA(colorModified,alpha);
+
+	
+	GLHelper::drawColorSquare(pos+offset,size,colorModified,0,0,0);
 	int cellX = 0;
 	int cellY = 0;
 	for(int i = 0 ; i < elementList.getCount() ; i++)

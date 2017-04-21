@@ -15,7 +15,7 @@ class MainMenu : public Menu, Callbackable
 {
 public:
 
-	MainMenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
+	MainMenu(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
 	
 	void callback(int id);
 

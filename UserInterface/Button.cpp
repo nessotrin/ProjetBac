@@ -6,7 +6,7 @@
 
 #include "GLHelper.h"
 
-Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay) : Interactable(newPos, newSize, newZHeight, InteractClick)
+Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, unsigned char newAlpha, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay) : Interactable(newPos, newSize, newZHeight, newAlpha, InteractClick)
 {
 	callbackObject = newCallbackObject;
 	callbackValue = newCallbackValue;
@@ -60,22 +60,15 @@ void Button::render(Pos offset)
 
 	Pos p = pos+offset;
 	
-	unsigned char color[] = {255,100,100,255};
-	
-	
-
-	//	GLHelper::drawTexturedSquare(Pos(0,0),Size(10,10),texture.GLtexture,0,0,0);
-
-//	GLHelper::drawColorSquare(pos+offset, size, color, 0, 0, 0);
-
+	unsigned char color[] = {255,255,255,alpha};
 	
 	if(activeCountdown)
 	{
-		GLHelper::drawTexturedSquare(pos+offset, size, textureActive.GLtexture, 0, angle, 0);
+		GLHelper::drawColoredTexturedSquare(pos+offset, size, color, textureActive.GLtexture, 0, angle, 0);
 	}
 	else
 	{
-		GLHelper::drawTexturedSquare(pos+offset, size, textureInactive.GLtexture, 0, angle, 0);		
+		GLHelper::drawColoredTexturedSquare(pos+offset, size, color, textureInactive.GLtexture, 0, angle, 0);		
 	}
 
 

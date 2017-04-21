@@ -103,3 +103,8 @@ void GLHelper::drawColorSquare(Pos pos, Size size, unsigned char color[4], int a
 
 
 }
+
+void GLHelper::alphaOnRGBA(unsigned char * color, unsigned char alpha)
+{
+	color[3] = (int)(color[3]*(alpha/(float)255));
+}

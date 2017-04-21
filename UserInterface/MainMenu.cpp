@@ -9,7 +9,7 @@
 #include <cstdlib>
 
 
-MainMenu::MainMenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList) : Menu::Menu(newSize, newPos, newZHeight, InteractAll, newCompositor, newInputMaster, newMenuList)
+MainMenu::MainMenu(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList) : Menu::Menu(newSize, newPos, newZHeight, newAlpha, InteractAll, newCompositor, newInputMaster, newMenuList)
 {
 	
 }
@@ -72,7 +72,7 @@ void MainMenu::init()
 	
 	Texture testImg = BMPLoader::load("test.bmp", true);
 
-	mainButton = new Button(Pos(10,10), Size(50,50), 255, this, 0, testImg, testImg, -1, -1);
+	mainButton = new Button(Pos(10,10), Size(50,50), 255, 255, this, 0, testImg, testImg, -1, -1);
 
 
 	compositor->addRenderable(mainButton);
@@ -86,14 +86,14 @@ void MainMenu::init()
 	medSubmenuList = new List<MedSubmenu>;
 
 	
-	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,1,Pos(0,0),Size(540,480),3,-1,Size(150,100),Size(10,10),Size(-1,50),color);
+	scrollableTable = new ScrollableTable(Pos(0,0),Size(540,480),1,255,compositor,inputMaster,menuList,3,-1,Size(150,100),Size(10,10),Size(-1,50),color);
 
-
+	Texture med = BMPLoader::load("test2.bmp",true);
 
 	for(int i = 0 ; i < 100 ; i++)
 	{
 
-		MedSubmenu * sub = new MedSubmenu(Pos(0,0), Size(150,100), 2, compositor,inputMaster,menuList,medSubmenuList);
+		MedSubmenu * sub = new MedSubmenu(Pos(0,0), Size(150,100), 2, 255, compositor,inputMaster,menuList,medSubmenuList,med);
 		sub->init();
 		medSubmenuList->add(sub);		
 		scrollableTable->add(sub);
@@ -107,7 +107,7 @@ void MainMenu::init()
 
 void MainMenu::render(Pos offset)
 {
-	unsigned char color[] = {0,255,0,255};
+	unsigned char color[] = {0,255,0,alpha};
 	GLHelper::drawColorSquare(pos,size,color,0,0,0);
 }
 

@@ -1,6 +1,6 @@
 #include "Interactable.h"
 
-Interactable::Interactable(Pos newPos, Size newSize, unsigned char newZHeight, InteractMode newAllowedInteractMode) : Renderable(newPos, newSize, newZHeight)
+Interactable::Interactable(Pos newPos, Size newSize, unsigned char newZHeight, unsigned char newAlpha, InteractMode newAllowedInteractMode) : Renderable(newPos, newSize, newZHeight, newAlpha)
 {
 	allowedInteractMode = newAllowedInteractMode;
 }
