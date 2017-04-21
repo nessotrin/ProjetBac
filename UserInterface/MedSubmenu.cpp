@@ -112,23 +112,19 @@ void MedSubmenu::render(Pos pos)
 		
 		sprintf(text,"%d",count);
 
-		Pos offset(0,23);
+		Pos offset(0,50);
 		
 		if(isSelected)
 		{
-			offset.x = size.x*(2/(float)5) -40;
+			offset.x = size.x*(2/(float)5);
 		}
 		else
 		{
-			offset.x = size.x*(1/(float)2) -40;			
+			offset.x = size.x*(1/(float)2);			
 		}
 		
-		if(count < 10)
-		{
-			offset.x += 25;
-		}
 
-		FontRenderer::printText(text,colorText,pos+offset,50,-1);
+		FontRenderer::printTextCentered(text,colorText,pos+offset,Size(50,-1));
 
 	}
 

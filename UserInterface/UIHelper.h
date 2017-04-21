@@ -24,6 +24,10 @@ public:
 	{
 		return Pos(x + otherPos.x, y + otherPos.y);
 	}
+	Pos operator-(const Pos& otherPos)
+	{
+		return Pos(x - otherPos.x, y - otherPos.y);
+	}
 	
 	
 	

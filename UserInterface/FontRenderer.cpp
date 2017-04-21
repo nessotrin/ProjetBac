@@ -116,15 +116,20 @@ bool FontRenderer::loadFonts()
 
 
 
-void FontRenderer::printText(char * text, unsigned char color[4], Pos pos, int sizeX, int sizeY)
+void FontRenderer::printText(char * text, unsigned char color[4], Pos pos, Size size)
 {
+	if(size.y <= 0)
+	{
+		size.y = getDefaultSizeY(size.x);
+	}
+
 	int readPos = 0;
 	Pos writePos = pos;
 	while(text[readPos] != 0)
 	{
 //		printf("%d\n",text[readPos]);
-		GLHelper::drawColoredTexturedSquare(writePos,Size(sizeX,(int)(sizeX*(74/(float)64))),color,fontMap[(unsigned char)text[readPos]].GLtexture,0,0,0);
-		writePos.x +=  (int)( sizeX*(fontOffsetMap[(unsigned char)text[readPos]]/(float)64) ) + sizeX/5;
+		GLHelper::drawColoredTexturedSquare(writePos,size,color,fontMap[(unsigned char)text[readPos]].GLtexture,0,0,0);
+		writePos.x +=  getCharacterOffset(text[readPos],size.x) + getCharacterSpacing(size.x);
 		
 	//	printf("| %c %d ",text[readPos],fontOffsetMap[(unsigned char)text[readPos]]);
 		
@@ -132,4 +137,49 @@ void FontRenderer::printText(char * text, unsigned char color[4], Pos pos, int s
 	}
 	
 	//printf("\n");
+}
+
+void FontRenderer::printTextCentered(char * text, unsigned char color[4], Pos pos, Size size)
+{
+	if(size.y <= 0)
+	{
+		size.y = getDefaultSizeY(size.x);
+	}
+	
+	Size textSize = calculateTextSize(text,size);
+	Pos newPos = pos - Pos(textSize.x/2,textSize.y/2);
+	printText(text, color, newPos, size);
+}
+
+
+
+Size FontRenderer::calculateTextSize(char * text, Size size)
+{
+	int readPos = 0;
+	int textSizeX = 0;
+	while(text[readPos] != 0)
+	{
+		textSizeX += getCharacterOffset(text[readPos],size.x);
+		readPos++;
+	}
+	
+	textSizeX += getCharacterSpacing(size.x)*(readPos-1);
+	
+	
+	return Size(textSizeX,size.y);
+}
+
+int FontRenderer::getCharacterSpacing(int sizeX)
+{
+	return sizeX/5;
+}
+
+int FontRenderer::getCharacterOffset(char character, int sizeX)
+{
+	return sizeX*(fontOffsetMap[character]/(float)64);
+}
+
+int FontRenderer::getDefaultSizeY(int sizeX)
+{
+	return sizeX*(74/(float)64);
 }
