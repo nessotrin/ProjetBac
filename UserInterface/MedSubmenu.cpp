@@ -9,7 +9,7 @@
 #include <cstring>
 
 
-MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeigt, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList) : Menu(newCompositor, newInputMaster, newMenuList), Interactable(newPos,newSize,InteractClick,newZHeigt)
+MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList) : Menu(newPos, newSize, newZHeight, InteractClick, newCompositor, newInputMaster, newMenuList)
 {
 	medSubmenuList = newMedSubmenuList;
 	

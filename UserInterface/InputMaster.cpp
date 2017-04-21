@@ -34,51 +34,66 @@ void InputMaster::work()
 	int x,y;
 	if (SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
-		if(isLocked)
+		if(!isDone)
 		{
-			if(isSwipe == true)
+			if(isLocked)
 			{
-				interact(Pos(x,y), startPos,InteractSwipe, isRepeated);
+				if(isSwipe == true)
+				{
+					interact(Pos(x,y),startId,InteractSwipe, isRepeated);
+				}
+				else
+				{
+					if(startId == searchInteractable(startPos,InteractClick))
+					{
+						interact(startPos, startId, InteractClick, isRepeated);				
+					}
+					else
+					{
+						isDone = true;
+					}
+				}
+				isRepeated = true;
+			
 			}
 			else
 			{
-				interact(startPos, startPos, InteractClick, isRepeated);				
+				if(continuousCount == 0)
+				{
+					isRepeated = false;
+					isSwipe = false;
+					startPos = Pos(x,y);
+				}
+				if(computeDistance(Pos(x,y),startPos) > SWIPE_THRESHOLD_DIST)
+				{
+					isSwipe = true;
+					isLocked = true;
+					startId = searchInteractable(startPos,InteractSwipe);
+				}
+				if(continuousCount >= CLICK_TIME_THRESHOLD)
+				{	
+					isSwipe = false;
+					isLocked = true;
+					startId = searchInteractable(startPos,InteractClick);
+				}
 			}
-			isRepeated = true;
-		}
-		else
-		{
-			if(continuousCount == 0)
-			{
-				isRepeated = false;
-				isSwipe = false;
-				startPos = Pos(x,y);
-			}
-			if(computeDistance(Pos(x,y),startPos) > SWIPE_THRESHOLD_DIST)
-			{
-				isSwipe = true;
-				isLocked = true;
-			}
-			if(continuousCount >= CLICK_TIME_THRESHOLD)
-			{	
-				isLocked = true;
-			}
-		}
 		
-		continuousCount++;
+			continuousCount++;
 		
-		printf("Pressed !\n");
+//			printf("Pressed !\n");
+		}
 	}
 	else
 	{
-		if(!isLocked && continuousCount > 0) // clicked so fast it wasn't registered
+		if(continuousCount > 0 && !isLocked) // clicked so fast it wasn't registered
 		{
-			printf("fast Click!\n");
-			interact(startPos, startPos, InteractClick, false);
+//			printf("fast Click!\n");
+			interact(startPos, searchInteractable(startPos,InteractClick), InteractClick, false);
 		}
 
 		continuousCount = 0;
 		isLocked = false;
+		isDone = false;
 	}	
 	
 	//printf("x %d y %d\n",x,y);
@@ -139,20 +154,19 @@ int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 	
 	if(HighestZId == -1)
 	{
-		printf("Clicked on NOTHING !\n");
+//		printf("Clicked on NOTHING !\n");
 		return -1;
 	}
 	else
 	{
-		printf("Clicked on interactable %d\n",HighestZId);
+//		printf("Search on interactable %d (%dx%d)\n",HighestZId,pos.x,pos.y);
 		return HighestZId;
 	}
 }
 
 
-void InputMaster::interact(Pos currentPos, Pos interactableSearchPos, InteractMode interactMode, bool isRepeated)
+void InputMaster::interact(Pos currentPos, int id, InteractMode interactMode, bool isRepeated)
 {
-	int id = searchInteractable(interactableSearchPos, interactMode);
 	if(id >= 0)
 	{
 		interactableList.get(id)->interact(Pos(currentPos.x - interactableList.get(id)->pos.x,

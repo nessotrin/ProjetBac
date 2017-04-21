@@ -6,7 +6,7 @@
 
 #include "GLHelper.h"
 
-Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay) : Interactable(newPos, newSize, InteractClick, newZHeight)
+Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay) : Interactable(newPos, newSize, newZHeight, InteractClick)
 {
 	callbackObject = newCallbackObject;
 	callbackValue = newCallbackValue;

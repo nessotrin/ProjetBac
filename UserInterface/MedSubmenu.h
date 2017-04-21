@@ -11,7 +11,7 @@
 #include "MedSubmenu.h"
 
 
-class MedSubmenu : public Menu, public Interactable, Callbackable
+class MedSubmenu : public Menu, public Callbackable
 {
 public:
 

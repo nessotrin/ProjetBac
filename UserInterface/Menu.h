@@ -4,15 +4,17 @@
 #include "Compositor.h"
 #include "InputMaster.h"
 
-class Menu
+class Menu : public Interactable
 {
 public:
-	Menu(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
+
+	Menu(Pos newPos, Size newSize, int newZHeight, InteractMode newAllowedInteractMode, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
+
 	virtual bool isDone() = 0;
 	virtual void work() = 0;
 	virtual void init() = 0;
 	virtual void deinit() = 0;
-
+	
 protected:
 
 	Compositor * compositor;

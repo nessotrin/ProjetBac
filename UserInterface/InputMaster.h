@@ -32,7 +32,7 @@ private:
 
 	int searchInteractable(Pos pos, InteractMode interactMode);
 
-	void interact(Pos currentPos, Pos interactableSearchPos, InteractMode interactMode, bool isRepeated);
+	void interact(Pos currentPos, int id, InteractMode interactMode, bool isRepeated);
 
 	int computeDistance(Pos posA, Pos posB);
 
@@ -41,6 +41,8 @@ private:
 	bool isSwipe;
 	bool isLocked;
 	bool isRepeated;
+	bool isDone;
+	int startId;
 };
 
 #endif // _INPUT_MASTER_H_

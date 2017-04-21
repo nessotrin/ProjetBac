@@ -5,7 +5,7 @@
 #include "Interactable.h"
 
 
-class ScrollableTable : public Menu, Interactable
+class ScrollableTable : public Menu
 {
 public:
 

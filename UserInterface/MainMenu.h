@@ -15,8 +15,8 @@ class MainMenu : public Menu, Callbackable
 {
 public:
 
-	MainMenu(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
-
+	MainMenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList);
+	
 	void callback(int id);
 
 	bool isDone();
@@ -24,6 +24,10 @@ public:
 	
 	void init();
 	void deinit();
+
+	void render(Pos offset);
+	void interact(Pos interactPos, InteractMode currentInteractMode, bool isRepeated);
+
 
 private:
 

@@ -16,15 +16,12 @@ enum InteractMode
 class Interactable : public Renderable
 {
 public:
-	Interactable(Pos newPos, Size newSize, InteractMode newAllowedInteractMode, unsigned char newZHeight);
+	Interactable(Pos newPos, Size newSize, unsigned char newZHeight, InteractMode newAllowedInteractMode);
 
 	virtual void interact(Pos interactPos, InteractMode currentInteractMode, bool isRepeated) = 0;
 
 	virtual void updatePos(Pos newPos);
 
-	Pos pos;
-	Size size;
-	
 	InteractMode allowedInteractMode;
 
 };

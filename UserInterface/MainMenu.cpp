@@ -2,13 +2,14 @@
 
 #include "BMPLoader.h"
 
+#include "GLHelper.h"
 
 #include <cstdio>
 
 #include <cstdlib>
 
 
-MainMenu::MainMenu(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList) : Menu::Menu(newCompositor, newInputMaster, newMenuList)
+MainMenu::MainMenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList) : Menu::Menu(newSize, newPos, newZHeight, InteractAll, newCompositor, newInputMaster, newMenuList)
 {
 	
 }
@@ -65,28 +66,11 @@ void MainMenu::work()
 
 
 
-	
-	Texture testImg;
-	Texture test2Img;
-
-
-	
-
 
 void MainMenu::init()
 {
-	//unsigned char data[] = {50,50,255,255};
-
 	
-	testImg = BMPLoader::load("test.bmp", true);
-
-	
-	test2Img = BMPLoader::load("test2.bmp", true);
-
-
-//	printf("---%d %d\n",testImg.GLtexture,test2Img.GLtexture);
-
-
+	Texture testImg = BMPLoader::load("test.bmp", true);
 
 	mainButton = new Button(Pos(10,10), Size(50,50), 255, this, 0, testImg, testImg, -1, -1);
 
@@ -118,6 +102,17 @@ void MainMenu::init()
 	}
 
 	scrollableTable->init();
+	
+}
+
+void MainMenu::render(Pos offset)
+{
+	unsigned char color[] = {0,255,0,255};
+	GLHelper::drawColorSquare(pos,size,color,0,0,0);
+}
+
+void MainMenu::interact(Pos interactPos, InteractMode currentInteractMode, bool isRepeated)
+{
 	
 }
 

@@ -28,7 +28,7 @@ void MenuWorker::work()
 	InputMaster inputMaster(&touchController);
 	Compositor compositor;
 	
-	MainMenu mainMenu(&compositor, &inputMaster, &menuList);
+	MainMenu mainMenu(Pos(0,0), Size(640,480), 0, &compositor, &inputMaster, &menuList);
 	mainMenu.init();
 	
 	printf("Starting loop ! \n");

@@ -1,6 +1,8 @@
 #include "Renderable.h"
 
-Renderable::Renderable(unsigned char newZHeight)
+Renderable::Renderable(Pos newPos, Size newSize, unsigned char newZHeight)
 {
+	pos = newPos;
+	size = newSize;
 	ZHeight = newZHeight;
 }
