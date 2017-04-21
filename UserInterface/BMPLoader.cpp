@@ -36,7 +36,7 @@ int BMPLoader::getRawSize(FILE * imgFile)
 	return rawDataSize;
 }
 	
-Texture BMPLoader::load(char * name)
+Texture BMPLoader::load(char * name, bool smoothTexture)
 {
 	
 	unsigned char * rawData = NULL;
@@ -58,7 +58,7 @@ Texture BMPLoader::load(char * name)
 	
 	
 		
-	GLuint textureInt = TextureHelper::loadTexture(buffer, size);
+	GLuint textureInt = TextureHelper::loadTexture(buffer, size, smoothTexture);
 	if(textureInt < 0)
 	{
 		error(name, "upload");
@@ -81,16 +81,12 @@ bool BMPLoader::getRawData(unsigned char ** rawData, int * size, char * name)
 	
 	*size = getRawSize(imgFile);
 
-	printf("size %d\n",*size);
+	//printf("size %d\n",*size);
 
 	if(*size <= 0)
 	{
 		error(name, "getRawSize");
 		return true;
-	}
-	else
-	{
-		printf("Malloc of %d\n",*size);
 	}
 	
 	*rawData = (unsigned char *) malloc(*size);
@@ -116,6 +112,7 @@ bool BMPLoader::getRawData(unsigned char ** rawData, int * size, char * name)
 
 bool BMPLoader::readBMP(unsigned char * rawData, int rawDataSize, unsigned char ** buffer, Size * size)
 {
+	/*
 	printf("Bitmap marked \"%c%c\"\n",rawData[0],rawData[1]);
 	
 	printf("Bitmap reports size %dBytes\n",ucharToInt(rawData,2));
@@ -130,6 +127,8 @@ bool BMPLoader::readBMP(unsigned char * rawData, int rawDataSize, unsigned char 
 	
 	printf("Bitmap raw data is %dB\n",ucharToInt(rawData,34));
 	
+	*/ 
+	
 	int bytesPerPixel = ucharToUShort(rawData,28)/8;
 	
 	int bitmapDataStart = ucharToInt(rawData,10);
@@ -140,7 +139,7 @@ bool BMPLoader::readBMP(unsigned char * rawData, int rawDataSize, unsigned char 
 	
 	(*buffer) = (unsigned char *) malloc(4*size->x*size->y);
 
-	printf("Alloc %d\n",4*size->x*size->y);
+	//printf("Alloc %d\n",4*size->x*size->y);
 	if((*buffer) == NULL)
 	{
 		return true;

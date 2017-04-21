@@ -110,10 +110,9 @@ void ScrollableTable::interact(Pos interactPos, InteractMode interactMode, bool 
 void ScrollableTable::add(Interactable * newInteractable)
 {
 	elementList.add(newInteractable);
-	updateBorderMargin();
 	elementPerColumn = ceil(elementList.getCount()/(float) elementPerLine);
-	
-	newInteractable->updatePos(calculateElementPos(elementList.getCount()-1));
+	updateBorderMargin();
+	updateElementsPos();
 }
 void ScrollableTable::remove(Interactable * oldInteractable)
 {

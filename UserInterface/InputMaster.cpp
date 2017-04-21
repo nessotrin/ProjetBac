@@ -9,8 +9,6 @@
 InputMaster::InputMaster(TouchController * newTouchController)
 {
 	touchController = newTouchController;
-	isDone = false;
-	isSwipe = false;
 	continuousCount = 0;
 }
 
@@ -26,8 +24,8 @@ void InputMaster::removeInteractable(Interactable * oldInteractable)
 }
 
 
-#define CLICK_TIME_THRESHOLD 10
-#define SWIPE_THRESHOLD_DIST 5 //10 -> high DPI screen
+#define CLICK_TIME_THRESHOLD 3
+#define SWIPE_THRESHOLD_DIST 2 //10 -> high DPI screen
 
 #include <SDL2/SDL.h>
 void InputMaster::work()
@@ -36,7 +34,19 @@ void InputMaster::work()
 	int x,y;
 	if (SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
-		if(!isDone)
+		if(isLocked)
+		{
+			if(isSwipe == true)
+			{
+				interact(Pos(x,y), startPos,InteractSwipe, isRepeated);
+			}
+			else
+			{
+				interact(startPos, startPos, InteractClick, isRepeated);				
+			}
+			isRepeated = true;
+		}
+		else
 		{
 			if(continuousCount == 0)
 			{
@@ -47,22 +57,11 @@ void InputMaster::work()
 			if(computeDistance(Pos(x,y),startPos) > SWIPE_THRESHOLD_DIST)
 			{
 				isSwipe = true;
+				isLocked = true;
 			}
-			if(continuousCount > CLICK_TIME_THRESHOLD)
-			{
-				if(isSwipe == false)
-				{
-					isDone = true;
-				//	printf("Click\n");
-					interact(startPos, startPos, InteractClick, isRepeated);
-				}
-			}
-			if(isSwipe == true)
-			{
-			//	printf("Swipe ! %d %d\n",x,y);
-				interact(Pos(x,y), startPos,InteractSwipe, isRepeated);
-				
-				isRepeated = true;//AFTER THE FIRST SWIPE
+			if(continuousCount >= CLICK_TIME_THRESHOLD)
+			{	
+				isLocked = true;
 			}
 		}
 		
@@ -72,16 +71,14 @@ void InputMaster::work()
 	}
 	else
 	{
-		isDone = false;
-
-		if(!isDone && continuousCount > 0 && isSwipe == false)
+		if(!isLocked && continuousCount > 0) // clicked so fast it wasn't registered
 		{
 			printf("fast Click!\n");
-			interact(startPos, startPos, InteractClick, isRepeated);
+			interact(startPos, startPos, InteractClick, false);
 		}
 
 		continuousCount = 0;
-
+		isLocked = false;
 	}	
 	
 	//printf("x %d y %d\n",x,y);
@@ -101,6 +98,13 @@ void InputMaster::work()
 	*/
 }
 
+#include "GLHelper.h"
+
+#include "OpenGLHolder.h"
+
+extern OpenGLHolder * GLOBALopenGLHolder;
+
+#include <unistd.h>
 
 int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 {
@@ -111,6 +115,14 @@ int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 	
 	for(int i = 0 ; i < interactableList.getCount() ; i++)
 	{
+		/* INPUT DEBUGGER */ /*(
+		GLOBALopenGLHolder->beginFrame();
+		unsigned char color[] = {rand()%255,rand()%255,rand()%255,255};
+		GLHelper::drawColorSquare(interactableList.get(i)->pos,interactableList.get(i)->size,color,0,0,0);
+		GLOBALopenGLHolder->finishFrame();
+		usleep(200000);
+		*/
+ 
 		if(checkBoundingBox(interactableList.get(i),pos) && (interactableList.get(i)->allowedInteractMode & interactMode) )
 		{
 			if(HighestZHeight == interactableList.get(i)->ZHeight)
@@ -132,7 +144,7 @@ int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 	}
 	else
 	{
-		//printf("Clicked on interactable %d\n",HighestZId);
+		printf("Clicked on interactable %d\n",HighestZId);
 		return HighestZId;
 	}
 }

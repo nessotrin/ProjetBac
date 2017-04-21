@@ -8,10 +8,10 @@ Texture::Texture()
 	
 }
 
-Texture::Texture(unsigned char * bitmap, Size newSize)
+Texture::Texture(unsigned char * bitmap, Size newSize, bool smoothTexture)
 {
 	printf("Loading TEXTURE\n");
-	GLtexture = TextureHelper::loadTexture(bitmap, newSize);
+	GLtexture = TextureHelper::loadTexture(bitmap, newSize, smoothTexture);
 	printf("Got %d\n",GLtexture);
 	size = newSize;
 }

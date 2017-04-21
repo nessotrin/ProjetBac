@@ -4,6 +4,11 @@
 
 #include "GLHelper.h"
 
+#include "FontRenderer.h"
+
+#include <cstring>
+
+
 MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeigt, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList) : Menu(newCompositor, newInputMaster, newMenuList), Interactable(newPos,newSize,InteractClick,newZHeigt)
 {
 	medSubmenuList = newMedSubmenuList;
@@ -13,6 +18,7 @@ MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeigt, Compositor * new
 	buttonPlus = NULL;
 	buttonMinus = NULL;
 	
+	count = 0;
 }
 
 
@@ -35,8 +41,8 @@ void MedSubmenu::work()
 
 void MedSubmenu::init()
 {
-	buttonPlus = new Button(Pos(-1,-1), Size((size.x-6)/2,(size.y-6)/2), ZHeight+1, this, 0, GlobalTexture::plusTexture, GlobalTexture::plusTextureActive);
-	buttonMinus = new Button(Pos(-1,-1), Size((size.x-6)/2,(size.y-6)/2), ZHeight+1, this, 0, GlobalTexture::minusTexture, GlobalTexture::minusTextureActive);
+	buttonPlus = new Button(Pos(-1,-1), Size((size.x-6)/3,(size.y-6)/2), ZHeight+1, this, 0, GlobalTexture::plusTexture, GlobalTexture::plusTextureActive, 30,10);
+	buttonMinus = new Button(Pos(-1,-1), Size((size.x-6)/3,(size.y-6)/2), ZHeight+1, this, 1, GlobalTexture::minusTexture, GlobalTexture::minusTextureActive, 30,10);
 }
 
 void MedSubmenu::addButtons()
@@ -78,6 +84,54 @@ void MedSubmenu::render(Pos pos)
 	}
 	color[3] = 255;
 	GLHelper::drawColorSquare(pos,size,color,0,0,0);
+
+	unsigned char colorText[4];
+	if(count == 0)
+	{
+		colorText[0] = 40;
+		colorText[1] = 40;
+		colorText[2] = 255;
+		colorText[3] = 110;
+	}
+	else
+	{
+		int redAdd = 20*count;
+		if(redAdd > 255-50)
+		{
+			redAdd = 255-50;
+		}
+		colorText[0] = 50+redAdd;
+		colorText[1] = 20;
+		colorText[2] = 20;
+		colorText[3] = 200;		
+	}
+	
+	if(isSelected || count > 0)
+	{
+		char text[64]; //>63 decimal number = not any time soon
+		
+		sprintf(text,"%d",count);
+
+		Pos offset(0,23);
+		
+		if(isSelected)
+		{
+			offset.x = size.x*(2/(float)5) -40;
+		}
+		else
+		{
+			offset.x = size.x*(1/(float)2) -40;			
+		}
+		
+		if(count < 10)
+		{
+			offset.x += 25;
+		}
+
+		FontRenderer::printText(text,colorText,pos+offset,50,-1);
+
+	}
+
 }
 
 void MedSubmenu::interact(Pos pos, InteractMode currentInteractMode, bool isRepeated)
@@ -95,10 +149,16 @@ void MedSubmenu::callback(int id)
 	if(id == 0)
 	{
 		printf("ADD");		
+		count++;
 	}
 	else
 	{
 		printf("REMOVE");		
+		count--;
+		if(count < 0)
+		{
+			count = 0;
+		}
 	}
 }
 
@@ -107,8 +167,8 @@ void MedSubmenu::updatePos(Pos newPos)
 	pos = newPos;
 	if(buttonPlus != NULL && buttonMinus != NULL)
 	{
-		buttonPlus->updatePos(pos+Pos((size.x-6)/2+4  ,2));
-		buttonMinus->updatePos(pos+Pos((size.x-6)/2+4  ,(size.y-6)/2+4));
+		buttonPlus->updatePos(pos+Pos((size.x-6)*0.66+4  ,2));
+		buttonMinus->updatePos(pos+Pos((size.x-6)*0.66+4  ,(size.y-6)/2+4));
 	}
 	else
 	{

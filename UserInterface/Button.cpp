@@ -6,12 +6,15 @@
 
 #include "GLHelper.h"
 
-Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive) : Interactable(newPos, newSize, InteractClick, newZHeight)
+Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive, int newRepeatInitialDelay, int newRepeatDelay) : Interactable(newPos, newSize, InteractClick, newZHeight)
 {
 	callbackObject = newCallbackObject;
 	callbackValue = newCallbackValue;
 	textureInactive = newTextureInactive;
 	textureActive = newTextureActive;
+
+	repeatInitialDelay = newRepeatInitialDelay;
+	repeatDelay = newRepeatDelay;
 
 	angle = 0;
 	
@@ -21,8 +24,20 @@ Button::Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable
 
 void Button::interact(Pos pos, InteractMode currentInteractMode, bool isRepeated)
 {
-	callbackObject->callback(callbackValue);
-	activeCountdown = 10;
+	if(!isRepeated)
+	{
+		callbackObject->callback(callbackValue);
+		repeatCount = 0;
+	}
+	else
+	{
+		repeatCount++;
+		if(repeatCount > repeatInitialDelay && (repeatCount-repeatInitialDelay)%repeatDelay == 0)
+		{
+			callbackObject->callback(callbackValue);
+		}
+	}
+	activeCountdown = 1;
 }
 
 void Button::work()

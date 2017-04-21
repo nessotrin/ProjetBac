@@ -9,7 +9,7 @@
 class Texture
 {
 public:
-	Texture(unsigned char * bitmap, Size newSize);
+	Texture(unsigned char * bitmap, Size newSize, bool smoothTexture);
 	Texture(GLuint newGLtexture, Size newSize);
 	Texture();
 

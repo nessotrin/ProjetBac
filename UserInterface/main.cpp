@@ -78,6 +78,8 @@ Se connecte et lance l'interface
 
 #include "GLHelper.h"
 
+#include "FontRenderer.h"
+
 int main(int argc, char **argv)
 {
     std::cout << "User interface" << std::endl;
@@ -85,6 +87,10 @@ int main(int argc, char **argv)
 	OpenGLHolder openGLHolder;
 	openGLHolder.initGraphics();
 
+	if(FontRenderer::loadFonts())
+	{
+		return 1;
+	}
 	
 	GlobalTexture::load();
 	

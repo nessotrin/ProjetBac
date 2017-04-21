@@ -39,7 +39,7 @@ private:
 	int continuousCount;
 	Pos startPos;
 	bool isSwipe;
-	bool isDone;
+	bool isLocked;
 	bool isRepeated;
 };
 

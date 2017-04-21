@@ -10,10 +10,10 @@ Texture GlobalTexture::minusTextureActive;
 
 bool GlobalTexture::load()
 {
-	plusTexture = BMPLoader::load("plusTexture.bmp");
-	plusTextureActive = BMPLoader::load("plusTextureActive.bmp");
-	minusTexture = BMPLoader::load("minusTexture.bmp");
-	minusTextureActive = BMPLoader::load("minusTextureActive.bmp");
+	plusTexture = BMPLoader::load("plusTexture.bmp", true);
+	plusTextureActive = BMPLoader::load("plusTextureActive.bmp", true);
+	minusTexture = BMPLoader::load("minusTexture.bmp", true);
+	minusTextureActive = BMPLoader::load("minusTextureActive.bmp", true);
 	return false;
 }
 

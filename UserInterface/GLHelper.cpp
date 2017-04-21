@@ -15,20 +15,34 @@ void GLHelper::CheckForErrors(char * text)
 
 #include "Texture.h"
 
-void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX, int angleY, int angleZ)
+void GLHelper::drawSetPos(Pos pos, Size size, float * startX, float * endX, float * startY, float * endY, int angleX, int angleY, int angleZ)
 {	
 	float sizeX = size.x/(float)(640/2);
 	float sizeY = size.y/(float)(480/2);
 	
-	float startX = -sizeX/2;
-	float endX = sizeX/2;
-	float startY = -sizeY/2;
-	float endY = sizeY/2;
+	*startX = -sizeX/2;
+	*endX = sizeX/2;
+	*startY = -sizeY/2;
+	*endY = sizeY/2;
 	
 	
 	float translateX = ((pos.x+size.x/2)-(640/2))/(float)(640/2);
 	float translateY = -((pos.y+size.y/2)-(480/2))/(float)(480/2);
 
+
+    glLoadIdentity( );
+
+	glTranslated(translateX,translateY,0);
+
+    glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
+}
+
+
+void GLHelper::drawColoredTexturedSquare(Pos pos, Size size, unsigned char color[4], GLuint texture, int angleX, int angleY, int angleZ)
+{	
+	float startX, endX, startY, endY;
+
+	drawSetPos(pos,size,&startX,&endX,&startY,&endY,angleX,angleY,angleZ);
 
 	glEnable(GL_TEXTURE_2D);
 	GLHelper::CheckForErrors("Enable texture");
@@ -37,27 +51,13 @@ void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX
 	glBindTexture(GL_TEXTURE_2D, texture);
 	GLHelper::CheckForErrors("Bind texture");
 
-	
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	 
-
-
-
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	GLHelper::CheckForErrors("Enable Alpha");
 
 	glEnable(GL_BLEND);
 	GLHelper::CheckForErrors("Enable blend");
 
-//    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity( );
-
-	glTranslated(translateX,translateY,0);
-
-    glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
-
-	glColor4ub(255,255,255,255);
+	glColor4ub(color[0],color[1],color[2],color[3]);
 
 
 	glBegin(GL_QUADS);
@@ -73,29 +73,21 @@ void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX
 
 }
 
+void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX, int angleY, int angleZ)
+{	
+	unsigned char color[] = {255,255,255,255};
+	drawColoredTexturedSquare(pos,size,color,texture,angleX,angleY,angleZ);
+}
+
+
 void GLHelper::drawColorSquare(Pos pos, Size size, unsigned char color[4], int angleX, int angleY, int angleZ)
 {	
-	float sizeX = size.x/(float)(640/2);
-	float sizeY = size.y/(float)(480/2);
-	
-	float startX = -sizeX/2;
-	float endX = sizeX/2;
-	float startY = -sizeY/2;
-	float endY = sizeY/2;
-	
-	
-	float translateX = ((pos.x+size.x/2)-(640/2))/(float)(640/2);
-	float translateY = -((pos.y+size.y/2)-(480/2))/(float)(480/2);
+	float startX, endX, startY, endY;
+
+	drawSetPos(pos,size,&startX,&endX,&startY,&endY,angleX,angleY,angleZ);
 
 	glDisable(GL_TEXTURE_2D);
 	GLHelper::CheckForErrors("Disable texture");
-
-
-    glLoadIdentity( );
-
-	glTranslated(translateX,translateY,0);
-
-    glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
 
 	glBegin(GL_QUADS);
 		glColor4ub(color[0],color[1],color[2],color[3]);

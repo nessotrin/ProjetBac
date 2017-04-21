@@ -45,6 +45,8 @@ private:
 	
 	Button * buttonPlus;
 	Button * buttonMinus;
+	
+	int count;
 };
 
 #endif // _MED_SUBMENU_H_

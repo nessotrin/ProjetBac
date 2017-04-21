@@ -19,6 +19,9 @@ MenuWorker::MenuWorker(OpenGLHolder * newOpenGLHolder)
 
  #include "GLHelper.h"
 
+OpenGLHolder * GLOBALopenGLHolder;
+
+
 void MenuWorker::work()
 {
 	TouchController touchController;
@@ -30,7 +33,7 @@ void MenuWorker::work()
 	
 	printf("Starting loop ! \n");
 	
-	
+	GLOBALopenGLHolder = openGLHolder;
 
 	
 	while(1)
@@ -38,11 +41,13 @@ void MenuWorker::work()
 //		printf("Looping ...\n");
 		openGLHolder->beginFrame();
 
+		compositor.render();
+
 		mainMenu.work();
 
 		inputMaster.work();
 
-		compositor.render();
+
 		
 		openGLHolder->finishFrame();
 		

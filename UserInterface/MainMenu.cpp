@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 
+
 MainMenu::MainMenu(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList) : Menu::Menu(newCompositor, newInputMaster, newMenuList)
 {
 	
@@ -77,17 +78,17 @@ void MainMenu::init()
 	//unsigned char data[] = {50,50,255,255};
 
 	
-	testImg = BMPLoader::load("test.bmp");
+	testImg = BMPLoader::load("test.bmp", true);
 
 	
-	test2Img = BMPLoader::load("test2.bmp");
+	test2Img = BMPLoader::load("test2.bmp", true);
 
 
 //	printf("---%d %d\n",testImg.GLtexture,test2Img.GLtexture);
 
 
 
-	mainButton = new Button(Pos(10,10), Size(50,50), 255, this, 0, testImg, testImg);
+	mainButton = new Button(Pos(10,10), Size(50,50), 255, this, 0, testImg, testImg, -1, -1);
 
 
 	compositor->addRenderable(mainButton);
@@ -101,14 +102,14 @@ void MainMenu::init()
 	medSubmenuList = new List<MedSubmenu>;
 
 	
-	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,1,Pos(0,0),Size(540,480),4,-1,Size(100,100),Size(10,10),Size(-1,50),color);
+	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,1,Pos(0,0),Size(540,480),3,-1,Size(150,100),Size(10,10),Size(-1,50),color);
 
 
 
 	for(int i = 0 ; i < 100 ; i++)
 	{
 
-		MedSubmenu * sub = new MedSubmenu(Pos(0,0), Size(100,100), 2, compositor,inputMaster,menuList,medSubmenuList);
+		MedSubmenu * sub = new MedSubmenu(Pos(0,0), Size(150,100), 2, compositor,inputMaster,menuList,medSubmenuList);
 		sub->init();
 		medSubmenuList->add(sub);		
 		scrollableTable->add(sub);

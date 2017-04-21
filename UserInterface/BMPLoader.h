@@ -8,7 +8,7 @@
 class BMPLoader
 {
 public:
-	static Texture load(char * name);
+	static Texture load(char * name, bool smoothTexture);
 
 
 private:

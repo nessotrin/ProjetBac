@@ -8,9 +8,11 @@ class FontRenderer
 public:
 
 	static bool loadFonts();
-	static void printText(unsigned char * text, unsigned char color[4], Pos pos, int sizeX, int sizeY);
+	static void printText(char * text, unsigned char color[4], Pos pos, int sizeX, int sizeY);
 
 
+
+	
 };
 
 #endif // _FONT_RENDERER_H_
