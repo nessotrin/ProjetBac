@@ -27,7 +27,7 @@ void InputMaster::removeInteractable(Interactable * oldInteractable)
 
 
 #define CLICK_TIME_THRESHOLD 10
-#define SWIPE_THRESHOLD_DIST 10
+#define SWIPE_THRESHOLD_DIST 5 //10 -> high DPI screen
 
 #include <SDL2/SDL.h>
 void InputMaster::work()
@@ -42,9 +42,9 @@ void InputMaster::work()
 			{
 				isRepeated = false;
 				isSwipe = false;
-				continuousPos = Pos(x,y);
+				startPos = Pos(x,y);
 			}
-			if(computeDistance(Pos(x,y),continuousPos) > SWIPE_THRESHOLD_DIST)
+			if(computeDistance(Pos(x,y),startPos) > SWIPE_THRESHOLD_DIST)
 			{
 				isSwipe = true;
 			}
@@ -53,14 +53,14 @@ void InputMaster::work()
 				if(isSwipe == false)
 				{
 					isDone = true;
-					printf("Click\n");
-					interact(continuousPos, InteractClick, isRepeated);
+				//	printf("Click\n");
+					interact(startPos, startPos, InteractClick, isRepeated);
 				}
 			}
 			if(isSwipe == true)
 			{
-				printf("Swipe ! %d %d\n",x,y);
-				interact(Pos(x,y),InteractSwipe, isRepeated);
+			//	printf("Swipe ! %d %d\n",x,y);
+				interact(Pos(x,y), startPos,InteractSwipe, isRepeated);
 				
 				isRepeated = true;//AFTER THE FIRST SWIPE
 			}
@@ -77,7 +77,7 @@ void InputMaster::work()
 		if(!isDone && continuousCount > 0 && isSwipe == false)
 		{
 			printf("fast Click!\n");
-			interact(continuousPos, InteractClick, isRepeated);
+			interact(startPos, startPos, InteractClick, isRepeated);
 		}
 
 		continuousCount = 0;
@@ -104,14 +104,13 @@ void InputMaster::work()
 
 int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 {
-	printf("Input handled ! mode %d at %d %d (%d interactables)\n",interactMode,pos.x,pos.y,interactableList.getCount());
+	//printf("Input handled ! mode %d at %d %d (%d interactables)\n",interactMode,pos.x,pos.y,interactableList.getCount());
 	
 	int HighestZId = -1;
 	int HighestZHeight = -1;
 	
 	for(int i = 0 ; i < interactableList.getCount() ; i++)
 	{
-		printf("%d %d\n",interactableList.get(i)->pos.x,interactableList.get(i)->size.x);
 		if(checkBoundingBox(interactableList.get(i),pos) && (interactableList.get(i)->allowedInteractMode & interactMode) )
 		{
 			if(HighestZHeight == interactableList.get(i)->ZHeight)
@@ -133,19 +132,19 @@ int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 	}
 	else
 	{
-		printf("Clicked on interactable %d\n",HighestZId);
+		//printf("Clicked on interactable %d\n",HighestZId);
 		return HighestZId;
 	}
 }
 
 
-void InputMaster::interact(Pos pos, InteractMode interactMode, bool isRepeated)
+void InputMaster::interact(Pos currentPos, Pos interactableSearchPos, InteractMode interactMode, bool isRepeated)
 {
-	int id = searchInteractable(pos, interactMode);
+	int id = searchInteractable(interactableSearchPos, interactMode);
 	if(id >= 0)
 	{
-		interactableList.get(id)->interact(Pos(pos.x - interactableList.get(id)->pos.x,
-											   pos.y - interactableList.get(id)->pos.y),
+		interactableList.get(id)->interact(Pos(currentPos.x - interactableList.get(id)->pos.x,
+											   currentPos.y - interactableList.get(id)->pos.y),
 										   interactMode, isRepeated);
 	}
 

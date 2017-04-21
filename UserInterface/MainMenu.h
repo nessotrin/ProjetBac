@@ -8,6 +8,9 @@
 #include "Texture.h"
 #include "ScrollableTable.h"
 
+#include "MedSubmenu.h"
+
+
 class MainMenu : public Menu, Callbackable
 {
 public:
@@ -27,6 +30,7 @@ private:
 	Button * mainButton;
 	Texture * mainButtonTexture;
 	ScrollableTable * scrollableTable;
+	List<MedSubmenu> * medSubmenuList;
 
 
 };

@@ -32,12 +32,12 @@ private:
 
 	int searchInteractable(Pos pos, InteractMode interactMode);
 
-	void interact(Pos pos, InteractMode interactMode, bool isRepeated);
+	void interact(Pos currentPos, Pos interactableSearchPos, InteractMode interactMode, bool isRepeated);
 
 	int computeDistance(Pos posA, Pos posB);
 
 	int continuousCount;
-	Pos continuousPos;
+	Pos startPos;
 	bool isSwipe;
 	bool isDone;
 	bool isRepeated;

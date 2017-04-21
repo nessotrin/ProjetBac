@@ -38,6 +38,8 @@ void MenuWorker::work()
 //		printf("Looping ...\n");
 		openGLHolder->beginFrame();
 
+		mainMenu.work();
+
 		inputMaster.work();
 
 		compositor.render();

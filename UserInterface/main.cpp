@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 	openGLHolder.initGraphics();
 
 	
-	//GlobalTexture::load();
+	GlobalTexture::load();
 	
 	/* On initialise la connection au seveur et on écrit le résultat */
 	//printf("%d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));

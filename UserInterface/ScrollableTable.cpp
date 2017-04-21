@@ -4,7 +4,7 @@
 
 #include "OpenGLHolder.h"
 
-ScrollableTable::ScrollableTable(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, unsigned char newBackgroundColor[4], int newZHeight, Pos newPos, Size newSize) : Menu(newCompositor, newInputMaster, newMenuList)
+ScrollableTable::ScrollableTable(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, int newZHeight, Pos newPos, Size newSize, int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, Size newBorderMargin, unsigned char newBackgroundColor[4]) : Menu(newCompositor, newInputMaster, newMenuList), Interactable(newPos, newSize, InteractSwipe, newZHeight)
 {
 	allowedInteractMode = InteractAll;
 	scrollPos = 0;
@@ -13,12 +13,15 @@ ScrollableTable::ScrollableTable(Compositor * newCompositor, InputMaster * newIn
 	elementPerColumn = newElementPerColumn;
 	elementSize = newElementSize;
 	elementPerLine = newElementPerLine;
+	elementMargin = newElementMargin;
+	borderMargin = newBorderMargin;
 	
 	memcpy(backgroundColor,newBackgroundColor,4);
 
 	ZHeight = newZHeight;
 	pos = newPos;
 	size = newSize;
+	
 }
 
 bool ScrollableTable::isDone()
@@ -41,11 +44,8 @@ void ScrollableTable::render(Pos offset)
 			cellX = 0;
 			cellY++;
 		}
-			
-		Pos renderPos(elementMargin.x + (elementMargin.x+elementSize.x)*cellX,
-					  elementMargin.y + (elementMargin.y+elementSize.y)*cellY - scrollPos);
-		
-		elementList.get(i)->render(renderPos+pos);
+					
+		elementList.get(i)->render(calculateElementPos(i)+pos);
 			
 		cellX++;
 	}
@@ -54,23 +54,42 @@ void ScrollableTable::render(Pos offset)
 
 void ScrollableTable::interact(Pos interactPos, InteractMode interactMode, bool isRepeated)
 {
-	printf("INTERACT\n");
-	
-	
+		
 	if(isRepeated) //wait for the initial reference before moving
 	{
+
+		if(lastInteractPos.y - interactPos.y > 100)
+		{
+			sleep(100);
+		}
+
+		
+
 		scrollPos +=  lastInteractPos.y - interactPos.y;
+
+
+
 	}
+	else
+	{
+		printf("NOT COUNTING\n");
+	}	
 	
-	printf("DIFF = %d\n",interactPos.x- lastInteractPos.x);
-	printf("SCROLLPOS %d\n",scrollPos);
+	//printf("SCROLLPOS %d\n",scrollPos);
 	
 	if(scrollPos < 0)
 	{
 		scrollPos = 0;
 	}
-	int maxScrollPos = (elementSize.y*elementPerColumn)+(elementMargin.y*(elementPerColumn+1))-(WINDOW_SIZE_Y-pos.y);
-	printf("MAXSCROLLPOS %d\n",maxScrollPos);
+	
+	int marginCount = (elementPerColumn-1);
+	if(marginCount < 0)
+	{
+		marginCount = 0;
+	}
+	
+	int maxScrollPos = (elementSize.y*elementPerColumn)+(elementMargin.y*marginCount)+(borderMargin.y*2)-(WINDOW_SIZE_Y-pos.y);
+	//printf("MAXSCROLLPOS %d\n",maxScrollPos);
 	if(maxScrollPos < 0)
 	{
 		maxScrollPos = 0;
@@ -82,18 +101,24 @@ void ScrollableTable::interact(Pos interactPos, InteractMode interactMode, bool 
 	}
 	
 	
+	updateElementsPos();
+	
 	
 	lastInteractPos = interactPos;
 }
 
-void ScrollableTable::add(Renderable * newRenderable)
+void ScrollableTable::add(Interactable * newInteractable)
 {
-	elementList.add(newRenderable);
+	elementList.add(newInteractable);
+	updateBorderMargin();
 	elementPerColumn = ceil(elementList.getCount()/(float) elementPerLine);
+	
+	newInteractable->updatePos(calculateElementPos(elementList.getCount()-1));
 }
-void ScrollableTable::remove(Renderable * oldRenderable)
+void ScrollableTable::remove(Interactable * oldInteractable)
 {
-	elementList.remove(oldRenderable);	
+	elementList.remove(oldInteractable);	
+	updateBorderMargin();
 	elementPerColumn = ceil(elementList.getCount()/(float) elementPerLine);
 }
 
@@ -112,4 +137,47 @@ void ScrollableTable::deinit()
 {
 	compositor->removeRenderable(this);	
 	inputMaster->removeInteractable(this);
+}
+
+void ScrollableTable::updateBorderMargin()
+{	
+	int firstLineElementCount = min(elementList.getCount(), elementPerLine); //number of elements on the first line
+	
+	int firstLineMarginCount = firstLineElementCount-1;
+	if(firstLineMarginCount < 0)
+	{
+		firstLineMarginCount = 0;
+	}
+		
+	int occupiedSizeX = firstLineElementCount*elementSize.x+ firstLineMarginCount*elementMargin.x;
+
+	borderMargin.x = (size.x-occupiedSizeX)/2;
+
+}
+
+Pos ScrollableTable::calculateElementPos(int id)
+{
+	int cellX = id%elementPerLine;
+	int cellY = id/elementPerLine;
+
+	return Pos(elementSize.x*cellX  + elementMargin.x*cellX + borderMargin.x,
+					 elementSize.y*cellY  + elementMargin.y*cellY + borderMargin.y - scrollPos);
+}
+
+void ScrollableTable::updateElementsPos()
+{
+	for(int i = 0 ; i < elementList.getCount() ; i++)
+	{
+		elementList.get(i)->updatePos(calculateElementPos(i));
+	}
+}
+
+Interactable * ScrollableTable::getElement(int id)
+{
+	return elementList.get(id);
+}
+
+int ScrollableTable::getElementCount()
+{
+	return elementList.getCount();
 }

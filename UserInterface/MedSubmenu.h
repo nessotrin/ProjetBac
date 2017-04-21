@@ -8,12 +8,14 @@
 #include <Callbackable.h>
 
 #include <Button.h>
+#include "MedSubmenu.h"
 
-class MedSubmenu : Menu, Interactable, Callbackable
+
+class MedSubmenu : public Menu, public Interactable, Callbackable
 {
 public:
 
-	MedSubmenu(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, ScrollableTable * newScrollableTable, Pos newPos);
+	MedSubmenu(Pos newPos, Size newSize, int newZHeight, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList);
 
 
 	void unselect();
@@ -23,17 +25,23 @@ public:
 	void init();
 	void deinit();
 
+
 	void render(Pos pos);
 
 	void interact(Pos pos, InteractMode currentInteractMode, bool isRepeated);
 
 	void callback(int id);
 
+	void updatePos(Pos newPos);
+
 private:
+
+	void addButtons();
+	void removeButtons();
 
 	bool isSelected;
 	
-	ScrollableTable * scrollableTable;
+	List<MedSubmenu> * medSubmenuList;
 	
 	Button * buttonPlus;
 	Button * buttonMinus;

@@ -4,17 +4,22 @@
 
 #include "GLHelper.h"
 
-MedSubmenu::MedSubmenu(Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, ScrollableTable * newScrollableTable, Pos newPos) : Menu(newCompositor, newInputMaster, newMenuList)
+MedSubmenu::MedSubmenu(Pos newPos, Size newSize, int newZHeigt, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, List<MedSubmenu> * newMedSubmenuList) : Menu(newCompositor, newInputMaster, newMenuList), Interactable(newPos,newSize,InteractClick,newZHeigt)
 {
-	scrollableTable = newScrollableTable;
-	size = Size(50,50);
-	pos = newPos;
+	medSubmenuList = newMedSubmenuList;
+	
+	isSelected = false;
+	
+	buttonPlus = NULL;
+	buttonMinus = NULL;
+	
 }
 
 
 void MedSubmenu::unselect()
 {
 	isSelected = false;
+	removeButtons();
 }
 
 bool MedSubmenu::isDone()
@@ -24,25 +29,34 @@ bool MedSubmenu::isDone()
 
 void MedSubmenu::work()
 {
-	
+	buttonMinus->work();
+	buttonPlus->work();
 }
 
 void MedSubmenu::init()
 {
-	buttonPlus = new Button(this,0,pos+Pos(0,0),Size(20,20),GlobalTexture::plusTexture,ZHeight+1);
-	buttonMinus = new Button(this,1,pos+Pos(0,0),Size(20,20),GlobalTexture::minusTexture,ZHeight+1);
+	buttonPlus = new Button(Pos(-1,-1), Size((size.x-6)/2,(size.y-6)/2), ZHeight+1, this, 0, GlobalTexture::plusTexture, GlobalTexture::plusTextureActive);
+	buttonMinus = new Button(Pos(-1,-1), Size((size.x-6)/2,(size.y-6)/2), ZHeight+1, this, 0, GlobalTexture::minusTexture, GlobalTexture::minusTextureActive);
+}
+
+void MedSubmenu::addButtons()
+{
 	compositor->addRenderable(buttonPlus);
 	compositor->addRenderable(buttonMinus);
 	inputMaster->addInteractable(buttonPlus);
-	inputMaster->addInteractable(buttonMinus);
+	inputMaster->addInteractable(buttonMinus);	
 }
 
-void MedSubmenu::deinit()
+void MedSubmenu::removeButtons()
 {
 	compositor->removeRenderable(buttonPlus);
 	compositor->removeRenderable(buttonMinus);
 	inputMaster->removeInteractable(buttonPlus);
-	inputMaster->removeInteractable(buttonMinus);
+	inputMaster->removeInteractable(buttonMinus);	
+}
+
+void MedSubmenu::deinit()
+{
 	free(buttonPlus);
 	free(buttonMinus);
 }
@@ -68,7 +82,12 @@ void MedSubmenu::render(Pos pos)
 
 void MedSubmenu::interact(Pos pos, InteractMode currentInteractMode, bool isRepeated)
 {
+	for(int i = 0 ; i < medSubmenuList->getCount() ; i++)
+	{
+		medSubmenuList->get(i)->unselect();
+	}
 	isSelected = true;
+	addButtons();
 }
 
 void MedSubmenu::callback(int id)
@@ -80,5 +99,19 @@ void MedSubmenu::callback(int id)
 	else
 	{
 		printf("REMOVE");		
+	}
+}
+
+void MedSubmenu::updatePos(Pos newPos)
+{
+	pos = newPos;
+	if(buttonPlus != NULL && buttonMinus != NULL)
+	{
+		buttonPlus->updatePos(pos+Pos((size.x-6)/2+4  ,2));
+		buttonMinus->updatePos(pos+Pos((size.x-6)/2+4  ,(size.y-6)/2+4));
+	}
+	else
+	{
+		printf("WARNING POS UPDATED IN MED SUBMENU BEFORE INIT !\n");
 	}
 }

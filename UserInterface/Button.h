@@ -10,18 +10,21 @@
 class Button : public Interactable
 {
 public:
-	Button(Callbackable * newCallbackObject, int newCallbackValue, Pos newPos , Size newSize, Texture newTexture, unsigned char newZHeight);
+	Button(Pos newPos , Size newSize, unsigned char newZHeight, Callbackable * newCallbackObject, int newCallbackValue, Texture newTextureInactive, Texture newTextureActive);
 	void render(Pos pos);
 	void interact(Pos pos, InteractMode currentInteractMode, bool isRepeated);
+	void work();
 	
 private:
 
 	Callbackable * callbackObject;
 	int callbackValue;
-	Texture texture;
+	Texture textureInactive;
+	Texture textureActive;
 
 	int angle;
 
+	int activeCountdown;
 
 };
 

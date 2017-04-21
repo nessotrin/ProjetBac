@@ -10,7 +10,10 @@ public:
 	static bool load();
 	
 	static Texture plusTexture;
+	static Texture plusTextureActive;
+
 	static Texture minusTexture;
+	static Texture minusTextureActive;
 	
 
 };

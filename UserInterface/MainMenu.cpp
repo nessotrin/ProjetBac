@@ -2,6 +2,7 @@
 
 #include "BMPLoader.h"
 
+
 #include <cstdio>
 
 #include <cstdlib>
@@ -52,6 +53,12 @@ bool MainMenu::isDone()
 
 void MainMenu::work()
 {
+	mainButton->work();
+	
+	for(int i = 0 ; i < medSubmenuList->getCount() ; i++)
+	{
+		medSubmenuList->get(i)->work();
+	}
 	
 }
 
@@ -80,7 +87,7 @@ void MainMenu::init()
 
 
 
-	mainButton = new Button(this,0,Pos(10,10),Size(50,50),testImg,255);
+	mainButton = new Button(Pos(10,10), Size(50,50), 255, this, 0, testImg, testImg);
 
 
 	compositor->addRenderable(mainButton);
@@ -91,16 +98,22 @@ void MainMenu::init()
 	unsigned char color[] = {255,255,220,255};
 	
 	
-	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,3,2,Size(100,100),Size(30,30),color,1,Pos(0,0),Size(1000,1000));
+	medSubmenuList = new List<MedSubmenu>;
+
+	
+	scrollableTable = new ScrollableTable(compositor,inputMaster,menuList,1,Pos(0,0),Size(540,480),4,-1,Size(100,100),Size(10,10),Size(-1,50),color);
 
 
 
 	for(int i = 0 ; i < 100 ; i++)
 	{
-		Button * button1 = new Button(this,1,Pos(0,0),Size(100,100),test2Img,2);
-		inputMaster->addInteractable(button1);
 
-		scrollableTable->add(button1);
+		MedSubmenu * sub = new MedSubmenu(Pos(0,0), Size(100,100), 2, compositor,inputMaster,menuList,medSubmenuList);
+		sub->init();
+		medSubmenuList->add(sub);		
+		scrollableTable->add(sub);
+		inputMaster->addInteractable(sub);
+
 	}
 
 	scrollableTable->init();

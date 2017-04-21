@@ -14,8 +14,6 @@
     <File Name="Compositor.h"/>
     <File Name="Compositor.cpp"/>
     <File Name="Renderable.h"/>
-    <File Name="Surface.h"/>
-    <File Name="Surface.cpp"/>
     <File Name="Button.h"/>
     <File Name="Button.cpp"/>
     <File Name="Interactable.h"/>
@@ -42,6 +40,13 @@
     <File Name="BMPLoader.cpp"/>
     <File Name="ScrollableTable.cpp"/>
     <File Name="ScrollableTable.h"/>
+    <File Name="MedSubmenu.h"/>
+    <File Name="MedSubmenu.cpp"/>
+    <File Name="GlobalTexture.h"/>
+    <File Name="GlobalTexture.cpp"/>
+    <File Name="Renderable.cpp"/>
+    <File Name="FontRenderer.h"/>
+    <File Name="FontRenderer.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

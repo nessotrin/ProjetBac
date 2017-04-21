@@ -57,6 +57,8 @@ void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX
 
     glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
 
+	glColor4ub(255,255,255,255);
+
 
 	glBegin(GL_QUADS);
 		glTexCoord2d(0,1); glVertex2d(startX,startY);
