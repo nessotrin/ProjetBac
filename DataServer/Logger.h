@@ -4,12 +4,21 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+enum LogLevel
+{
+	InfoLog = 0,
+	WarningLog,
+	ErrorLog,
+	VersionLog,
+	RemoteLog,
+	SpecialLog,
+};
 
 class Logger
 {
 public:
 	static void initLogger();
-	static void log(const char * format, ...);
+	static void log(const char * format, LogLevel level ...);
 	static bool initFile(char* filename);
 	static void closeFile();
 	static void setToConsole(bool value);

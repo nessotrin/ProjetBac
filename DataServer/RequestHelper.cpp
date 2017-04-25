@@ -10,19 +10,19 @@ int RequestHelper::getOneIntArg(char * request, int requestCmdLength)
 	printf("HELPER--- \"%s\" searching at %d \n",request,requestCmdLength);
 	if(strlen(request) <= requestCmdLength)
 	{
-		Logger::log("NO ARG APPENDED ON : \"%s\" !!",request);
+		Logger::log("NO ARG APPENDED ON : \"%s\" !!",WarningLog,request);
 		return 0;
 	}
 
-	printf("Has a value, \"%s\"\n",request+requestCmdLength);
+	Logger::log("Has a value, \"%s\"\n",InfoLog,request+requestCmdLength);
 
 	int value;	
 	if(sscanf(request+requestCmdLength,"%d\n",&value) == 0)
 	{
-		printf("VALUE IS NOT A NUMBER ??!!\n");
+		Logger::log("VALUE IS NOT A NUMBER ??!!\n",WarningLog);
 	}
 
-	printf("Read the value %d\n",value);
+	Logger::log("Read the value %d\n",InfoLog,value);
 
 
 		

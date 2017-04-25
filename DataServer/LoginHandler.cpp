@@ -22,7 +22,7 @@ Il crée un nouveau client, s'occupe du 'login' et l'ajoute à la liste
 ***/
 bool LoginHandler::addNewClient(int socket)
 {
-	Logger::log("Start connection protocol on the client ...\n");
+	Logger::log("Start connection protocol on the client ...\n",InfoLog);
 
 	/* Crée un nouveau client avec le 'socket' donné*/
 	Client * newClient = new Client(socket);
@@ -41,7 +41,7 @@ bool LoginHandler::addNewClient(int socket)
 	/* Le nouveau client est ajouté */
 	clientList[clientCount-1] = newClient;
 	
-	Logger::log("Now at %d clients !\n",clientCount);
+	Logger::log("Now at %d clients !\n",InfoLog,clientCount);
 	
 	return false;
 }
@@ -53,7 +53,7 @@ Le client est ensuite supprimé
 ***/
 void LoginHandler::disconnect(int socket)
 {
-	Logger::log("Disconnecting socket %d ...\n", socket);
+	Logger::log("Disconnecting socket %d ...\n",InfoLog, socket);
 	
 	/* Passage dans la liste des clients */
 	for(int i = 0 ; i < clientCount ; i++)
@@ -104,7 +104,7 @@ La fonction retourne 'True' tant que tout les clients ne sont pas passés
 ***/
 bool LoginHandler::iterateOnClients(Client ** clientToUse)
 {
-	Logger::log("Iterating on clients at %d/%d\n",iteratorCounter,clientCount);
+	Logger::log("Iterating on clients at %d/%d\n",InfoLog,iteratorCounter,clientCount);
 
 	/* Vérification de la progression */
 	if(iteratorCounter >= clientCount)

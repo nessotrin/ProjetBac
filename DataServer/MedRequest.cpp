@@ -54,7 +54,7 @@ void MedRequest::sendMedImg(Client * client, int id)
 		return; 
 	}
 	
-	Logger::log("Med img sent !\n");
+	Logger::log("Med img sent !\n",InfoLog);
 }
 
 
@@ -127,7 +127,7 @@ Envoie le nombre de médicament du numéro donné
 ***/
 void MedRequest::sendMedId(Client * client, int id)
 {
-	Logger::log("Count asked on med %d... \n", id);
+	Logger::log("Count asked on med %d... \n", InfoLog, id);
 	/* Création du buffer de communication */
 	char buffer[1024];
 
@@ -152,33 +152,33 @@ void MedRequest::handleRequest(char * request, Client * client)
 	
 	printf("handleRequest with MEDHANDLER\n");
 	
-	if(strlen(request) >= strlen("RecupPoidsUnitaireMedoc") && memcmp(request, "RecupPoidsUnitaireMedoc", strlen("RecupPoidsUnitaireMedoc")) == 0)
+	if(strlen(request) >= 23 && memcmp(request, "RecupPoidsUnitaireMedoc", 23) == 0)
 	{
-		sendMedUnitWeigth(client, RequestHelper::getOneIntArg(request,strlen("RecupPoidsUnitaireMedoc")));
+		sendMedUnitWeigth(client, RequestHelper::getOneIntArg(request,23));
 	}
-	else if(strlen(request) >= strlen("RecupImageMedoc") && memcmp(request, "RecupImageMedoc", strlen("RecupImageMedoc")) == 0)
+	else if(strlen(request) >= 15 && memcmp(request, "RecupImageMedoc", 15) == 0)
 	{
 		sendMedImg(client, RequestHelper::getOneIntArg(request,15));
 	}
-	else if(strlen(request) >= strlen("RecupNomMedoc") && memcmp(request, "RecupNomMedoc", strlen("RecupNomMedoc")) == 0)
+	else if(strlen(request) >= 13 && memcmp(request, "RecupNomMedoc", 13) == 0)
 	{
-		sendMedName(client, RequestHelper::getOneIntArg(request,strlen("RecupNomMedoc")));
+		sendMedName(client, RequestHelper::getOneIntArg(request,13));
 	}
-	else if(strlen(request) >= strlen("RecupNombreMedoc") && memcmp(request, "RecupNombreMedoc", strlen("RecupNombreMedoc")) == 0)
+	else if(strlen(request) >= 16 && memcmp(request, "RecupNombreMedoc", 16) == 0)
 	{
-		sendMedCount(client, RequestHelper::getOneIntArg(request,strlen("RecupNombreMedoc")));
+		sendMedCount(client, RequestHelper::getOneIntArg(request,16));
 	}
-	else if(strlen(request) >= 21 && memcmp(request, "RecupTailleListeMedoc", strlen("RecupTailleListeMedoc")) == 0)
+	else if(strlen(request) >= 21 && memcmp(request, "RecupTailleListeMedoc", 21) == 0)
 	{
 		sendMedListSize(client);
 	}
-	else if(strlen(request) >= 12 && memcmp(request, "RecupIdMedoc", strlen("RecupIdMedoc")) == 0)
+	else if(strlen(request) >= 12 && memcmp(request, "RecupIdMedoc", 12) == 0)
 	{
-		sendMedId(client, RequestHelper::getOneIntArg(request,strlen("RecupIdMedoc")));
+		sendMedId(client, RequestHelper::getOneIntArg(request,12));
 	}	
 	else
 	{
-		Logger::log("Unknow request !!!\n");
+		Logger::log("Unknow request !!!\n",WarningLog);
 		/* Échec */
 	}
 }

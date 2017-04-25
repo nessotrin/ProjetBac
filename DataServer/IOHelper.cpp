@@ -23,6 +23,7 @@ char * IOHelper::sendRequestAndGetRequest(int clientSocket, char * requestBuffer
 	return getRequest(clientSocket);
 }
 
+#include <errno.h>
 /***
 Récupère des données du socket UNIX et coupe à la première fin de ligne
 Les octets sont lus un par un et ajoutés à la requête reçue, si il s'agit d'un retour à la ligne, il s'arrête
@@ -37,14 +38,14 @@ char * IOHelper::getRequest(int clientSocket)
 	do
 	{
 		/* Si il n'y a plus de place dans la requête */
-		if(bufferPos == bufferSize)
+		if(bufferPos+1 >= bufferSize)
 		{
 			/* On la réaloue avec 20 caractères de plus*/
 			bufferSize += 20;
 			buffer = (char *) realloc(buffer, bufferSize);
 			if(buffer == NULL) /* Si la réalocation échoue */
 			{
-				Logger::log("ALLOC ERROR !\n");
+				Logger::log("ALLOC ERROR !\n",ErrorLog);
 				return NULL;
 			}
 		}
@@ -52,17 +53,20 @@ char * IOHelper::getRequest(int clientSocket)
 		int readReturn = read(clientSocket, buffer+bufferPos, 1);
 		if(readReturn == 0)
 		{
-			Logger::log("Connection ended !\n");
+			Logger::log("Connection ended !\n",WarningLog);
 			return NULL;
 		}
 		else if(readReturn < 0)
 		{
-			Logger::log("ERROR Read failed %d\n",readReturn);
+			Logger::log("ERROR Read failed %d\n",WarningLog,errno);
 			return NULL;
 		}
 		bufferPos += readReturn;
 		
 	} while(bufferPos == 0 || buffer[bufferPos-1] != '\n'); /*On vérifie qu'il ne s'agisse pas d'une fin de ligne*/
+	
+	buffer[bufferPos] = 0;//safety
+
 
 	/* On donne le buffer qui contient le requête reçue */
 	return buffer;

@@ -9,6 +9,7 @@ enum requestHandlerList
 	DOOR_REQUEST,
 	LED_REQUEST,
 	SENSOR_REQUEST,
+	LOG_REQUEST,
 };
 
 enum

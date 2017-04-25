@@ -2,6 +2,7 @@
 
 #include "ModuleInfo.h"
 #include "IOHelper.h"
+#include "NetworkLogger.h"
 
 #include <cstdio>
 
@@ -9,7 +10,7 @@ ConnectionHandler ConnectionServeur::connectionHandler;
 /***
 Initialise la connection sur le serveur, avec le nom, le type de programme, la version, et le mode 'debug'
  ***/
-bool ConnectionServeur::initialisation(char * ip, int newType, int newVersionMajor, int newVersionMinor, int newVersionPatch, bool newIsDebug)
+bool ConnectionServeur::initialisation(char * ip, TypeList newType, int newVersionMajor, int newVersionMinor, int newVersionPatch, bool newIsDebug)
 {
 	printf("Init sur \"%s\"\n",ip);
 	
@@ -69,4 +70,35 @@ Ferme la connection au serveur à l'aide des fonctions avancées
 void ConnectionServeur::fermer()
 {
 	connectionHandler.disconnect();
+}
+
+char * logLevelPrefix[] = { "[INFO]: ",
+							"[ERROR]: ",
+							"_\\/_\n\\  /\n\\/ "};
+
+bool ConnectionServeur::serveurPrintf(LogLevel logLevel, const char * format ...)
+{
+	char buffer[1024];
+	
+	int writePos = sprintf(buffer, "LogSurServeur ");
+	
+	writePos += sprintf(buffer+writePos, "%s", logLevelPrefix[logLevel]);
+
+	
+
+
+	
+	va_list args;
+	
+	va_start (args, format);
+	vsprintf (buffer+writePos, format, args);
+	printf("\"");
+	vprintf (format, args);
+	printf("\"\n");
+
+	va_end (args);
+	
+	NetworkLogger::log(connectionHandler.getSocket(), buffer);
+	
+	return false;
 }

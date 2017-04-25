@@ -63,7 +63,7 @@ void LedHandler::LedOff()
 
 void LedHandler::PointTo(int id)
 {
-	Logger::log("Set point to color : TODO !\n");
+	Logger::log("Set point to color : TODO !\n",ErrorLog);
 	for(int j = 0 ; j < 3 ; j++)
 	{
 		Leds[id].value[j] = 128;
@@ -74,13 +74,13 @@ void LedHandler::PointTo(int id)
 
 void LedHandler::EmergencyFlash()
 {
-	Logger::log("EMERGENCY FLASH LED : TODO !\n");
+	Logger::log("EMERGENCY FLASH LED : TODO !\n",ErrorLog);
 }
 
 
 void LedHandler::writeLedRealtime()
 {
-	Logger::log("writeLedRealtime: TODO !\n");
+	Logger::log("writeLedRealtime: TODO !\n",ErrorLog);
 }
 
 

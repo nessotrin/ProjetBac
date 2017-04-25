@@ -53,15 +53,15 @@ Accepte un client et lui donne un socket
 ***/
 void Server::acceptClient()
 {
-	Logger::log("New client connecting ...\n");
+	Logger::log("New client connecting ...\n",InfoLog);
 	
 	/* Création du socket et acceptation */
 	struct sockaddr_in address;
-	int addrlen;
+	int addrlen = 0;
 	int newSocket = accept(serverSocket, (struct sockaddr *)&address, (socklen_t*)&addrlen);
 	if(newSocket < 0) /* Vérification de réussite */
 	{
-		Logger::log("ERROR on accept\n");
+		Logger::log("ERROR on accept\n",ErrorLog);
 		/* Abandon */
 		return;
 	}
@@ -69,14 +69,14 @@ void Server::acceptClient()
 	/* Ajout du client au handler des clients */
 	if(loginHandler->addNewClient(newSocket)) /* Vérification de l'échec, érreur réseau ou serveur plein */
 	{
-		Logger::log("SERVER FULL or CONNECTION FAILED\n");
+		Logger::log("SERVER FULL or CONNECTION FAILED\n",WarningLog);
 		/* Ferme le nouveau socket*/
 		close(newSocket);
 		/* Abandon */
 		return;
 	}
 	
-	Logger::log("Client fully connected !\n");
+	Logger::log("Client fully connected !\n",InfoLog);
 }
 
 /***
@@ -84,25 +84,25 @@ Gère les clients
 **/
 void Server::handleClients()
 {
-	Logger::log("Handling clients ...\n");
+	Logger::log("Handling clients ...\n",InfoLog);
 	Client * client;
 	/* Boucle sur les clients */
 	while (loginHandler->iterateOnClients(&client)) 
 	{
-		Logger::log("Checking socket ...\n");
+		Logger::log("Checking socket ...\n",InfoLog);
 		/* On vérifie si il se passe quelque chose sur le socket */
 		if(FD_ISSET(client->getSocket(), &selector)) /* Il se passe quelque chose */
 		{
-			Logger::log("Socket triggered\n");
+			Logger::log("Socket triggered\n",InfoLog);
 			/* Gestion de la requête */
 			if(requestHandler->triageRequest(client)) /* Vérification de l'échec*/
 			{
-				Logger::log("Socket handling failed\n");
+				Logger::log("Socket handling failed\n",WarningLog);
 				/* On déconnecte le client */
 				loginHandler->disconnect(client->getSocket());
 			}
 		}
-		Logger::log("Socket checked ...\n");
+		Logger::log("Socket checked ...\n",InfoLog);
 	}
 }
 
@@ -110,18 +110,18 @@ void Server::work()
 {
 	while(1)
 	{
-		Logger::log("Setting up selector ... \n");
+		Logger::log("Setting up selector ... \n",InfoLog);
 		/* On ajoute les sockets 'UNIX' au selecteur 'UNIX' */
 		int max_sd = addSocketsToSelector();
-		Logger::log("Set'ed up ! \n");
+		Logger::log("Set'ed up ! \n",InfoLog);
 		
-		Logger::log("Waiting for activity on sockets ...\n");
+		Logger::log("Waiting for activity on sockets ...\n",InfoLog);
 		//wait for an activity on one of the sockets , timeout is NULL , so wait indefinitely
         /* On attends que quelque chose se passe */
 		int activity = select( max_sd + 1 , &selector , NULL , NULL , NULL);
         if(activity < 0)
         {
-            Logger::log("ERROR on select\n");
+            Logger::log("ERROR on select\n",WarningLog);
         }
 		
 		  
@@ -138,7 +138,7 @@ void Server::work()
 			/* On gère les clients */
 			handleClients();
 		}			
-		Logger::log("Activity loop restarting ... \n");
+		Logger::log("Activity loop restarting ... \n",InfoLog);
 	}
 }
 
@@ -154,7 +154,7 @@ bool Server::setup()
 	serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (serverSocket < 0) /* Vérification de l'échec */ 
 	{
-		Logger::log("ERROR opening socket\n");
+		Logger::log("ERROR opening socket\n",ErrorLog);
 		/* Abandon */
 		return true;
 	}
@@ -165,12 +165,12 @@ bool Server::setup()
 	serverAddr.sin_port = htons(port);
 
 
-	Logger::log("Binding port ...\n");
+	Logger::log("Binding port ...\n",InfoLog);
 
 	/* Demande à l'OS de bind' le socket sur le port*/
 	if (bind(serverSocket, (struct sockaddr *) &serverAddr, sizeof(serverAddr)) < 0) /* Vérification d'échec */
 	{
-		Logger::log("ERROR Couldn't bind port !\nIs or was a server already running ?\n");
+		Logger::log("ERROR Couldn't bind port !\nIs or was a server already running ?\nRetrying ...\n",WarningLog);
 		sleep(5);
 		goto retry;
 		/* Abandon */
@@ -180,7 +180,7 @@ bool Server::setup()
 	/* Demande à l'OS d'ouvrir le socket aux connections */
 	if(listen(serverSocket,3) < 0) /* Vérification d'échec */
 	{
-		Logger::log("ERROR while setting to listening mode\n");
+		Logger::log("ERROR while setting to listening mode\n",ErrorLog);
 		/* Abandon */
 		return true;
 	}

@@ -7,6 +7,13 @@
 FILE * Logger::logFile;
 int Logger::logMode;
 
+char * logLevelPrefix[] = { "[INFO]: ",
+							"[WARNING]: ",
+							"[  ERROR  ]: ",
+							"[VERSION]: ",
+							"[REMOTE]: ",
+							"()()\n(\'.\')\n(\")(\")"};
+
 void Logger::initLogger()
 {
 	logMode = LOG_TO_CONSOLE + LOG_TO_LOGGERS + LOG_TO_FILE;
@@ -18,7 +25,7 @@ bool Logger::initFile(char * filename)
 	logFile = fopen(filename,"w+");
 	if(logFile <= 0)
 	{
-		log("Logger: fopen \"%s\" failed with %d\n",filename,logFile);
+		log("Logger: fopen \"%s\" failed with %d\n",ErrorLog,filename,logFile);
 		return true;
 	}
 	
@@ -30,11 +37,12 @@ void Logger::closeFile()
 	fclose(logFile);
 }
 
-void Logger::log(const char* format, ...)
+void Logger::log(const char* format, LogLevel logLevel, ...)
 { 
 	va_list args;
 	if(logMode & LOG_TO_CONSOLE)
 	{
+		printf("%s",logLevelPrefix[logLevel]);
 		va_start (args, format);
 		vprintf (format, args);
 	}
@@ -50,6 +58,7 @@ void Logger::log(const char* format, ...)
 	if(logMode & LOG_TO_FILE && logFile > 0)
 	{
 		va_start (args, format);
+		fprintf (logFile, "%s",logLevelPrefix[logLevel]); 
 		vfprintf (logFile, format, args); 
 		fflush(logFile);
 	}

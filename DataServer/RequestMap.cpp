@@ -23,7 +23,7 @@ class Request
 
 
 
-#define REQUEST_MAP_SIZE 24
+#define REQUEST_MAP_SIZE 26
 
 Request requestList[REQUEST_MAP_SIZE] = 
 {
@@ -45,12 +45,15 @@ Request requestList[REQUEST_MAP_SIZE] =
 	{"CapteurOff",(int)strlen("CapteurOff"),Capteurs,SENSOR_REQUEST},
 	{"ChangerPoidsUnitaireMedoc",(int)strlen("ChangerPoidsUnitaireMedoc"),Capteurs,MED_REQUEST},
 	{"ChangerNombreMedoc",(int)strlen("ChangerNombreMedoc"),Capteurs,MED_REQUEST},
-	{"ResultatCoherencePoid",(int)strlen("ResultatCoherencePoid"),Alarme,NO_REQUEST},
+	{"VerifierCoherencePoid",(int)strlen("VerifierCoherencePoid"),Capteurs,NO_REQUEST},
 	{"DeclencherAlarme",(int)strlen("DeclencherAlarme"),Alarme,NO_REQUEST},
 	{"AllumerLumieresAlarme",(int)strlen("AllumerLumieresAlarme"),Leds,NO_REQUEST},
+	{"LumiereMontrerMed",(int)strlen("LumiereMontrerMed"),Leds,NO_REQUEST},
 	{"EnvoyerMailAlarme",(int)strlen("EnvoyerMailAlarme"),AlarmeMail,NO_REQUEST},
 	{"VerifierIdCarte",(int)strlen("VerifierIdCarte"),Aucun,HUMAN_REQUEST},
 	{"MedecinConnecte",(int)strlen("MedecinConnecte"),Ecran,NO_REQUEST},
+	{"LogSurServeur ",(int)strlen("LogSurServeur "),Aucun,LOG_REQUEST},
+
 };
 
 void RequestMap::initRequestMap()
@@ -74,9 +77,10 @@ int RequestMap::getDesignatedRequestHandler(char * request)
 {
 	for(int i = 0 ; i < REQUEST_MAP_SIZE ; i++)
 	{
-		Logger::log("Testing \"%s\" (%d) with \"%s\" (%d)\n",request,strlen(request),requestList[i].cmdName, requestList[i].cmdLength);
+		Logger::log("Testing \"%s\" (%d) with \"%s\" (%d)\n",InfoLog,request,strlen(request),requestList[i].cmdName, requestList[i].cmdLength);
 		if(strlen(request) >= requestList[i].cmdLength && memcmp(request,requestList[i].cmdName, requestList[i].cmdLength) == 0)
 		{
+			Logger::log("FOUND\n",InfoLog);
 			return requestList[i].designatedHandler;
 		}
 	}

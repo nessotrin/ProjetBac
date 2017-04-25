@@ -3,7 +3,9 @@
 
 #include <ConnectionHandler.h>
 
-enum
+#include <stdarg.h>
+
+enum TypeList
 {
 	Ecran = 0,
 	Codeur,
@@ -15,8 +17,15 @@ enum
 	SMS,
 	Poids,
 	debug,
-	switchPorte,
-} typeList;
+};
+
+
+enum LogLevel
+{
+	information = 0,
+	erreur = 1,
+	special,
+};
 
 struct Medicament
 {
@@ -36,11 +45,13 @@ typedef Medicament Medicament;
 class ConnectionServeur
 {
 public:
-	static bool initialisation(char * ip, int newType, int newVersionMajor, int newVersionMinor, int newVersionPatch, bool newIsDebug);
+	static bool initialisation(char * ip, TypeList newType, int newVersionMajor, int newVersionMinor, int newVersionPatch, bool newIsDebug);
 	static bool envoyer(char * message);
 	static char * recevoir();
 	static bool verifRecevoirPret();
 	static void fermer();
+	static bool serveurPrintf(LogLevel logLevel, const char * format ...);
+
 
 private:
 

@@ -22,13 +22,13 @@ Envoie le nombre de médicament du numéro donné
 
 void HumanRequest::sendHumanAuthorizedIDs(Client * client, int id)
 {
-	Logger::log("Authorized Medecines asked for human %d... \n", id);
+	Logger::log("Authorized Medecines asked for human %d... \n", InfoLog, id);
 
 	/* Récupération du médicament demandé */
 	Human * selectedHuman = humanHandler->getHuman(id);
 
 	/*TODO*/
-	Logger::log("TODO!!\n");
+	Logger::log("TODO!!\n",ErrorLog);
 
 	
 	/* Envoi du nom (comme défini par le protocol) */
@@ -44,7 +44,7 @@ void HumanRequest::sendHumanAuthorizedIDs(Client * client, int id)
 
 void HumanRequest::sendHumanName(Client * client, int id)
 {
-	Logger::log("Human name asked for %d... \n", id);
+	Logger::log("Human name asked for %d... \n", InfoLog, id);
 
 	/* Récupération du médicament demandé */
 	Human * selectedHuman = humanHandler->getHuman(id);
@@ -76,7 +76,7 @@ void HumanRequest::handleRequest(char * request, Client * client)
 	}
 	else
 	{
-		Logger::log("Unknow request !!!\n");
+		Logger::log("Unknow request !!!\n",WarningLog);
 		/* Échec */
 	}
 }

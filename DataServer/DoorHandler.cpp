@@ -4,7 +4,7 @@
 
 void DoorHandler::openDoor()
 {
-	Logger::log("OPENDOOR: TODO!!\n");
+	Logger::log("OPENDOOR: TODO!!\n",ErrorLog);
 }
 
 void DoorHandler::setDoorStatus(bool newDoorStatus)

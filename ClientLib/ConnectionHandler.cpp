@@ -9,6 +9,12 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
+
+ConnectionHandler::ConnectionHandler()
+{
+	clientSocket = -1;
+}
+
 /***
 Création d'un socket 'unix' et connection au serveur
 Le socket est crée, paramétré et connecté

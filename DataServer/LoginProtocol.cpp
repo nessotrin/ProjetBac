@@ -23,7 +23,7 @@ bool LoginProtocol::doLogin(Client * client)
 	/* Vérifications sur le message */
 	if(length < 64) /* Le message est trop court, il s'agit  probablement d'un autre logiciel qui tente de se connecter */
 	{
-		Logger::log("Client didn't send enough login data ! (%d/%d)\n",length,64);
+		Logger::log("Client didn't send enough login data ! (%d/%d)\n",WarningLog,length,64);
 		
 		/* Échec */
 		return true;
@@ -33,20 +33,20 @@ bool LoginProtocol::doLogin(Client * client)
 	if(memcmp(buffer,"<3COOKIE",8) != 0) /* Le 'magic' ne correspond pas*/
 	{
 		/* Affichage du 'magic' qui a été reçu */
-		Logger::log("Client has the wrong magic !\n");
-		Logger::log("\"");
+		Logger::log("Client has the wrong magic !\n",WarningLog);
+		Logger::log("\"",WarningLog);
 		for(int i = 0 ; i < 8 ; i++)
 		{
-			Logger::log("%c",buffer[i]);
+			Logger::log("%c",WarningLog,buffer[i]);
 		}
-		Logger::log("\"\n");
+		Logger::log("\"\n",WarningLog);
 		
 		/* Échec */
 		return true;
 	}
 	
 	/* Affichage des infos du client*/
-	Logger::log("Info module:\nType %s\nVersion %d.%d.%d\nDebug: %s\n",TextResolver::typeToName(buffer[8]),buffer[9],buffer[10],buffer[11],TextResolver::boolToFrench(buffer[12]));
+	Logger::log("Info module:\nType %s\nVersion %d.%d.%d\nDebug: %s\n",VersionLog,TextResolver::typeToName(buffer[8]),buffer[9],buffer[10],buffer[11],TextResolver::boolToFrench(buffer[12]));
 	
 	/* On enregistre les informations dans l'objet client*/
 	client->setType(buffer[8]);

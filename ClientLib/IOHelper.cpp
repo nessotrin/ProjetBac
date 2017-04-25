@@ -37,7 +37,7 @@ char * IOHelper::getRequest(int clientSocket)
 	do
 	{
 		/* Si il n'y a plus de place dans la requête */
-		if(bufferPos == bufferSize)
+		if(bufferPos >= bufferSize)
 		{
 			/* On la réaloue avec 20 caractères de plus*/
 			bufferSize += 20;
@@ -69,8 +69,11 @@ char * IOHelper::getRequest(int clientSocket)
 				return NULL; //abandon
 			}
 		}
-		bufferPos += readSize;
-	} while(bufferPos == 0 || buffer[bufferPos-1] != '\n'); /*On vérifie qu'il ne s'agisse pas d'une fin de ligne*/
+		else
+		{
+			bufferPos += readSize;			
+		}
+	} while(bufferPos == 0 || (bufferPos >= 0 && buffer[bufferPos-1] != '\n')); /*On vérifie qu'il ne s'agisse pas d'une fin de ligne*/
 
 	/* On donne le buffer qui contient le requête reçue */
 	return buffer;

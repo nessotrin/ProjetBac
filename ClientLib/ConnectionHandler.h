@@ -9,6 +9,9 @@ Définition de la class ConnectionHandler
 class ConnectionHandler
 {
 public:
+	
+	ConnectionHandler();
+
 	bool connectToIP(char * ip, int port);
 	bool doLogin(ModuleInfo info);
 	void disconnect();

@@ -99,5 +99,7 @@
     <File Name="ConnectionServeur.cpp"/>
     <File Name="ConnectionServeur.h"/>
     <File Name="ConnectionHandler.cpp"/>
+    <File Name="NetworkLogger.h"/>
+    <File Name="NetworkLogger.cpp"/>
   </VirtualDirectory>
 </CodeLite_Project>

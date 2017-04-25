@@ -25,9 +25,11 @@ int main(int argc, char **argv)
 	Logger::initLogger();
 	Logger::initFile("log.txt");
 	
-	Logger::log("DataBaser Server V%d.%d\n",VERSION_MAJOR,VERSION_MINOR);
+	//Logger::log("\n",(LogLevel)4);
 	
-	Logger::log("Initializing handlers ...\n");
+	Logger::log("DataBaser Server V%d.%d\n",VersionLog,VERSION_MAJOR,VERSION_MINOR);
+	
+	Logger::log("Initializing handlers ...\n",InfoLog);
 	
 	/* Création des gestionnaires de médicament et de clients*/
 	MedHandler medHandler; 
@@ -37,14 +39,15 @@ int main(int argc, char **argv)
 	/* Création du gestionnarie de requête de médicament */
 	MedRequest medRequest(&medHandler);
 	HumanRequest humanRequest(&humanHandler);
+	LogRequest logRequest;
 
 	/* Création du gestionnaire de reqûete global */
-	RequestHandler requestHandler(&medRequest, &humanRequest);
+	RequestHandler requestHandler(&medRequest, &humanRequest, &logRequest);
 
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);
 
-	Logger::log("Setuping database ...\n");
+	Logger::log("Setuping database ...\n",InfoLog);
 
 	/* TESTS */
 	/* initialize random seed: */
@@ -74,7 +77,7 @@ int main(int argc, char **argv)
 	}
 	
 	
-	Logger::log("Setup'ing server ...\n");
+	Logger::log("Setup'ing server ...\n",InfoLog);
 
 	/* Mise en place du serveur */
 	if(server.setup())
@@ -82,7 +85,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	
-	Logger::log("Starting client handling ...\n");
+	Logger::log("Starting client handling ...\n",InfoLog);
 	
 	/* Lancement du serveur */
 	server.work();
