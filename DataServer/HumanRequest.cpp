@@ -9,10 +9,14 @@
 #include <cstdio>
 #include <cstring>
 
-HumanRequest::HumanRequest(HumanHandler * newHumanHandler)
+HumanRequest::HumanRequest(HumanHandler * newHumanHandler, RequestHandler * requestHandler)
 {
 	humanHandler = newHumanHandler;
+	
+	requestHandler->addRequestEntry("RecupNomMedecin",this);
+	requestHandler->addRequestEntry("RecupIdAutorisesMedecin",this);
 }
+
 
 /***
 Envoie le nombre de médicament du numéro donné

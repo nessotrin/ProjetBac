@@ -5,13 +5,16 @@
 
 #include "Client.h"
 
+#include "RequestHandler.h"
+
+#include "RequestCallbackable.h"
 /***
 Class request handler qui répond à toutes les requêtes sur les humains
 ***/
-class HumanRequest
+class HumanRequest : public RequestCallbackable
 {
 public:
-	HumanRequest(HumanHandler * newHumanHandler);
+	HumanRequest(HumanHandler * newHumanHandler, RequestHandler * requestHandler);
 	void sendHumanName(Client * client, int id);
 	void sendHumanAuthorizedIDs(Client * client, int id);
 

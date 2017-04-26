@@ -41,12 +41,12 @@
     <File Name="RequestHelper.cpp"/>
     <File Name="HumanRequest.h"/>
     <File Name="HumanRequest.cpp"/>
-    <File Name="DoorHandler.h"/>
-    <File Name="DoorHandler.cpp"/>
-    <File Name="LedHandler.h"/>
-    <File Name="LedHandler.cpp"/>
     <File Name="LogRequest.h"/>
     <File Name="LogRequest.cpp"/>
+    <File Name="RequestCallbackable.h"/>
+    <File Name="BroadcastRequest.h"/>
+    <File Name="BroadcastRequest.cpp"/>
+    <File Name="ServerHelper.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

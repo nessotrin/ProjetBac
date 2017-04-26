@@ -1,91 +1,61 @@
+/*
 #include "RequestMap.h"
 #include "Logger.h"
 
 #include <cstring>
 #include <cstdio>
 
-class Request
+
+
+
+
+
+RequestDefinition requestList[]=
 {
-	public:
-		Request(char * newCmdName, int newCmdLendth, int newBroadcastTo, int newDesignatedHandler)
-		{
-			cmdName = newCmdName;
-			cmdLength = newCmdLendth;
-			broadcastTo = newBroadcastTo;
-			designatedHandler = newDesignatedHandler;
-		}
-		
-		char * cmdName; //without parameters
-		int cmdLength; //length without parameters
-		int broadcastTo; //-1 = no broadcast
-		int designatedHandler;
+	{"RecupNomMedecin",HUMAN_REQUEST},
+	{"RecupIdAutorisesMedecin",HUMAN_REQUEST},
+	{"RecupPoidsUnitaireMedoc",MED_REQUEST},
+	{"RecupImageMedoc",MED_REQUEST},
+	{"RecupNomMedoc",MED_REQUEST},
+	{"RecupNombreMedoc",MED_REQUEST},
+	{"RecupTailleListeMedoc",MED_REQUEST},
+	{"RecupDateMedoc",MED_REQUEST},
+	{"RecupEtatPorte",BROADCAST_REQUEST},
+	{"OuvrirPorte",BROADCAST_REQUEST},
+	{"FermerPorte",BROADCAST_REQUEST},
+	{"LEDOn",BROADCAST_REQUEST},
+	{"LEDOff",BROADCAST_REQUEST},
+	{"CapteurOn",BROADCAST_REQUEST},
+	{"CapteurOff",BROADCAST_REQUEST},
+	{"ChangerPoidsUnitaireMedoc",MED_REQUEST},
+	{"ChangerNombreMedoc",MED_REQUEST},
+	{"VerifierCoherencePoid",BROADCAST_REQUEST},
+	{"LumiereMontrerMed",BROADCAST_REQUEST},
+	{"EnvoyerMailAlarme",BROADCAST_REQUEST},
+	{"DeclencherAlarme",BROADCAST_REQUEST},
+	{"AllumerLumieresAlarme",BROADCAST_REQUEST},
+	{"MedecinConnecte",BROADCAST_REQUEST},
+	{"LogSurServeur ",LOG_REQUEST},
+	{"",-1}
 };
 
 
 
-#define REQUEST_MAP_SIZE 26
-
-Request requestList[REQUEST_MAP_SIZE] = 
+int RequestMap::getHandlerId(char * request)
 {
-	{"RecupNomMedecin",(int)strlen("RecupNomMedecin"),Aucun,HUMAN_REQUEST}, //OK
-	{"RecupIdAutorisesMedecin",(int)strlen("RecupIdAutorisesMedecin"),Aucun,HUMAN_REQUEST}, //50%
-	{"RecupPoidsUnitaireMedoc",(int)strlen("RecupPoidsUnitaireMedoc"),Aucun,MED_REQUEST}, //OK
-	{"RecupImageMedoc",(int)strlen("RecupImageMedoc"),Aucun,MED_REQUEST}, //50%
-	{"RecupNomMedoc",(int)strlen("RecupNomMedoc"),Aucun,MED_REQUEST}, //OK
-	{"RecupNombreMedoc",(int)strlen("RecupNombreMedoc"),Aucun,MED_REQUEST}, //OK
-	{"RecupTailleListeMedoc",(int)strlen("RecupTailleListeMedoc"),Aucun,MED_REQUEST}, //OK	
-	{"RecupIdMedoc",(int)strlen("RecupIdMedoc"),Aucun,MED_REQUEST}, //OK
-	{"RecupDateMedoc",(int)strlen("RecupDateMedoc"),Aucun,DOOR_REQUEST}, //OK
-	{"RecupEtatPorte",(int)strlen("RecupEtatPorte"),Aucun,DOOR_REQUEST}, //TRIAGING TO DO
-	{"OuvrirPorte",(int)strlen("OuvrirPorte"),Aucun,DOOR_REQUEST},  //TRIAGING TO DO
-	{"FermerPorte",(int)strlen("FermerPorte"),Aucun,DOOR_REQUEST}, //1%
-	{"LEDOn",(int)strlen("LEDOn"),Aucun,LED_REQUEST}, //move to client
-	{"LEDOff",(int)strlen("LEDOff"),Aucun,LED_REQUEST}, //move to client
-	{"CapteurOn",(int)strlen("CapteurOn"),Capteurs,SENSOR_REQUEST}, 
-	{"CapteurOff",(int)strlen("CapteurOff"),Capteurs,SENSOR_REQUEST},
-	{"ChangerPoidsUnitaireMedoc",(int)strlen("ChangerPoidsUnitaireMedoc"),Capteurs,MED_REQUEST},
-	{"ChangerNombreMedoc",(int)strlen("ChangerNombreMedoc"),Capteurs,MED_REQUEST},
-	{"VerifierCoherencePoid",(int)strlen("VerifierCoherencePoid"),Capteurs,NO_REQUEST},
-	{"DeclencherAlarme",(int)strlen("DeclencherAlarme"),Alarme,NO_REQUEST},
-	{"AllumerLumieresAlarme",(int)strlen("AllumerLumieresAlarme"),Leds,NO_REQUEST},
-	{"LumiereMontrerMed",(int)strlen("LumiereMontrerMed"),Leds,NO_REQUEST},
-	{"EnvoyerMailAlarme",(int)strlen("EnvoyerMailAlarme"),AlarmeMail,NO_REQUEST},
-	{"VerifierIdCarte",(int)strlen("VerifierIdCarte"),Aucun,HUMAN_REQUEST},
-	{"MedecinConnecte",(int)strlen("MedecinConnecte"),Ecran,NO_REQUEST},
-	{"LogSurServeur ",(int)strlen("LogSurServeur "),Aucun,LOG_REQUEST},
-
-};
-
-void RequestMap::initRequestMap()
-{
-}
-
-int RequestMap::getBroadcastTo(char * request)
-{
-	for(int i = 0 ; i < REQUEST_MAP_SIZE ; i++)
+	int i = 0;
+	while(requestList[i].handlerId != -1)
 	{
-		if(strlen(request) >= requestList[i].cmdLength && memcmp(request,requestList[i].cmdName, requestList[i].cmdLength) == 0)
-		{
-			return requestList[i].broadcastTo;
-		}
-	}
-	
-	return Aucun;
-}
-
-int RequestMap::getDesignatedRequestHandler(char * request)
-{
-	for(int i = 0 ; i < REQUEST_MAP_SIZE ; i++)
-	{
-		Logger::log("Testing \"%s\" (%d) with \"%s\" (%d)\n",InfoLog,request,strlen(request),requestList[i].cmdName, requestList[i].cmdLength);
-		if(strlen(request) >= requestList[i].cmdLength && memcmp(request,requestList[i].cmdName, requestList[i].cmdLength) == 0)
+		Logger::log("Testing \"%s\" (%d) with \"%s\"\n",InfoLog,request,strlen(request),requestList[i].name);
+		if(strlen(request) >= strlen(requestList[i].name) && memcmp(request,requestList[i].name, strlen(requestList[i].name)) == 0)
 		{
 			Logger::log("FOUND\n",InfoLog);
-			return requestList[i].designatedHandler;
+			return requestList[i].handlerId;
 		}
 	}
 	
-	return NO_REQUEST;
+	return -1;
 }
 
 
+*/

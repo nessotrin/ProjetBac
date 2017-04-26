@@ -17,13 +17,13 @@ char * logLevelPrefix[] = { "[INFO]: ",
 void Logger::initLogger()
 {
 	logMode = LOG_TO_CONSOLE + LOG_TO_LOGGERS + LOG_TO_FILE;
-	logFile = 0;
+	logFile = NULL;
 }
 
 bool Logger::initFile(char * filename)
 {
 	logFile = fopen(filename,"w+");
-	if(logFile <= 0)
+	if(logFile == NULL)
 	{
 		log("Logger: fopen \"%s\" failed with %d\n",ErrorLog,filename,logFile);
 		return true;
@@ -55,7 +55,7 @@ void Logger::log(const char* format, LogLevel logLevel, ...)
 	//		va_start (args, format);
 	//		vsprintf (buffer, format, args);  
 	}
-	if(logMode & LOG_TO_FILE && logFile > 0)
+	if(logMode & LOG_TO_FILE && logFile != NULL)
 	{
 		va_start (args, format);
 		fprintf (logFile, "%s",logLevelPrefix[logLevel]); 

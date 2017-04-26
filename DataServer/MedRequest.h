@@ -5,13 +5,17 @@
 
 #include "Client.h"
 
+#include "RequestCallbackable.h"
+
+#include "RequestHandler.h"
+
 /***
 Class request handler qui répond à toutes les requêtes sur les médicaments
 ***/
-class MedRequest
+class MedRequest : public RequestCallbackable
 {
 public:
-	MedRequest(MedHandler * newMedHandler);
+	MedRequest(MedHandler * newMedHandler, RequestHandler * requestHandler);
 	void sendMedUnitWeigth(Client * client, int id);
 	void sendMedImg(Client * client, int id);
 	void sendMedName(Client * client, int id);

@@ -16,12 +16,21 @@
 
 #include <time.h>
 
-#include "RequestMap.h"
+#include "LoginHandler.h"
+
+
+#include "MedHandler.h"
+#include "MedRequest.h"
+#include "HumanHandler.h"
+#include "HumanRequest.h"
+
+#include "LogRequest.h"
+#include "BroadcastRequest.h"
+
 
 /* Fonction d'entrée du serveur */
 int main(int argc, char **argv)
 {
-	RequestMap::initRequestMap();
 	Logger::initLogger();
 	Logger::initFile("log.txt");
 	
@@ -36,13 +45,16 @@ int main(int argc, char **argv)
 	HumanHandler humanHandler; 
 	LoginHandler loginHandler;
 	
-	/* Création du gestionnarie de requête de médicament */
-	MedRequest medRequest(&medHandler);
-	HumanRequest humanRequest(&humanHandler);
-	LogRequest logRequest;
-
 	/* Création du gestionnaire de reqûete global */
-	RequestHandler requestHandler(&medRequest, &humanRequest, &logRequest);
+	RequestHandler requestHandler;
+
+	
+	/* Création du gestionnarie de requête de médicament */
+	MedRequest medRequest(&medHandler,&requestHandler);
+	HumanRequest humanRequest(&humanHandler,&requestHandler);
+	LogRequest logRequest(&requestHandler);
+	BroadcastRequest broadcastRequest(&loginHandler,&requestHandler);
+
 
 	/* Création du serveur */
 	Server server(SERVER_PORT, &loginHandler, &requestHandler);

@@ -1,41 +1,35 @@
+#error GTFO
+
+/*
 #ifndef _REQUEST_MAP_H_
 #define _REQUEST_MAP_H_
 
-enum requestHandlerList
+enum HandlerIds
 {
-	NO_REQUEST = -1,
 	MED_REQUEST = 0,
 	HUMAN_REQUEST,
-	DOOR_REQUEST,
-	LED_REQUEST,
-	SENSOR_REQUEST,
 	LOG_REQUEST,
+	BROADCAST_REQUEST,
 };
 
-enum
+class RequestDefinition
 {
-	Aucun = -1,
-	Ecran = 0,
-	CodeurRotatif,
-	Leds,
-	VerrouPorte,
-	NFC,
-	WEB,
-	AlarmeMail,
-	Capteurs,
-	SwitchPorte,
-	Alarme,
-	debug,
-} typeList;
-
+public:
+	RequestDefinition(char * newName, int newHandlerId)
+	{
+		name = newName;
+		handlerId = newHandlerId;
+	}
+	char * name;
+	int handlerId;
+};
 
 class RequestMap
 {
 public:
-	static void initRequestMap();
-	static int getBroadcastTo(char * request);
-	static int getDesignatedRequestHandler(char * request);
+	static int getHandlerId(char * request);
 
 };
 
 #endif // _REQUEST_MAP_H_
+*/

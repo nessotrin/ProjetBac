@@ -1,16 +1,14 @@
 #include "RequestHandler.h"
 #include "IOHelper.h"
 #include "Logger.h"
-#include "RequestMap.h"
+
 
 
 #include <stdio.h>
 
-RequestHandler::RequestHandler(MedRequest * newMedRequest, HumanRequest * newHumanRequest, LogRequest * newLogRequest)
+RequestHandler::RequestHandler()
 {
-	medRequest = newMedRequest;
-	humanRequest = newHumanRequest;
-	logRequest = newLogRequest;
+
 }
 
 
@@ -31,12 +29,23 @@ bool RequestHandler::triageRequest(Client * client)
 	}
 	
 	Logger::log("Analyzing request \"%s\"...\n",InfoLog,request);
-	
-	if(RequestMap::getBroadcastTo(request) != -1)
+
+	bool wasFound = false;
+
+	for(int i = 0 ; i < requestList.getCount() ; i++)
 	{
-		//TODO: write broadcast
-		Logger::log("BROADCAST SYSTEM: TODO !!!!!",ErrorLog);
+		if(strlen(request) >= strlen(requestList.get(i)->name) && memcmp(request,requestList.get(i)->name, strlen(requestList.get(i)->name)) == 0)
+		{
+			requestList.get(i)->callbackable->handleRequest(request,client);
+			wasFound = true;
+		}
 	}
+	
+	if(!wasFound)
+	{
+		Logger::log("REQUEST UNKOWN !\n",ErrorLog);
+	}
+/*
 	
 	switch(RequestMap::getDesignatedRequestHandler(request))
 	{
@@ -49,13 +58,21 @@ bool RequestHandler::triageRequest(Client * client)
 		case LOG_REQUEST:
 			logRequest->handleRequest(request, client);
 		break;
+		case BROADCAST_REQUEST:
+			logRequest->handleRequest(request, client);
+		break;
 		default:
 			printf("NO HANDLER FOR REQUEST ! %d\n",RequestMap::getDesignatedRequestHandler(request));
 	}
 	
 	
-	
+	*/
 	
 	/* Réussite*/
 	return false;
+}
+
+void RequestHandler::addRequestEntry(char * name, RequestCallbackable * callbackable)
+{
+	requestList.add(new RequestHandlerEntry(name,callbackable));
 }

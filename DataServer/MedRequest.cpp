@@ -10,11 +10,20 @@
 #include <cstdio>
 #include <cstring>
 
-MedRequest::MedRequest(MedHandler * newMedHandler)
+MedRequest::MedRequest(MedHandler * newMedHandler, RequestHandler * requestHandler)
 {
 	medHandler = newMedHandler;
+	
+	requestHandler->addRequestEntry("RecupPoidsUnitaireMedoc",this);
+	requestHandler->addRequestEntry("RecupImageMedoc",this);
+	requestHandler->addRequestEntry("RecupNomMedoc",this);
+	requestHandler->addRequestEntry("RecupNombreMedoc",this);
+	requestHandler->addRequestEntry("RecupTailleListeMedoc",this);
+	requestHandler->addRequestEntry("RecupDateMedoc",this);
+	requestHandler->addRequestEntry("ChangerPoidsUnitaireMedoc",this);
+	requestHandler->addRequestEntry("ChangerNombreMedoc",this);
+	requestHandler->addRequestEntry("RecupPoidsUnitaireMedoc",this);
 }
-
 
 /***
 Envoie le nom de l'img du médicament au numéro donné

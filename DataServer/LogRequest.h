@@ -3,9 +3,16 @@
 
 #include "Client.h"
 
-class LogRequest
+#include "RequestCallbackable.h"
+
+#include "RequestHandler.h"
+
+class LogRequest : public RequestCallbackable
 {
 public:
+
+	LogRequest(RequestHandler * requestHandler);
+
 	void handleRequest(char * request, Client * client);
 };
 

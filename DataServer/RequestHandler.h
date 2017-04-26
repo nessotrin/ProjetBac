@@ -3,9 +3,24 @@
 
 #include "LoginHandler.h"
 
-#include "MedRequest.h"
-#include "HumanRequest.h"
-#include "LogRequest.h"
+#include "RequestCallbackable.h"
+
+#include "ServerHelper.h"
+
+class RequestHandlerEntry
+{
+public:
+	RequestHandlerEntry(char * newName, RequestCallbackable * newCallbackable)
+	{
+		name = newName;
+		callbackable = newCallbackable;
+	}
+	
+	
+	char * name;
+	RequestCallbackable * callbackable;
+};
+
 
 /***
 Class request handler qui gère toutes les requêtes qui arrivent et les redistribues handlers respectifs
@@ -13,15 +28,16 @@ Class request handler qui gère toutes les requêtes qui arrivent et les redistr
 class RequestHandler
 {
 public:
-	RequestHandler(MedRequest * newMedRequest, HumanRequest * newHumanRequest, LogRequest * newLogRequest);
+	RequestHandler();
 	
 	bool triageRequest(Client * client);
+	
+	void addRequestEntry(char * name, RequestCallbackable * callbackable);
+	
 private:
 
-	LoginHandler * loginHandler;
-	MedRequest * medRequest;
-	HumanRequest * humanRequest;
-	LogRequest * logRequest;
+	List<RequestHandlerEntry> requestList;
+
 };
 
 #endif // _REQUEST_HANDLER_H_

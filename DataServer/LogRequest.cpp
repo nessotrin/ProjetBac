@@ -5,6 +5,11 @@
 #include <cstdio>
 #include <cstring>
 
+LogRequest::LogRequest(RequestHandler * requestHandler)
+{
+	requestHandler->addRequestEntry("LogSurServeur ",this);
+}
+
 void LogRequest::handleRequest(char * request, Client * client)
 {
 	printf("handleRequest with LOGREQUEST\n");
