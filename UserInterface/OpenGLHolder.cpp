@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 
 
+#ifndef BBB
 
 bool OpenGLHolder::initGraphics()
 {
@@ -36,6 +37,30 @@ void OpenGLHolder::beginFrame()
 
 void OpenGLHolder::finishFrame()
 {
-	glFlush();
+//	glFlush();
 	SDL_GL_SwapWindow(window);
 }
+
+#else
+
+	
+bool OpenGLHolder::initGraphics()
+{
+	printf("TODO\n");
+}
+
+void OpenGLHolder::beginFrame()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity( );
+}
+
+void OpenGLHolder::finishFrame()
+{
+	eglSwapbuffers(EGLDisplay, EGLSurface);
+}
+
+	
+#endif
