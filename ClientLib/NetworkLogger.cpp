@@ -7,11 +7,11 @@
 void NetworkLogger::log(int clientSocket, char * message)
 {
 	int readPos = 0;
-	while(message[readPos] != 0) //remove the end of message marks (safety)
+	while(message[readPos] != 0) //replace '\n' (end of message mark) by 0x6 during transport 
 	{
 		if(message[readPos] == '\n')
 		{
-			message[readPos] = ' ';
+			message[readPos] = 0x6;// ASCII ACK -> Espace vide
 		}
 		readPos++;
 	}
@@ -21,5 +21,4 @@ void NetworkLogger::log(int clientSocket, char * message)
 
 	
 	IOHelper::sendRequest(clientSocket,message);
-	
 }

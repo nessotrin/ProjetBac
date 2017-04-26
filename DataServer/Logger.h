@@ -26,6 +26,7 @@ public:
 	static void setToFile(bool value);
 	
 private:
+	static void printfColored(char * buffer);
 	static FILE * logFile;
 	static int logMode;
 };

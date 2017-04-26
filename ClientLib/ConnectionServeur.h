@@ -24,6 +24,7 @@ enum LogLevel
 {
 	information = 0,
 	erreur = 1,
+	attention = 1,
 	special,
 };
 

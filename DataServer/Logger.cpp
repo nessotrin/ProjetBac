@@ -4,15 +4,17 @@
 #define LOG_TO_LOGGERS 0x2
 #define LOG_TO_FILE 0x4
 
+#include <cstring>
+
 FILE * Logger::logFile;
 int Logger::logMode;
 
 char * logLevelPrefix[] = { "[INFO]: ",
 							"[WARNING]: ",
-							"[  ERROR  ]: ",
+							"[ERROR]: ",
 							"[VERSION]: ",
 							"[REMOTE]: ",
-							"()()\n(\'.\')\n(\")(\")"};
+							"[SPECIAL] ()()\n(\'.\')\n(\")(\")"};
 
 void Logger::initLogger()
 {
@@ -42,9 +44,11 @@ void Logger::log(const char* format, LogLevel logLevel, ...)
 	va_list args;
 	if(logMode & LOG_TO_CONSOLE)
 	{
-		printf("%s",logLevelPrefix[logLevel]);
+		char buffer[1024];
+		int size = sprintf(buffer,"%s",logLevelPrefix[logLevel]);
 		va_start (args, format);
-		vprintf (format, args);
+		vsprintf (buffer+size,format, args);
+		printfColored(buffer);
 	}
 
 	
@@ -100,4 +104,40 @@ void Logger::setToFile(bool value)
 	{
 		logMode &= ~LOG_TO_FILE;
 	}
+}
+
+void Logger::printfColored(char * buffer)
+{	
+	if(strstr(buffer, "[SPECIAL]") != NULL)
+	{
+		printf("\033[1;36m");
+	}
+	else if(strstr(buffer, "[ERROR]") != NULL)
+	{
+		printf("\033[1;31m");
+	}
+	else if(strstr(buffer, "[REMOTE]") != NULL)
+	{
+		printf("\033[1;30m");
+	}
+	else if(strstr(buffer, "[INFO]") != NULL)
+	{
+		printf("\033[1;30m");
+	}
+	else if(strstr(buffer, "[WARNING]") != NULL)
+	{
+		printf("\033[1;33m");
+	}
+	else if(strstr(buffer, "[VERSION]") != NULL)
+	{
+		printf("\033[1;32m");
+	}
+	else
+	{
+		printf("\033[1;30m");
+	}
+	
+	printf("%s",buffer);
+	
+	printf("\033[0m\n");
 }

@@ -74,7 +74,8 @@ void ConnectionServeur::fermer()
 
 char * logLevelPrefix[] = { "[INFO]: ",
 							"[ERROR]: ",
-							"_\\/_\n\\  /\n\\/ "};
+							"[WARNING]: ",
+							"[SPECIAL] _\\/_\n\\  /\n\\/ \n->"};
 
 bool ConnectionServeur::serveurPrintf(LogLevel logLevel, const char * format ...)
 {
