@@ -2,14 +2,16 @@
 
 
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
 
 #ifndef BBB
-#include <GL/gl.h>
+#include <EGL/egl.h>
 #else
 #include <GLES2/gl2.h>
+GLuint programObject;
 #endif
-
-#include <EGL/egl.h>
 
 #ifndef BBB
 
@@ -50,24 +52,24 @@ void OpenGLHolder::finishFrame()
 
 	
 
-bool getRawData(unsigned char ** data, char * name)
+bool getRawData(char ** data, char * name)
 {
 	FILE * shaderFile;
 	
 	if((shaderFile = fopen(name,"rb")) == NULL)
 	{
-		error(name, "fopen");
+		printf("fopen\n");
 		return true;
 	}
 	
-	*data = (unsigned char *) malloc(1*1024*1024);
+	*data = (char *) malloc(1*1024*1024);
 	
 	if(*data == NULL)
 	{
 		return true;
 	}
 		
-	*size = fread(*data, 1, *size, shaderFile);
+	int size = fread(*data, 1, 1*1024*1024, shaderFile);
 	if(size <= 0)
 	{
 		return true;
@@ -180,12 +182,12 @@ bool OpenGLHolder::initGraphics()
       return true;
    }
    
-	char * vertexShader;
-	char * pixelShader;
+	char * vertexShaderBuf;
+	char * pixelShaderBuf;
 	
    
-	getRawData(&vertexShader,"vertexShader");
-	getRawData(&pixelShader,"pixelShader");
+	getRawData(&vertexShaderBuf,"vertexShader");
+	getRawData(&pixelShaderBuf,"pixelShader");
    
 /*
 	GLbyte vShaderStr[] =
@@ -207,8 +209,8 @@ bool OpenGLHolder::initGraphics()
    GLint linked;
 
   // Load the vertex/fragment shaders
-  vertexShader = LoadShader(GL_VERTEX_SHADER, (GLbyte)vertexShader);
-  fragmentShader = LoadShader(GL_FRAGMENT_SHADER, (GLbyte)pixelShader);
+  vertexShader = loadShader(GL_VERTEX_SHADER, vertexShaderBuf);
+  fragmentShader = loadShader(GL_FRAGMENT_SHADER, pixelShaderBuf);
 
   // Create the program object
   programObject = glCreateProgram();
@@ -236,7 +238,7 @@ bool OpenGLHolder::initGraphics()
 
      if(infoLen > 1)
      {
-        char* infoLog = malloc(sizeof(char) * infoLen);
+        char* infoLog = (char *) malloc(sizeof(char) * infoLen);
 
         glGetProgramInfoLog(programObject, infoLen, NULL, infoLog);
         printf("Error linking program:\n%s\n", infoLog);
@@ -258,8 +260,11 @@ void OpenGLHolder::beginFrame()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
+    #ifndef BBB
     glMatrixMode( GL_MODELVIEW );
+
     glLoadIdentity( );
+    #endif
 }
 
 void OpenGLHolder::finishFrame()

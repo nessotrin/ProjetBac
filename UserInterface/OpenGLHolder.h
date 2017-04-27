@@ -8,11 +8,17 @@
 #else
 
 #include <EGL/egl.h>
+#include <GLES2/gl2.h>
 	
 #endif
 
 #define WINDOW_SIZE_X 640
 #define WINDOW_SIZE_Y 480
+
+#ifdef BBB
+	extern GLuint programObject;
+#endif
+
 
 class OpenGLHolder
 {
@@ -22,10 +28,6 @@ public:
 
 	void beginFrame();
 	void finishFrame();
-
-#ifdef BBB
-	GLuint programObject;
-#endif
 
 private:
 
@@ -39,9 +41,7 @@ private:
 
 	EGLDisplay  eGLDisplay;
 	EGLSurface eGLSurface;
-	
-	GLint programObject;
-	
+		
 #endif
 
 };

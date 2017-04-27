@@ -48,6 +48,11 @@ void TouchController::init()
 	calibrationPoints[1][3] = 1000;
 	
 	#ifdef BBB
+
+        /* BBBIOlib init*/
+	iolib_init();
+
+
 	unsigned int sample;
 	int i ,j;
 
@@ -65,8 +70,6 @@ void TouchController::init()
 				BBBIO_ADC_STEP_AVG_1, buffer_AIN_1, BUFFER_SIZE);
 
 
-	BBBIO_ADCTSC_channel_enable(BBBIO_ADC_AIN0);
-	BBBIO_ADCTSC_channel_enable(BBBIO_ADC_AIN1);
 	#endif
 }
 

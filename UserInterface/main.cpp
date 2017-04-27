@@ -80,10 +80,16 @@ Se connecte et lance l'interface
 
 #include "FontRenderer.h"
 
+#include "TouchController.h"
+
 int main(int argc, char **argv)
 {
     std::cout << "User interface" << std::endl;
 
+    TouchController touch;
+    touch.init();
+
+/*
 	OpenGLHolder openGLHolder;
 	openGLHolder.initGraphics();
 
@@ -94,7 +100,7 @@ int main(int argc, char **argv)
 	
 	GlobalTexture::load();
 	
-	/* On initialise la connection au seveur et on écrit le résultat */
+
 	printf("Connection serveur: %d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
 	
 	//ConnectionServeur::serveurPrintf(information,"LAL");
@@ -104,11 +110,8 @@ int main(int argc, char **argv)
 	MenuWorker menuWorker(&openGLHolder);
 	menuWorker.work();
 	
-	/* On attends avant de fermer */
-	sleep(3);
-	
-	/* On se déconnecte du serveur */
 	ConnectionServeur::fermer();
-		
+
+*/		
     return 0;
 }

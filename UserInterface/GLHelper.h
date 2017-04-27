@@ -3,6 +3,8 @@
 
 #include "UIHelper.h"
 
+#include "OpenGLHolder.h"
+
 #ifndef BBB
 #include <GL/gl.h>
 #else

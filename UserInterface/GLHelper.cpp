@@ -129,15 +129,18 @@ void GLHelper::drawColoredTexturedSquare(Pos pos, Size size, unsigned char color
 	float startY = -sizeY/2 + translateY;
 	float endY = sizeY/2 + translateY;
 
-	GLfloat position[] = {startX,startY,0,  startX,endY,0,  endX,endY,0,   endX,startY,0};
-	GLfloat textureCoord[] = {0,1, 0,0, 1,0, 1,1};
+	GLfloat position[] = {startX,startY,0,  startX,endY,0,  endX,startY,0,
+						  endX,startY,0,    endX,endY,0,    startX,endY,0};
+	GLfloat textureCoords[] = {0,1, 0,0, 1,0,
+                                  1,1, 1,0, 0,0};
+
 
 	glUseProgram(programObject);
 
-	GLint mTextureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Texture");
-	GLint mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");
-	GLint mColorHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Color");
-	GLint mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
+	GLint mTextureUniformHandle = glGetUniformLocation(programObject, "u_Texture");
+	GLint mPositionHandle = glGetAttribLocation(programObject, "a_Position");
+	GLint mColorHandle = glGetAttribLocation(programObject, "a_Color");
+	GLint mTextureCoordinateHandle = glGetAttribLocation(programObject, "a_TexCoordinate");
 
 	// Set the active texture unit to texture unit 0.
 	glActiveTexture(GL_TEXTURE0);
@@ -151,16 +154,16 @@ void GLHelper::drawColoredTexturedSquare(Pos pos, Size size, unsigned char color
 	glEnable(GL_TEXTURE_2D);
 	GLHelper::CheckForErrors("Enable texture");
 	
-	glVertexAttribPointer(mPositionHandle, 4*3, GL_FLOAT, false, 0, position);        
+	glVertexAttribPointer(mPositionHandle, 6*3, GL_FLOAT, false, 0, position);        
 	glEnableVertexAttribArray(mPositionHandle);        
         
-	glVertexAttribPointer(mColorHandle, 1*4, GL_UINT, false, 0, color);        
+	glVertexAttribPointer(mColorHandle, 1*4, GL_UNSIGNED_BYTE, false, 0, color);        
 	glEnableVertexAttribArray(mColorHandle);
         
-	glVertexAttribPointer(mTextureCoordinateHandle, 4*2, GL_FLOAT, false, 0, textureCoords);
+	glVertexAttribPointer(mTextureCoordinateHandle, 6*2, GL_FLOAT, false, 0, textureCoords);
 	glEnableVertexAttribArray(mTextureCoordinateHandle);
         
-	glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 	
 }
 

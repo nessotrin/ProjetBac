@@ -30,6 +30,7 @@ GLuint TextureHelper::loadTexture(unsigned char * buffer, Size size, bool smooth
 		printf("%d %d %d %d \n",buffer[i],buffer[i+1],buffer[i+2],buffer[i+3]);
 	}
 */
+/*
 	if(smoothTexture)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -39,6 +40,7 @@ GLuint TextureHelper::loadTexture(unsigned char * buffer, Size size, bool smooth
 		glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
 	}
 	else
+*/
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 		
@@ -46,9 +48,12 @@ GLuint TextureHelper::loadTexture(unsigned char * buffer, Size size, bool smooth
 
 
 	 
-	 
+	#ifndef BBB	 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (GLsizei) size.x, (GLsizei) size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)buffer);
 //	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (GLsizei) 2, (GLsizei) 2, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)buf);
+	#else
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) size.x, (GLsizei) size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)buffer);
+	#endif
 
 	GLHelper::CheckForErrors("glTexImage2D");
 
