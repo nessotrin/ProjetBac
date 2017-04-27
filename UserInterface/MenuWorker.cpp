@@ -25,6 +25,7 @@ OpenGLHolder * GLOBALopenGLHolder;
 void MenuWorker::work()
 {
 	TouchController touchController;
+	touchController.init();
 	InputMaster inputMaster(&touchController);
 	Compositor compositor;
 	

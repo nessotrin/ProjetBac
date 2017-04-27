@@ -32,7 +32,59 @@ void InputMaster::work()
 {
 	SDL_PumpEvents();
 	int x,y;
+	bool isTouched = false;
 	if (SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+	{
+		handleInput(Pos(x,y), true);
+		isTouched = true;
+	}
+	else
+	{
+		if(continuousCount > 0 && !isLocked) // clicked so fast it wasn't registered
+		{
+//			printf("fast Click!\n");
+			interact(startPos, searchInteractable(startPos,InteractClick), InteractClick, false);
+		}
+
+		continuousCount = 0;
+		isLocked = false;
+		isDone = false;
+	}	
+	
+	//printf("x %d y %d\n",x,y);
+	
+	
+	
+	Pos pos = touchController->getCursorPos();
+	
+	if(pos.x > 0   &&
+	   pos.x < 640 &&
+	   pos.y < 0   &&
+	   pos.y < 480)
+	{
+		handleInput(pos,true);
+		isTouched = true;
+	}
+	
+	if(!isTouched)
+	{
+		handleInput(Pos(-1,-1),false);
+	}
+	
+}
+/* DEBUG
+#include "GLHelper.h"
+
+#include "OpenGLHolder.h"
+
+extern OpenGLHolder * GLOBALopenGLHolder;
+
+#include <unistd.h>
+*/
+
+void InputMaster::handleInput(Pos pos, bool isTouched)
+{
+	if(isTouched)
 	{
 		if(!isDone)
 		{
@@ -40,7 +92,7 @@ void InputMaster::work()
 			{
 				if(isSwipe == true)
 				{
-					interact(Pos(x,y),startId,InteractSwipe, isRepeated);
+					interact(pos,startId,InteractSwipe, isRepeated);
 				}
 				else
 				{
@@ -62,9 +114,9 @@ void InputMaster::work()
 				{
 					isRepeated = false;
 					isSwipe = false;
-					startPos = Pos(x,y);
+					startPos = pos;
 				}
-				if(computeDistance(Pos(x,y),startPos) > SWIPE_THRESHOLD_DIST)
+				if(computeDistance(pos,startPos) > SWIPE_THRESHOLD_DIST)
 				{
 					isSwipe = true;
 					isLocked = true;
@@ -95,31 +147,7 @@ void InputMaster::work()
 		isLocked = false;
 		isDone = false;
 	}	
-	
-	//printf("x %d y %d\n",x,y);
-	
-	/*
-	
-	Pos pos = touchController->getCursorPos();
-	
-	if(pos.x > 0   &&
-	   pos.x < 640 &&
-	   pos.y < 0   &&
-	   pos.y < 480)
-	{
-		handleInput(pos);
-	}
-	
-	*/
 }
-
-#include "GLHelper.h"
-
-#include "OpenGLHolder.h"
-
-extern OpenGLHolder * GLOBALopenGLHolder;
-
-#include <unistd.h>
 
 int InputMaster::searchInteractable(Pos pos, InteractMode interactMode)
 {

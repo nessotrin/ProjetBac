@@ -37,6 +37,8 @@ public:
 
 	void setCalibrationData(TOUCH_CORNER corner);
 
+	void init();
+
 private:
 
 	

@@ -33,6 +33,8 @@ private:
 
 #else
 
+	EGLDisplay   EGLDisplay;
+	EGLSurface EGLSurface;
 	
 	
 #endif

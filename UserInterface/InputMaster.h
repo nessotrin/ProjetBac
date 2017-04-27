@@ -20,6 +20,8 @@ public:
 
 	void work();
 
+	void handleInput(Pos pos, bool isTouched);
+
 
 
 

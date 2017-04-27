@@ -1,5 +1,7 @@
 #include "TouchController.h"
 
+#include "BBBiolib.h"
+
 
 float fmin(float A, float B)
 {
@@ -30,6 +32,35 @@ float interpolate(int A, int B, float factor)
 	return fmin(A,A)  +   ( fmax(A,A) - fmin(A,A) ) * factor;
 }
 
+#define BUFFER_SIZE 100
+unsigned int buffer_AIN_0[BUFFER_SIZE] ={0};
+unsigned int buffer_AIN_1[BUFFER_SIZE] ={0};
+
+void TouchController::init()
+{
+	#ifdef BBB
+	unsigned int sample;
+	int i ,j;
+
+	const int clk_div = 160;
+	const int open_dly = 0;
+	const int sample_dly = 1;
+
+	BBBIO_ADCTSC_module_ctrl(BBBIO_ADC_WORK_MODE_TIMER_INT, clk_div);
+
+
+	BBBIO_ADCTSC_channel_ctrl(BBBIO_ADC_AIN0, BBBIO_ADC_STEP_MODE_SW_CONTINUOUS, open_dly, sample_dly, \
+				BBBIO_ADC_STEP_AVG_1, buffer_AIN_0, BUFFER_SIZE);
+
+	BBBIO_ADCTSC_channel_ctrl(BBBIO_ADC_AIN1, BBBIO_ADC_STEP_MODE_SW_CONTINUOUS, open_dly, sample_dly, \
+				BBBIO_ADC_STEP_AVG_1, buffer_AIN_1, BUFFER_SIZE);
+
+
+	BBBIO_ADCTSC_channel_enable(BBBIO_ADC_AIN0);
+	BBBIO_ADCTSC_channel_enable(BBBIO_ADC_AIN1);
+	#endif
+}
+
 Pos TouchController::getCursorPos()
 {
 	Pos pos;
@@ -48,7 +79,24 @@ void TouchController::setCalibrationData(TOUCH_CORNER corner)
 
 int TouchController::getTension(AXIS axis)
 {
-	return 4096;
+	unsigned int value = 4096;
+
+#ifdef BBB
+
+	BBBIO_ADCTSC_work(1);
+
+	if(axis == X)
+	{
+		value = buffer_AIN_0[0];
+	}
+	else
+	{
+		value = buffer_AIN_1[0];		
+	}
+
+#endif
+
+	return value;
 }
 
 int TouchController::computeRealPos(AXIS axis, int value)
