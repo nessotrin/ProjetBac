@@ -1,6 +1,10 @@
 #include "Button.h"
 
+#ifndef BBB
 #include <GL/gl.h>
+#else
+#include <GLES2/gl2.h>
+#endif
 
 #include <cstdio>
 

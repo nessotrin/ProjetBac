@@ -7,7 +7,7 @@
 
 #else
 
-#include <GLES/egl.h>
+#include <EGL/egl.h>
 	
 #endif
 
@@ -33,8 +33,8 @@ private:
 
 #else
 
-	EGLDisplay   EGLDisplay;
-	EGLSurface EGLSurface;
+	EGLDisplay  eGLDisplay;
+	EGLSurface eGLSurface;
 	
 	
 #endif

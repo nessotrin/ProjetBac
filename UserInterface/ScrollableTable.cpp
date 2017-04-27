@@ -4,6 +4,8 @@
 
 #include "OpenGLHolder.h"
 
+#include <cmath>
+
 ScrollableTable::ScrollableTable(Pos newPos, Size newSize, int newZHeight, unsigned char newAlpha, Compositor * newCompositor, InputMaster * newInputMaster, List<Menu> * newMenuList, int newElementPerLine, int newElementPerColumn,Size newElementSize, Size newElementMargin, Size newBorderMargin, unsigned char newBackgroundColor[4]) : Menu(newPos, newSize, newZHeight, newAlpha, InteractSwipe, newCompositor, newInputMaster, newMenuList)
 {
 	allowedInteractMode = InteractAll;

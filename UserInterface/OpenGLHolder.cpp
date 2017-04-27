@@ -3,8 +3,13 @@
 
 #include <cstdio>
 
+#ifndef BBB
 #include <GL/gl.h>
+#else
+#include <GLES2/gl2.h>
+#endif
 
+#include <EGL/egl.h>
 
 #ifndef BBB
 
@@ -46,9 +51,9 @@ void OpenGLHolder::finishFrame()
 	
 bool OpenGLHolder::initGraphics()
 {
-	EGLConfig    EGLConfig;
-	EGLContext   EGLContext;
-	NativeWindowType hWnd;
+	EGLConfig    eGLConfig;
+	EGLContext   eGLContext;
+	NativeWindowType hWnd = 0;
 
 	const EGLint config[] =
 	{
@@ -68,19 +73,19 @@ bool OpenGLHolder::initGraphics()
 	EGLint majorVersion;
 	EGLint minorVersion;
 
-	EGLDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-	if (EGLDisplay == EGL_NO_DISPLAY)
+	eGLDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+	if (eGLDisplay == EGL_NO_DISPLAY)
 	{
 		printf("eglGetDisplay() failed\n");
 		return true;
 	}
 
-	if (!eglInitialize(EGLDisplay, &majorVersion, &minorVersion))
+	if (!eglInitialize(eGLDisplay, &majorVersion, &minorVersion))
 	{
 		printf("eglInitialize() failed\n");
 		return true;
 	}
-	if (!eglSaneChooseConfigBRCM(EGLDisplay, config, &EGLConfig, 1, &configCount))
+	if (!eglChooseConfig(eGLDisplay, config, &eGLConfig, 1, &configCount))
 	{
 		printf("eglSaneChooseConfigBRCM() failed\n");
 		return true;
@@ -91,21 +96,20 @@ bool OpenGLHolder::initGraphics()
 		return true;
 	}
 
-	EGLint r, g, b, a, depth, stencil, samples, sample_buffers;
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_RED_SIZE, &r);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_GREEN_SIZE, &g);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_BLUE_SIZE, &b);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_ALPHA_SIZE, &a);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_DEPTH_SIZE, &depth);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_STENCIL_SIZE, &stencil);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_SAMPLES, &samples);
-	eglGetConfigAttrib(g_EGLDisplay, g_EGLConfig, EGL_SAMPLE_BUFFERS, &sample_buffers);
-	printf("Chose EGL config %d: r=%d,g=%d,b=%d,a=%d, depth=%d,stencil=%d, samples=%d,sample_buffers=%d\n",
-	(int)g_EGLConfig, r, g, b, a, depth, stencil, samples, sample_buffers);
+//	EGLint r, g, b, a, depth, stencil, samples, sample_buffers;
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_RED_SIZE, &r);
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_GREEN_SIZE, &g);
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_BLUE_SIZE, &b);
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_ALPHA_SIZE, &a)
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_DEPTH_SIZE, &depth);
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_STENCIL_SIZE, &stencil);
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_SAMPLES, &samples);
+	//eglGetConfigAttrib(eGLDisplay, eGLConfig, EGL_SAMPLE_BUFFERS, &sample_buffers);
+//	printf("Chose EGL config %d: r=%d,g=%d,b=%d,a=%d, depth=%d,stencil=%d, samples=%d,sample_buffers=%d\n",	(int)config, r, g, b, a, depth, stencil, samples, sample_buffers);
 
 
-	EGLContext = eglCreateContext(EGLDisplay, EGLConfig, NULL, NULL);
-	if (EGLContext == EGL_NO_CONTEXT)
+	eGLContext = eglCreateContext(eGLDisplay, eGLConfig, NULL, NULL);
+	if (eGLContext == EGL_NO_CONTEXT)
 	{
 		printf("eglCreateContext() failed\n");
 		return true;
@@ -113,21 +117,21 @@ bool OpenGLHolder::initGraphics()
 
 	printf("Using native window %d\n", (int)hWnd);
 
-	EGLSurface = eglCreateWindowSurface(EGLDisplay, EGLConfig, hWnd, NULL);
-	if (EGLSurface == EGL_NO_SURFACE)
+	eGLSurface = eglCreateWindowSurface(eGLDisplay, eGLConfig, hWnd, NULL);
+	if (eGLSurface == EGL_NO_SURFACE)
 	{
 		printf("eglCreateWindowSurface() failed\n");
 		return true;
 	}
 
-	eglMakeCurrent(EGLDisplay, EGLWindowSurface, EGLurface, EGLContext);
+	eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, eGLContext);
 
-	EGLint width, height, color, depth, stencil;
-	eglQuerySurface(EGLDisplay, EGLSurface, EGL_WIDTH, &width);
-	eglQuerySurface(EGLDisplay, EGLSurface, EGL_HEIGHT, &height);
+	EGLint width, height;
+	eglQuerySurface(eGLDisplay, eGLSurface, EGL_WIDTH, &width);
+	eglQuerySurface(eGLDisplay, eGLSurface, EGL_HEIGHT, &height);
 
 	// set swap interval
-   if (eglSwapInterval(EGLDisplay, 10) == EGL_FALSE)
+   if (eglSwapInterval(eGLDisplay, 10) == EGL_FALSE)
    {
 	  printf("Could not set swap interval\n");
       return true;
@@ -146,7 +150,7 @@ void OpenGLHolder::beginFrame()
 
 void OpenGLHolder::finishFrame()
 {
-	eglSwapbuffers(EGLDisplay, EGLSurface);
+	eglSwapBuffers(eGLDisplay, eGLSurface);
 }
 
 	

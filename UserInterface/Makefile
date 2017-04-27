@@ -8,8 +8,8 @@ AUTO_INCLUDE = $(shell find $(SRC_DIR) -type d | sed 's;$(SRC_DIR);-I $(SRC_DIR)
 
 CXX = g++
 CXX_FLAGS = -O0 -fstack-protector-all -std=c++11 -Wfatal-errors -Wall -Wextra -Wpedantic -Wconversion -Wshadow -g 
-BUILD_FLAGS = $(AUTO_INCLUDE) -I ../ClientLib/
-LINK_FLAGS = ../ClientLib/ClientLib.a
+BUILD_FLAGS = $(AUTO_INCLUDE) -I ../ClientLib/ -I ../BBBio_lib/ -D BBB
+LINK_FLAGS = ../ClientLib/ClientLib.a /home/debian/Downloads/BBBIOlib-master/BBBio_lib/libBBBio.a -lEGL -lGLESv2
 
 # Final binary
 BIN = UserInterface

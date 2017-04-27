@@ -1,7 +1,5 @@
 #include "GLHelper.h"
 
-#include <GL/glut.h>
-
 #include <cstdio>
 
 void GLHelper::CheckForErrors(char * text)

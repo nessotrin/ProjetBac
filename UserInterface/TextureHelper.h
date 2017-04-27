@@ -3,7 +3,11 @@
 
 #include "UIHelper.h"
 
-#include <GL/glut.h>
+#ifndef BBB
+#include <GL/gl.h>
+#else
+#include <GLES2/gl2.h>
+#endif
 
 
 class TextureHelper

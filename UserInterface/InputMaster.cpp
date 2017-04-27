@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
-#include <GL/glut.h>
+#include <cmath>
 
 #include <unistd.h>//sleep
 
@@ -27,12 +27,15 @@ void InputMaster::removeInteractable(Interactable * oldInteractable)
 #define CLICK_TIME_THRESHOLD 3
 #define SWIPE_THRESHOLD_DIST 2 //10 -> high DPI screen
 
+#ifndef BBB
 #include <SDL2/SDL.h>
+#endif
 void InputMaster::work()
 {
+	bool isTouched = false;
+#ifndef BBB
 	SDL_PumpEvents();
 	int x,y;
-	bool isTouched = false;
 	if (SDL_GetMouseState(&x, &y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
 		handleInput(Pos(x,y), true);
@@ -40,16 +43,10 @@ void InputMaster::work()
 	}
 	else
 	{
-		if(continuousCount > 0 && !isLocked) // clicked so fast it wasn't registered
-		{
-//			printf("fast Click!\n");
-			interact(startPos, searchInteractable(startPos,InteractClick), InteractClick, false);
-		}
 
-		continuousCount = 0;
-		isLocked = false;
-		isDone = false;
 	}	
+
+#endif
 	
 	//printf("x %d y %d\n",x,y);
 	
