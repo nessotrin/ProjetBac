@@ -11,6 +11,7 @@ enum TypeList
 	Codeur,
 	Leds,
 	Verrou,
+	SwitchPorte,
 	Carte,
 	WEB,
 	Alarme,

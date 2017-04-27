@@ -22,14 +22,14 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
-	iolib_setdir(8,12, BBBIO_DIR_OUT);
-	iolib_setdir(8,13, BBBIO_DIR_OUT);
+	iolib_setdir(8,45, BBBIO_DIR_OUT);
+	iolib_setdir(8,46, BBBIO_DIR_OUT);
 
 	
 	LedDriver ledDriver;
 
 
-	ConnectionServeur
+//	ConnectionServeur
 	
 	
 	while(1)

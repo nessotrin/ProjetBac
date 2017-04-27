@@ -11,7 +11,10 @@ int main(int argc, char **argv)
 		printf("ERROR POIREAU\n");
 	}
 
-	if(ConnectionServeur::initialisation("127.0.0.1", switchPorte, 1,0,0, 1))
+	iolib_setdir(8,30, BBBIO_DIR_IN);
+
+
+	if(ConnectionServeur::initialisation("127.0.0.1", SwitchPorte, 1,0,0, 1))
 	{
 		printf("ERROR CAROTTE\n");
 		return 1;
@@ -21,7 +24,7 @@ int main(int argc, char **argv)
 	
 	while(true)
 	{
-		bool porteactuelle = is_high(8,888);
+		bool porteactuelle = is_high(8,30);
 		if(etatporte != porteactuelle)
 		{
 			etatporte = porteactuelle;

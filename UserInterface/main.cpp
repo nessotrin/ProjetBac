@@ -86,10 +86,7 @@ int main(int argc, char **argv)
 {
     std::cout << "User interface" << std::endl;
 
-    TouchController touch;
-    touch.init();
 
-/*
 	OpenGLHolder openGLHolder;
 	openGLHolder.initGraphics();
 
@@ -112,6 +109,6 @@ int main(int argc, char **argv)
 	
 	ConnectionServeur::fermer();
 
-*/		
+		
     return 0;
 }

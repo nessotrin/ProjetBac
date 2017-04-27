@@ -100,14 +100,14 @@ void LedDriver::writeLedRealtime()
 			pin_low(8,12);
 			if(leds[i].value[j])
 			{
-				pin_high(8,13);		
+				pin_high(8,45);		
 			}
 			else
 			{
-				pin_low(8,13);						
+				pin_low(8,45);						
 			}
 			usleep(10);
-			pin_high(8,12);
+			pin_high(8,44);
 		}
 	}
 }

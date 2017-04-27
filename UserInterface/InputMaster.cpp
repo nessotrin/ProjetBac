@@ -51,7 +51,7 @@ void InputMaster::work()
 	//printf("x %d y %d\n",x,y);
 	
 	
-/*
+
 	Pos pos = touchController->getCursorPos();
 	
 	if(pos.x > 0   &&
@@ -67,7 +67,7 @@ void InputMaster::work()
 	{
 		handleInput(Pos(-1,-1),false);
 	}
-*/	
+	
 }
 /* DEBUG
 #include "GLHelper.h"

@@ -9,10 +9,10 @@ AUTO_INCLUDE = $(shell find $(SRC_DIR) -type d | sed 's;$(SRC_DIR);-I $(SRC_DIR)
 CXX = g++
 CXX_FLAGS = -g -fstack-protector-all -std=c++11 -Wfatal-errors -Wall -Wextra -Wpedantic -Wconversion -Wshadow -g 
 BUILD_FLAGS = $(AUTO_INCLUDE) -I ../ClientLib/ -I ../BBBio_lib/ -D BBB
-LINK_FLAGS = ../ClientLib/ClientLib.a /home/debian/Downloads/BBBIOlib-master/BBBio_lib/libBBBio.a -lEGL -lGLESv2
+LINK_FLAGS = ../ClientLib/ClientLib.a /home/debian/Downloads/BBBIOlib-master/BBBio_lib/libBBBio.a
 
 # Final binary
-BIN = UserInterface
+BIN = LedDriver
 # Put all auto generated stuff to this build dir.
 BUILD_DIR = ./build
 
