@@ -40,6 +40,7 @@ private:
 	EGLDisplay  eGLDisplay;
 	EGLSurface eGLSurface;
 	
+	GLint programObject;
 	
 #endif
 

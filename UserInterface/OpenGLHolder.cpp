@@ -48,6 +48,39 @@ void OpenGLHolder::finishFrame()
 
 #else
 
+	
+
+bool getRawData(unsigned char ** data, char * name)
+{
+	FILE * shaderFile;
+	
+	if((shaderFile = fopen(name,"rb")) == NULL)
+	{
+		error(name, "fopen");
+		return true;
+	}
+	
+	*data = (unsigned char *) malloc(1*1024*1024);
+	
+	if(*data == NULL)
+	{
+		return true;
+	}
+		
+	*size = fread(*data, 1, *size, shaderFile);
+	if(size <= 0)
+	{
+		return true;
+	}
+	
+
+	fclose(shaderFile);
+
+	return false;
+}
+
+
+	
 int loadShader(int type, char * shaderCode)
 {
     int length = strlen(shaderCode);
@@ -147,6 +180,14 @@ bool OpenGLHolder::initGraphics()
       return true;
    }
    
+	char * vertexShader;
+	char * pixelShader;
+	
+   
+	getRawData(&vertexShader,"vertexShader");
+	getRawData(&pixelShader,"pixelShader");
+   
+/*
 	GLbyte vShaderStr[] =
       "attribute vec4 vPosition;   \n"
       "void main()                 \n"
@@ -160,14 +201,14 @@ bool OpenGLHolder::initGraphics()
       "{                                          \n"
       "  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); \n"
       "}                                          \n";
-
+*/
    GLuint vertexShader;
    GLuint fragmentShader;
    GLint linked;
 
   // Load the vertex/fragment shaders
-  vertexShader = LoadShader(GL_VERTEX_SHADER, vShaderStr);
-  fragmentShader = LoadShader(GL_FRAGMENT_SHADER, fShaderStr);
+  vertexShader = LoadShader(GL_VERTEX_SHADER, (GLbyte)vertexShader);
+  fragmentShader = LoadShader(GL_FRAGMENT_SHADER, (GLbyte)pixelShader);
 
   // Create the program object
   programObject = glCreateProgram();
@@ -207,8 +248,6 @@ bool OpenGLHolder::initGraphics()
      return true;
   }
 
-  // Store the program object
-  userData->programObject = programObject;
 
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 

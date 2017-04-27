@@ -117,47 +117,50 @@ void GLHelper::drawColorSquare(Pos pos, Size size, unsigned char color[4], int a
 #else
 void GLHelper::drawColoredTexturedSquare(Pos pos, Size size, unsigned char color[4], GLuint texture, int angleX, int angleY, int angleZ)
 {	
+	float sizeX = size.x/(float)(640/2);
+	float sizeY = size.y/(float)(480/2);
 	
-	float startX, endX, startY, endY;
-	
-	drawSetPos(pos,size,&startX,&endX,&startY,&endY,angleX,angleY,angleZ);
+	float translateX = ((pos.x+size.x/2)-(640/2))/(float)(640/2);
+	float translateY = -((pos.y+size.y/2)-(480/2))/(float)(480/2);
 
+
+	float startX = -sizeX/2 + translateX;
+	float endX = sizeX/2 + translateX;
+	float startY = -sizeY/2 + translateY;
+	float endY = sizeY/2 + translateY;
+
+	GLfloat position[] = {startX,startY,0,  startX,endY,0,  endX,endY,0,   endX,startY,0};
+	GLfloat textureCoord[] = {0,1, 0,0, 1,0, 1,1};
+
+	glUseProgram(programObject);
+
+	GLint mTextureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Texture");
+	GLint mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");
+	GLint mColorHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Color");
+	GLint mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
+
+	// Set the active texture unit to texture unit 0.
+	glActiveTexture(GL_TEXTURE0);
+
+	// Bind the texture to this unit.
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	// Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+	glUniform1i(mTextureUniformHandle, 0); 
 
 	glEnable(GL_TEXTURE_2D);
 	GLHelper::CheckForErrors("Enable texture");
-
-
-	glBindTexture(GL_TEXTURE_2D, texture);
-	GLHelper::CheckForErrors("Bind texture");
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	GLHelper::CheckForErrors("Enable Alpha");
-
-	glEnable(GL_BLEND);
-	GLHelper::CheckForErrors("Enable blend");
 	
-	
-	glBindTexture(GL_TEXTURE_2D,texture);
- 
-	GLfloat box[] = {startX,startY,0,  startX,endY,0,  endX,endY,0,   endX,startY,0};
-	GLfloat tex[] = {0,1, 0,0, 1,0, 1,1};
- 
-	glColor4ub(color[0],color[1],color[2],color[3]);
-		
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	GLHelper::CheckForErrors("Enable vertex");
-
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
- 	GLHelper::CheckForErrors("Enable texture");
-
-	glVertexPointer(3, GL_FLOAT, 0,box);
-	glTexCoordPointer(2, GL_FLOAT, 0, tex);
- 
-	glDrawArrays(GL_QUADS,0,4);
- 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glVertexAttribPointer(mPositionHandle, 4*3, GL_FLOAT, false, 0, position);        
+	glEnableVertexAttribArray(mPositionHandle);        
+        
+	glVertexAttribPointer(mColorHandle, 1*4, GL_UINT, false, 0, color);        
+	glEnableVertexAttribArray(mColorHandle);
+        
+	glVertexAttribPointer(mTextureCoordinateHandle, 4*2, GL_FLOAT, false, 0, textureCoords);
+	glEnableVertexAttribArray(mTextureCoordinateHandle);
+        
+	glDrawArrays(GL_QUADS, 0, 4);
 	
 }
 
@@ -170,6 +173,7 @@ void GLHelper::drawTexturedSquare(Pos pos, Size size, GLuint texture, int angleX
 
 void GLHelper::drawColorSquare(Pos pos, Size size, unsigned char color[4], int angleX, int angleY, int angleZ)
 {	
+	/*
 	float startX, endX, startY, endY;
 	
 	drawSetPos(pos,size,&startX,&endX,&startY,&endY,angleX,angleY,angleZ);
@@ -189,6 +193,7 @@ void GLHelper::drawColorSquare(Pos pos, Size size, unsigned char color[4], int a
 	glDrawArrays(GL_QUADS,0,4);
  
 	glDisableClientState(GL_VERTEX_ARRAY);
+	*/
 }
 	
 
