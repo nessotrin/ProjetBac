@@ -18,21 +18,32 @@ void GLHelper::drawSetPos(Pos pos, Size size, float * startX, float * endX, floa
 	float sizeX = size.x/(float)(640/2);
 	float sizeY = size.y/(float)(480/2);
 	
-	*startX = -sizeX/2;
-	*endX = sizeX/2;
-	*startY = -sizeY/2;
-	*endY = sizeY/2;
-	
-	
 	float translateX = ((pos.x+size.x/2)-(640/2))/(float)(640/2);
 	float translateY = -((pos.y+size.y/2)-(480/2))/(float)(480/2);
 
 
-    glLoadIdentity( );
+	*startX = -sizeX/2 + translateX;
+	*endX = sizeX/2 + translateX;
+	*startY = -sizeY/2 + translateY;
+	*endY = sizeY/2 + translateY;
+	
+	
 
-	glTranslated(translateX,translateY,0);
 
-    glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
+	#ifndef BBB
+
+	glLoadIdentity();
+
+//	glTranslated(translateX,translateY,0);
+
+//    glRotated(angleX+angleY+angleZ,angleX,angleY,angleZ);
+	
+	#else
+
+	glUseProgram(programObject);
+    
+	#endif	
+
 }
 
 #ifdef OPENGL2

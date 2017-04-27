@@ -23,6 +23,10 @@ public:
 	void beginFrame();
 	void finishFrame();
 
+#ifdef BBB
+	GLuint programObject;
+#endif
+
 private:
 
 

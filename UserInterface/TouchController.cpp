@@ -38,6 +38,15 @@ unsigned int buffer_AIN_1[BUFFER_SIZE] ={0};
 
 void TouchController::init()
 {
+	calibrationPoints[0][0] = 10;
+	calibrationPoints[0][1] = 1000;
+	calibrationPoints[0][2] = 10;
+	calibrationPoints[0][3] = 1000;
+	calibrationPoints[1][0] = 10;
+	calibrationPoints[1][1] = 10;
+	calibrationPoints[1][2] = 1000;
+	calibrationPoints[1][3] = 1000;
+	
 	#ifdef BBB
 	unsigned int sample;
 	int i ,j;

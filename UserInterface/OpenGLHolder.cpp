@@ -16,7 +16,7 @@
 bool OpenGLHolder::initGraphics()
 {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -48,6 +48,16 @@ void OpenGLHolder::finishFrame()
 
 #else
 
+int loadShader(int type, char * shaderCode)
+{
+    int length = strlen(shaderCode);
+
+    int shader = glCreateShader(type);
+    glShaderSource(shader, 1, (const char **) &shaderCode, NULL);
+    glCompileShader(shader);
+
+    return shader;
+}
 	
 bool OpenGLHolder::initGraphics()
 {
@@ -136,6 +146,71 @@ bool OpenGLHolder::initGraphics()
 	  printf("Could not set swap interval\n");
       return true;
    }
+   
+	GLbyte vShaderStr[] =
+      "attribute vec4 vPosition;   \n"
+      "void main()                 \n"
+      "{                           \n"
+      "  gl_Position = vPosition;  \n"
+      "}                           \n";
+
+   GLbyte fShaderStr[] =
+      "precision mediump float;                   \n"
+      "void main()                                \n"
+      "{                                          \n"
+      "  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); \n"
+      "}                                          \n";
+
+   GLuint vertexShader;
+   GLuint fragmentShader;
+   GLint linked;
+
+  // Load the vertex/fragment shaders
+  vertexShader = LoadShader(GL_VERTEX_SHADER, vShaderStr);
+  fragmentShader = LoadShader(GL_FRAGMENT_SHADER, fShaderStr);
+
+  // Create the program object
+  programObject = glCreateProgram();
+
+  if(programObject == 0)
+     return 0;
+
+  glAttachShader(programObject, vertexShader);
+  glAttachShader(programObject, fragmentShader);
+
+  // Bind vPosition to attribute 0
+  glBindAttribLocation(programObject, 0, "vPosition");
+
+  // Link the program
+  glLinkProgram(programObject);
+
+  // Check the link status
+  glGetProgramiv(programObject, GL_LINK_STATUS, &linked);
+
+  if(!linked)
+  {
+     GLint infoLen = 0;
+
+     glGetProgramiv(programObject, GL_INFO_LOG_LENGTH, &infoLen);
+
+     if(infoLen > 1)
+     {
+        char* infoLog = malloc(sizeof(char) * infoLen);
+
+        glGetProgramInfoLog(programObject, infoLen, NULL, infoLog);
+        printf("Error linking program:\n%s\n", infoLog);
+
+        free(infoLog);
+     }
+
+     glDeleteProgram(programObject);
+     return true;
+  }
+
+  // Store the program object
+  userData->programObject = programObject;
+
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	return false;
 }
