@@ -111,6 +111,13 @@ Praesent in varius ex. Quisque magna lectus, mattis at eleifend eu, mattis eu ve
 				echo "</tr>";
 			}
 			?>
+			<tr>
+				<td>
+					<div class="iconparam">
+						<a href="adsajoutsupp.php"><img src="https://cdn4.iconfinder.com/data/icons/developer-set-3/128/settings-128.png"></a>
+					</div>
+				</td>	
+			</tr>
 		</table>
 	</div>
 </td>

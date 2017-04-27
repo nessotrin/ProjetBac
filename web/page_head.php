@@ -19,7 +19,7 @@
                     <table class="styleTable">		
 						<tr>
 							<td class="sommaireZone">
-								<h1>Sommaire</h1>
+								<h1 class="summaryTitle">Sommaire</h1>
 								<ul>
 									<li><a href="adsmenu.php">Menu principal</a></li>
 									<li><a href="adsparametres.php">Paramètres</a></li>
@@ -27,7 +27,7 @@
 									<li><a href="adsversioncredits.php">Version et crédits</a></li>
 								</ul>
 							</td>
-							<td class="sommaireSeparateur">
+							<td>
 								<div class="screenSummarySeparatorLine">
 									&nbsp;
 								</div>
