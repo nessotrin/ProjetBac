@@ -65,33 +65,50 @@
 		socket_write($socket, $buffer, strlen($buffer));
 	}
 	
-	// TEST: fonction qui récupère les info des médicaments
-	function getMedsInfo($socket)
-	{
-//		echo "DEBUG: </br>";
-		
-		global $medsCount; // pour les appels hors de database.php
-		global $medsName; // pour les appels hors de database.php
-
+    function getTotalMedsCount($socket)
+    {
 		$cmd = "RecupTailleListeMedoc\n";
 		sendData($socket, $cmd); // envoie de la demande
 		
 		
 		$answer = receiveData($socket); // reception de la réponse
 		list($medsCount) = sscanf($answer, "Nombre%d\n"); // analyse de la réponse
-//		echo  "Nombre de médicaments: " . $medCount . "</br></br>" . "Noms des médicaments:" . "</br>";
+        
+        return $medsCount;
+    }
+    
 
+    function getTotalHumanCount($socket)
+    {
+		$cmd = "RecupTailleListeHumain\n";
+		sendData($socket, $cmd); // envoie de la demande
 		
 		
-		for($medId = 0 ; $medId < $medsCount ; $medId++) // pour chaque médicament
-		{
-			sendData($socket, sprintf("RecupNomMedoc%d\n",$medId)); // envoie de la demande
-			$medsName[] = receiveData($socket); // réception de la réponse
-//			echo  "\"" . $medNames[$medId] . "\"</br>";
-		}
+		$answer = receiveData($socket); // reception de la réponse
+		list($medsCount) = sscanf($answer, "Nombre%d\n"); // analyse de la réponse
+        
+        return $medsCount;
+    }
+
+
+		// TEST:fonction qui récupère le nom d'un médicament
+	function getMedName($socket, $id)
+	{
+		$cmd = sprintf("RecupNomMedoc%d\n", $id); //création de la demande avec le numéro demandé
+		sendData($socket, $cmd); //envoie de la demande
 		
-		
+		return receiveData($socket); // on retourne la réponse sans traitement
 	}
+
+
+	function getHumanName($socket, $id)
+	{
+		$cmd = sprintf("RecupNomHumain%d\n", $id); //création de la demande avec le numéro demandé
+		sendData($socket, $cmd); //envoie de la demande
+		
+		return receiveData($socket); // on retourne la réponse sans traitement
+	}
+
 	
 	// TEST:fonction qui récupère l'image d'un médicament
 	function getMedImg($socket, $id)
@@ -101,6 +118,15 @@
 		
 		return receiveData($socket); // on retourne la réponse sans traitement
 	}
+
+	function getHumanImg($socket, $id)
+	{
+		$cmd = sprintf("RecupImageHumain%d\n", $id); //création de la demande avec le numéro demandé
+		sendData($socket, $cmd); //envoie de la demande
+		
+		return receiveData($socket); // on retourne la réponse sans traitement
+	}
+
 
 	// TEST:fonction qui récupère le nombre d'un médicament
 	function getMedCount($socket, $id)

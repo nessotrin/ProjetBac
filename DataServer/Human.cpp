@@ -9,6 +9,16 @@ char * Human::getName()
 {
 	return name;
 }
+char * Human::getImg()
+{
+	return img;
+}
+void Human::setImg(char * newImg)
+{
+	img = newImg;
+}
+
+
 char * Human::getAllowedMeds()
 {
 	return allowedMeds;

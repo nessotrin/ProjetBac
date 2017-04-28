@@ -7,8 +7,9 @@
 
 
 #ifndef BBB
-#include <EGL/egl.h>
+#include <GL/gl.h>
 #else
+#include <EGL/egl.h>
 #include <GLES2/gl2.h>
 GLuint programObject;
 #endif

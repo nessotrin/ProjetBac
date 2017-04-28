@@ -46,7 +46,7 @@ void GLHelper::drawSetPos(Pos pos, Size size, float * startX, float * endX, floa
 
 }
 
-#ifdef OPENGL2
+#ifndef BBB
 
 void GLHelper::drawColoredTexturedSquare(Pos pos, Size size, unsigned char color[4], GLuint texture, int angleX, int angleY, int angleZ)
 {	

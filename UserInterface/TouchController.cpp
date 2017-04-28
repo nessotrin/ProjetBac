@@ -163,7 +163,6 @@ int TouchController::getTension(AXIS axis)
 #ifdef BBB
 
 
-#endif
 
 int i,j;
 unsigned int sample;
@@ -196,6 +195,9 @@ unsigned int sample;
 		//sleep(1);
 
 	printf("%d\n",value);
+
+#endif
+
 
 	return value;
 }

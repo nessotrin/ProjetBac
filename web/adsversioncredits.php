@@ -2,7 +2,6 @@
 <?php
 include 'database.php';
 $socket = connect();
-getMedsInfo($socket);
 ?>
 <html>
     <head>

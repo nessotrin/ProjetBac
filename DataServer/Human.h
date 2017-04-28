@@ -14,7 +14,7 @@ public:
 	char * getName();
 
 	char * getImg();
-	char * setImg(char * newImg);
+	void setImg(char * newImg);
 
 	char * getAllowedMeds();
 	void setAllowed(char * newAllowedMeds);

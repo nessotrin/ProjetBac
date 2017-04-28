@@ -14,11 +14,11 @@ while (($line = fgets($logFile)) !== false)
 	}
 	else if (strpos($line, '[REMOTE]') !== false)
 	{
-		echo  '<font color="white">';						
+		echo  '<font color="black">';						
 	}
 	else if (strpos($line, '[INFO]') !== false)
 	{
-		echo  '<font color="white">';						
+		echo  '<font color="black">';						
 	}
 	else if (strpos($line, '[WARNING]') !== false)
 	{
@@ -34,10 +34,12 @@ while (($line = fgets($logFile)) !== false)
 	}
 	
 	echo $line;
+    
+    echo '</br>';
 	
 	echo '</font>';
 }
 
-fclose($myfile);
+fclose($logFile);
 
 ?>

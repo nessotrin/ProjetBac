@@ -17,7 +17,7 @@ Reçoit une requête directement du client, l'analyse et le distribue au bon han
 ***/
 bool RequestHandler::triageRequest(Client * client)
 {
-	Logger::log("Receiving request ...\n",InfoLog);
+//	Logger::log("Receiving request ...\n",InfoLog);
 	
 	/* Reçoit la requête */
 	char * request = IOHelper::getRequest(client->getSocket());

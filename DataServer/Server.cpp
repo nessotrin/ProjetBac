@@ -84,16 +84,16 @@ Gère les clients
 **/
 void Server::handleClients()
 {
-	Logger::log("Handling clients ...\n",InfoLog);
+	//Logger::log("Handling clients ...\n",InfoLog);
 	Client * client;
 	/* Boucle sur les clients */
 	while (loginHandler->iterateOnClients(&client)) 
 	{
-		Logger::log("Checking socket ...\n",InfoLog);
+//		Logger::log("Checking socket ...\n",InfoLog);
 		/* On vérifie si il se passe quelque chose sur le socket */
 		if(FD_ISSET(client->getSocket(), &selector)) /* Il se passe quelque chose */
 		{
-			Logger::log("Socket triggered\n",InfoLog);
+			//Logger::log("Socket triggered\n",InfoLog);
 			/* Gestion de la requête */
 			if(requestHandler->triageRequest(client)) /* Vérification de l'échec*/
 			{
@@ -102,7 +102,7 @@ void Server::handleClients()
 				loginHandler->disconnect(client->getSocket());
 			}
 		}
-		Logger::log("Socket checked ...\n",InfoLog);
+		//Logger::log("Socket checked ...\n",InfoLog);
 	}
 }
 
@@ -110,10 +110,10 @@ void Server::work()
 {
 	while(1)
 	{
-		Logger::log("Setting up selector ... \n",InfoLog);
+		//Logger::log("Setting up selector ... \n",InfoLog);
 		/* On ajoute les sockets 'UNIX' au selecteur 'UNIX' */
 		int max_sd = addSocketsToSelector();
-		Logger::log("Set'ed up ! \n",InfoLog);
+		//Logger::log("Set'ed up ! \n",InfoLog);
 		
 		Logger::log("Waiting for activity on sockets ...\n",InfoLog);
 		//wait for an activity on one of the sockets , timeout is NULL , so wait indefinitely
@@ -138,7 +138,7 @@ void Server::work()
 			/* On gère les clients */
 			handleClients();
 		}			
-		Logger::log("Activity loop restarting ... \n",InfoLog);
+		//Logger::log("Activity loop restarting ... \n",InfoLog);
 	}
 }
 

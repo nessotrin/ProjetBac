@@ -118,11 +118,11 @@ void Logger::printfColored(char * buffer)
 	}
 	else if(strstr(buffer, "[REMOTE]") != NULL)
 	{
-		printf("\033[1;30m");
+		printf("\033[1;39m");
 	}
 	else if(strstr(buffer, "[INFO]") != NULL)
 	{
-		printf("\033[1;30m");
+		printf("\033[1;39m");
 	}
 	else if(strstr(buffer, "[WARNING]") != NULL)
 	{

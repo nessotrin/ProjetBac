@@ -80,6 +80,11 @@ footer h1
     
 }
 
+.erreursScreenZone
+{
+    padding: 10px;
+    background-color: #f5f5f5;
+}
 
 .nomMedecin
 {
@@ -269,6 +274,7 @@ table.styleTable td
 {
     text-align: justify;
 	padding: 5px;
+	min-width: 700px;
 }
 
 .rightScreenZone
@@ -299,8 +305,44 @@ table.styleTable td
 }
 
 
-
-
-li
+.ajoutsuppDiv
 {
+    position: relative;
+	width: 100px;
+	height: 100px;
+#    display: inline;
+}
+
+.ajoutsuppDiv:hover .ajoutsuppOverlay
+{
+	display: block;
+}
+
+.ajoutsuppDivImg
+{
+    width: 100px;
+    height: 100px;
+}
+
+.ajoutsuppOverlay
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+	display: none;
+}
+
+.ajoutsuppOverlayImg
+{
+    width: 100px;
+    height: 100px;
+}
+
+
+.ajoutsuppAjoutImg
+{
+    width: 100px;
+    height: 100px;
+}
+
 	

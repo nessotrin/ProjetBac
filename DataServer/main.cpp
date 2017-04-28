@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	srand (time(NULL));
 	Med * testMed1 = new Med("Doliprane");
 	Med * testMed2 = new Med("Dafalgan");
-	Med * testMed3 = new Med("Corde+Tabouret");
+	Med * testMed3 = new Med("Corde+Tabouret");	
 	testMed1->setImg("icon_medication1.png");
 	testMed1->setCurrentCount(rand()%10);
 	testMed2->setImg("icon_medication2.png");
@@ -76,6 +76,10 @@ int main(int argc, char **argv)
 	medHandler.addMed(testMed1);
 	medHandler.addMed(testMed2);
 	medHandler.addMed(testMed3);
+
+	Human * testHuman1 = new Human("DAVID");
+	testHuman1->setImg("icon_DAVID.png");
+	humanHandler.addHuman(testHuman1);
 
 
 	for(int i = 4 ; i <= 7 ; i++)
