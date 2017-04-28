@@ -27,7 +27,6 @@ BroadcastRequest::BroadcastRequest(LoginHandler * newLoginHandler, RequestHandle
 	
 	addBroadcastInformation("PorteOuverte",2, Ecran,WEB);
 	addBroadcastInformation("PorteFermee",2, Ecran,WEB);
-	addBroadcastInformation("RecupEtatPorte",1,SwitchPorte);
 	
 	Logger::log("DO BROADCAST DEFINITIONS !!!\n",ErrorLog);
 }
@@ -36,34 +35,27 @@ BroadcastRequest::BroadcastRequest(LoginHandler * newLoginHandler, RequestHandle
 	
 void BroadcastRequest::handleRequest(char * request, Client * client)
 {
-	printf("Broadcasting ...\n");
 	for(int i = 0 ; i < broadcastRequestDefinition.getCount() ; i++)
 	{
-		printf("Test\n");
-		printf("%s\n",broadcastRequestDefinition.get(i).name);
 		if(strlen(request) >= strlen(broadcastRequestDefinition.get(i).name) && memcmp(request,broadcastRequestDefinition.get(i).name, strlen(broadcastRequestDefinition.get(i).name)) == 0)
 		{
-			printf("Found\n");
 			for(int j = 0 ; j < broadcastRequestDefinition.get(i).broadcastList.getCount() ; j++)
 			{
-				printf("Found a broadcast type\n");
 				broadcastToType(request,broadcastRequestDefinition.get(i).broadcastList.get(j));
 			}
 		}
 	}
-	printf("Done\n");
 }
 
 void BroadcastRequest::broadcastToType(char * request, int type)
 {
 	Client * client;
-	loginHandler->resetIterator();
-	while(loginHandler->iterateOnClients(&client))
+	/* Boucle sur les clients */
+	for(int i = 0 ; i < loginHandler.getClientCount() ; i++) 
 	{
-		printf("client... %d\n", client->getType());
+		client = loginHandler.getClient(i);
 		if(client->getType() == type)
 		{
-			printf("send \"%s\"\n",request);
 			IOHelper::sendRequest(client->getSocket(),request);
 		}
 	}

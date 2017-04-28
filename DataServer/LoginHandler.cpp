@@ -102,34 +102,17 @@ Permet d'itérer sur les client de tous les clients
 L'appelant donne un pointeur de pointeur dans lequel sera placé le pointeur vers le client
 La fonction retourne 'True' tant que tout les clients ne sont pas passés
 ***/
-bool LoginHandler::iterateOnClients(Client ** clientToUse)
+int LoginHandler::getClientCount()
 {
-	Logger::log("Iterating on clients at %d/%d\n",InfoLog,iteratorCounter,clientCount);
-
-	/* Vérification de la progression */
-	if(iteratorCounter >= clientCount)
-	{
-		/* Retour à 0 */
-		iteratorCounter = 0;
-		/* On préviens que tout à été traversé */
-		return false;
-	}
-	else
-	{
-		/* On place le pointeur vers le client */
-		*clientToUse = clientList[iteratorCounter];
-		/* On avance d'un */
-		iteratorCounter++;
-		/* On préviens de continuer*/
-		return true;
-	}
+	return clientCount;
 }
 
 
-void LoginHandler::resetIterator()
+Client * LoginHandler::getClient(int id)
 {
-	iteratorCounter = 0;
+	return clientList[id];
 }
+
 
 void LoginHandler::removeFromList(int id)
 {

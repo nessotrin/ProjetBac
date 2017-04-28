@@ -18,8 +18,8 @@ public:
 	LoginHandler();
 
 	bool iterateOnSockets(int * socketToUse);
-	bool iterateOnClients(Client ** clientToUse);
-	void resetIterator();
+	int getClientCount();
+	Client * getClient(int id);
 	bool addNewClient(int socket);
 	void disconnect(int socket);
 	
