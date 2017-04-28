@@ -4,6 +4,8 @@
 
 #include <BBBiolib.h>
 
+#include <unistd.h>
+
 int main(int argc, char **argv)
 {
 	if( iolib_init() != 0)
@@ -11,7 +13,7 @@ int main(int argc, char **argv)
 		printf("ERROR POIREAU\n");
 	}
 
-	iolib_setdir(8,30, BBBIO_DIR_IN);
+	iolib_setdir(8,8, BBBIO_DIR_IN);
 
 
 	if(ConnectionServeur::initialisation("127.0.0.1", SwitchPorte, 1,0,0, 1))
@@ -24,19 +26,21 @@ int main(int argc, char **argv)
 	
 	while(true)
 	{
-		bool porteactuelle = is_high(8,30);
+		bool porteactuelle = is_high(8,8);
+		printf("%d\n",porteactuelle);
 		if(etatporte != porteactuelle)
 		{
 			etatporte = porteactuelle;
 			if(etatporte == 1)
 			{
-				ConnectionServeur::envoyer("PorteFermee");
+				ConnectionServeur::envoyer("PorteFermee\n");
 			}
 			else
 			{
-				ConnectionServeur::envoyer("PorteOuverte");
+				ConnectionServeur::envoyer("PorteOuverte\n");
 			}
 		}
+		usleep(10000);
 	}
 
     return 0;

@@ -122,13 +122,13 @@ bool OpenGLHolder::initGraphics()
 	eGLDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 	if (eGLDisplay == EGL_NO_DISPLAY)
 	{
-		printf("eglGetDisplay() failed\n");
+		printf("eglGetDisplay() failed %d\n",eGLDisplay);
 		return true;
 	}
 
 	if (!eglInitialize(eGLDisplay, &majorVersion, &minorVersion))
 	{
-		printf("eglInitialize() failed\n");
+		printf("eglInitialize() failed %d\n",eglGetError());
 		return true;
 	}
 	if (!eglChooseConfig(eGLDisplay, config, &eGLConfig, 1, &configCount))

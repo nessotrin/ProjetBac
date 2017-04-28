@@ -194,7 +194,7 @@ unsigned int sample;
 		value = sample;
 		//sleep(1);
 
-	printf("%d\n",value);
+//	printf("%d\n",value);
 
 #endif
 
