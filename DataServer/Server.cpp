@@ -89,9 +89,9 @@ void Server::handleClients()
 	
 	int id;
 	/* Boucle sur les clients */
-	for(int i = 0 ; i < loginHandler.getClientCount() ; i++) 
+	for(int i = 0 ; i < loginHandler->getClientCount() ; i++) 
 	{
-		client = loginHandler.getClient(i);
+		client = loginHandler->getClient(i);
 //		Logger::log("Checking socket ...\n",InfoLog);
 		/* On vérifie si il se passe quelque chose sur le socket */
 		if(FD_ISSET(client->getSocket(), &selector)) /* Il se passe quelque chose */

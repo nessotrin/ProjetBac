@@ -35,12 +35,14 @@ int main(int argc, char **argv)
 			if(memcmp(message, "RecupEtatPorte",strlen("RecupEtatPorte")) == 0)
 			{
 				printf("Demade ...\n");
-				if(is_high(8,8))
+				if(!is_high(8,8))
 				{
+					printf("Porte ouverte\n");
 					ConnectionServeur::envoyer("PorteOuverte\n");
 				}
 				else
 				{
+					printf("Porte fermee\n");
 					ConnectionServeur::envoyer("PorteFermee\n");					
 				}
 				printf("Repondu\n");
