@@ -19,6 +19,7 @@ public:
 
 	bool iterateOnSockets(int * socketToUse);
 	bool iterateOnClients(Client ** clientToUse);
+	void resetIterator();
 	bool addNewClient(int socket);
 	void disconnect(int socket);
 	

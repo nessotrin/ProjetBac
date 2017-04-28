@@ -6,6 +6,8 @@
 
 #include <unistd.h>
 
+#include <cstring>
+
 int main(int argc, char **argv)
 {
 	if( iolib_init() != 0)
@@ -30,16 +32,22 @@ int main(int argc, char **argv)
 		{
 			char * message = ConnectionServeur::recevoir();
 
-			if(strcmp(message, "RecupererEtatPorte") == 0)
+			if(memcmp(message, "RecupEtatPorte",strlen("RecupEtatPorte")) == 0)
 			{
+				printf("Demade ...\n");
 				if(is_high(8,8))
 				{
-					ConnectionServeur::envoyer("PorteOuverte");
+					ConnectionServeur::envoyer("PorteOuverte\n");
 				}
 				else
 				{
-					ConnectionServeur::envoyer("PorteFermee");					
+					ConnectionServeur::envoyer("PorteFermee\n");					
 				}
+				printf("Repondu\n");
+			}
+			else
+			{
+				printf("Requete inconnue\n");
 			}
 		}
 		usleep(10000);

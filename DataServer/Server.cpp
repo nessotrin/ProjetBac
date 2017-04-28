@@ -30,6 +30,8 @@ int Server::addSocketsToSelector()
 	int max_sd = serverSocket;
 	//add child sockets to set
 	int socket;
+
+	loginHandler->resetIterator();
 	
 	/* Boucle sur les sockets */
 	while (loginHandler->iterateOnSockets(&socket)) 
@@ -89,11 +91,11 @@ void Server::handleClients()
 	/* Boucle sur les clients */
 	while (loginHandler->iterateOnClients(&client)) 
 	{
-//		Logger::log("Checking socket ...\n",InfoLog);
+		Logger::log("Checking socket ...\n",InfoLog);
 		/* On vérifie si il se passe quelque chose sur le socket */
 		if(FD_ISSET(client->getSocket(), &selector)) /* Il se passe quelque chose */
 		{
-			//Logger::log("Socket triggered\n",InfoLog);
+			Logger::log("Socket triggered\n",InfoLog);
 			/* Gestion de la requête */
 			if(requestHandler->triageRequest(client)) /* Vérification de l'échec*/
 			{
@@ -102,7 +104,7 @@ void Server::handleClients()
 				loginHandler->disconnect(client->getSocket());
 			}
 		}
-		//Logger::log("Socket checked ...\n",InfoLog);
+		Logger::log("Socket checked ...\n",InfoLog);
 	}
 }
 
