@@ -26,18 +26,20 @@ int main(int argc, char **argv)
 	
 	while(true)
 	{
-		bool porteactuelle = is_high(8,8);
-		printf("%d\n",porteactuelle);
-		if(etatporte != porteactuelle)
+		if(ConnectionServeur::verifRecevoirPret())
 		{
-			etatporte = porteactuelle;
-			if(etatporte == 1)
+			char * message = ConnectionServeur::recevoir();
+
+			if(strcmp(message, "RecupererEtatPorte") == 0)
 			{
-				ConnectionServeur::envoyer("PorteFermee\n");
-			}
-			else
-			{
-				ConnectionServeur::envoyer("PorteOuverte\n");
+				if(is_high(8,8))
+				{
+					ConnectionServeur::envoyer("PorteOuverte");
+				}
+				else
+				{
+					ConnectionServeur::envoyer("PorteFermee");					
+				}
 			}
 		}
 		usleep(10000);

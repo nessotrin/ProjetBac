@@ -9,6 +9,21 @@
 
 #include "LoginHandler.h"
 
+enum TypeList
+{
+	Ecran = 0,
+	Codeur,
+	Leds,
+	Verrou,
+	SwitchPorte,
+	Carte,
+	WEB,
+	Alarme,
+	SMS,
+	Poids,
+	debug,
+};
+
 class BroadcastInformation
 {
 public:

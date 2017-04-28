@@ -9,6 +9,8 @@ BroadcastRequest::BroadcastRequest(LoginHandler * newLoginHandler, RequestHandle
 	loginHandler = newLoginHandler;
 	
 	requestHandler->addRequestEntry("RecupEtatPorte",this);
+	requestHandler->addRequestEntry("PorteOuverte",this);
+	requestHandler->addRequestEntry("PorteFermee",this);
 	requestHandler->addRequestEntry("OuvrirPorte",this);
 	requestHandler->addRequestEntry("FermerPorte",this);
 	requestHandler->addRequestEntry("LEDOn",this);
@@ -22,6 +24,9 @@ BroadcastRequest::BroadcastRequest(LoginHandler * newLoginHandler, RequestHandle
 	requestHandler->addRequestEntry("AllumerLumieresAlarme",this);
 	requestHandler->addRequestEntry("MedecinConnecte",this);
 	
+	
+	addBroadcastInformation("PorteOuverte",2, Ecran,WEB);
+	addBroadcastInformation("PorteFermee",2, Ecran,WEB);
 	
 	Logger::log("DO BROADCAST DEFINITIONS !!!\n",ErrorLog);
 }

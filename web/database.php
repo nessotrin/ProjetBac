@@ -139,4 +139,21 @@
 
 		return $thisMedCount; // on retourne la réponse traitée
 	}	
+
+	// TEST:fonction qui récupère le nombre d'un médicament
+	function getEtatPorte($socket)
+	{
+		$cmd = sprintf("%s\n", "RecupEtatPorte"); //création de la demande avec le numéro demandé
+		sendData($socket, $cmd); //envoie de la demande
+
+		$answer = receiveData($socket); // reception de la réponse
+		
+		if($answer == "PorteOuverte")
+		{
+			return true;
+		}
+		
+		return false; // on retourne la réponse traitée
+	}	
+
 ?>

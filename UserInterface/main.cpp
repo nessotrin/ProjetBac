@@ -98,8 +98,9 @@ int main(int argc, char **argv)
 	GlobalTexture::load();
 	
 
+
 	printf("Connection serveur: %d\n",ConnectionServeur::initialisation("127.0.0.1",Ecran,0,0,1,true));
-	
+		
 	//ConnectionServeur::serveurPrintf(information,"LAL");
 	
 	//recupererListeMedicament();
