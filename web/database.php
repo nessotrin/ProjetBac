@@ -22,7 +22,7 @@
 			return NULL;
 		}
 		
-		$result = socket_connect($socket, "127.0.0.1", $port); // se connecte en local au serveur d'applicatio
+		$result = socket_connect($socket, "10.42.0.229", $port); // se connecte en local au serveur d'applicatio
 		if($socket === false)
 		{
 			echo "Connection failed ! ($result) " . socket_strerror(socket_last_error($socket)) . "\n";			
@@ -30,7 +30,7 @@
 		}
 		
 				
-		$code = pack("a8C5", "<3COOKIE", 0x5, 0x0, 0x0, 0x1, 0x1); // création du packet d'autentification
+		$code = pack("a8C5", "<3COOKIE", 0x6, 0x0, 0x0, 0x1, 0x1); // création du packet d'autentification
 		$code_padded = str_pad($code, 64); // On bourre jusqu'à 64 octets
 		
 		
@@ -147,6 +147,8 @@
 		sendData($socket, $cmd); //envoie de la demande
 
 		$answer = receiveData($socket); // reception de la réponse
+		
+		echo $answer;
 		
 		if($answer == "PorteOuverte")
 		{

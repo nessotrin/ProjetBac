@@ -6,7 +6,7 @@
             
             <footer>
 				<?php
-					if (getEtatPorte())
+					if (getEtatPorte($socket))
 					{
 						echo '<img scr="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Jersey_red.svg/50px-Jersey_red.svg.png">';
 					}
