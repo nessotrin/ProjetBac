@@ -22,7 +22,7 @@
 			return NULL;
 		}
 		
-		$result = socket_connect($socket, "10.42.0.229", $port); // se connecte en local au serveur d'applicatio
+		$result = socket_connect($socket, "127.0.0.1", $port); // se connecte en local au serveur d'applicatio
 		if($socket === false)
 		{
 			echo "Connection failed ! ($result) " . socket_strerror(socket_last_error($socket)) . "\n";			
@@ -37,7 +37,8 @@
 		sendData($socket,$code_padded);	// envoie au serveur d'application	
 		
 		socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array("sec"=>1, "usec"=>0)); //définition du timeout de réception des données sur le socket à 1s (évite les chargements infini en cas de bug)
-		
+		//ssocket_set_option($socket,SOL_SOCKET, SO_RCVTIMEO, array("sec"=>5, "usec"=>0));
+
 		return $socket; // donne le nouveau socket
 	}
 	
@@ -53,6 +54,10 @@
 		do
 		{
 			$read = (socket_read($socket, 1)); //lit 1 octet
+			if($read === FALSE)
+			{
+				return 0;
+			}
 			$out .= $read; //l'ajoute au message
 		} while($read != "\n"); //termine sur une fin de ligne
 		
@@ -146,10 +151,16 @@
 		$cmd = sprintf("%s\n", "RecupEtatPorte"); //création de la demande avec le numéro demandé
 		sendData($socket, $cmd); //envoie de la demande
 
+		socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array("sec"=>1, "usec"=>0)); //définition du timeout de réception des données sur le socket à 1s (évite les chargements infini en cas de bug)
+
+
 		$answer = receiveData($socket); // reception de la réponse
-		
-		echo $answer;
-		
+		if($answer === 0)
+		{
+			echo "RecupEtatPorte ne repond pas !</br>";
+		}
+
+
 		if($answer == "PorteOuverte")
 		{
 			return true;
