@@ -161,7 +161,7 @@
 		}
 
 
-		if($answer == "PorteOuverte")
+		if($answer == "PorteOuverte\n")
 		{
 			return true;
 		}

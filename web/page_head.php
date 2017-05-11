@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="adsmenu.css" />
+	 <meta http-equiv="refresh" content="2" />
+
         <title>ADS Automatic Drugs-Dispensing System</title>
     </head>
     

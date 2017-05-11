@@ -6,13 +6,13 @@
             
             <footer>
 				<?php
-					if (getEtatPorte($socket))
+					if (getEtatPorte($socket) == false)
 					{
-						echo '<img scr="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Jersey_red.svg/50px-Jersey_red.svg.png">';
+						echo '<img width=50px height=50xp src="http://image.noelshack.com/fichiers/2017/19/1494486942-bouton-rouge.png">';
 					}
 					else
 					{
-						echo '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Jersey_pink.svg/50px-Jersey_pink.svg.png">';
+						echo '<img width=50px height=50xp src="http://image.noelshack.com/fichiers/2017/19/1494486943-bouton-vert.png">';
 					}
 				?>
 			</footer>
